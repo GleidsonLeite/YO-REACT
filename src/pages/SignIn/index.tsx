@@ -3,7 +3,9 @@ import React, { useCallback, useRef } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
+import { Link, useHistory } from 'react-router-dom';
 import heroBackground from '../../assets/img/hero-bg-1.jpg';
 
 import Header from '../../components/Header';
@@ -11,7 +13,7 @@ import WaveMask from '../../components/WaveMask';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/Auth';
 
 interface SignInFormData {
   email: string;
@@ -21,34 +23,47 @@ interface SignInFormData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const { user, signIn } = useAuth();
+  const { signIn } = useAuth();
 
-  console.log(user);
+  const history = useHistory();
 
-  const handleSubmit = useCallback(async (data: SignInFormData) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().min(8, 'No mínimo 8 dígitos'),
-      });
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-      signIn({
-        email: data.email,
-        password: data.password,
-      });
-    } catch (error) {
-      console.log(error);
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().min(8, 'No mínimo 8 dígitos'),
+        });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+        history.push('/dashboard');
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+          formRef.current?.setErrors(errors);
+          return;
+        }
 
-      const errors = getValidationErrors(error);
-
-      formRef.current?.setErrors(errors);
-    }
-  }, []);
+        if (!!error.isAxiosError && !error.response) {
+          toast.error('Houve um problema ao tentar se conectar com a API.');
+        }
+        // const { message } = error.response.data;
+        // toast.error(message);
+        // if (error.response.status === 401) {
+        //   history.push('/unactivated');
+        // }
+      }
+    },
+    [signIn, history],
+  );
   return (
     <>
       <Header />
@@ -58,11 +73,11 @@ const SignIn: React.FC = () => {
         <section
           className="hero-section ptb-100 background-img full-screen"
           style={{
-            background: heroBackground,
+            background: `url(${heroBackground})`,
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             backgroundOrigin: 'center',
-            backgroundSize: 'center/cover',
+            backgroundSize: 'cover',
           }}
         >
           <div className="container">
@@ -119,9 +134,9 @@ const SignIn: React.FC = () => {
                   </div>
                   <div className="card-footer bg-transparent border-box px-md-5">
                     <small>Not registered? </small>
-                    <a href="SignUp" className="small">
+                    <Link to="/signUp" className="small">
                       Create Account
-                    </a>
+                    </Link>
                   </div>
                   <div className="card-footer bg-transparent border-box px-md-5">
                     <small>Do you forgeted your password? </small>

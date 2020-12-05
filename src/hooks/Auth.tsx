@@ -2,9 +2,18 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
 
+export interface UserData {
+  name: string;
+  email: string;
+  activated: boolean;
+  amount: string;
+  role_id: string;
+  id: string;
+}
+
 interface AuthState {
   token: string;
-  user: object;
+  user: UserData;
 }
 
 interface SignInCredentials {
@@ -13,7 +22,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  user: object;
+  user: UserData;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
@@ -23,8 +32,8 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC = ({ children }) => {
   // Verificando se já foi preenchido
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@GoBarber:token');
-    const user = localStorage.getItem('@GoBarber:user');
+    const token = localStorage.getItem('@YO:token');
+    const user = localStorage.getItem('@YO:user');
     if (token && user) {
       return { token, user: JSON.parse(user) };
     }
@@ -38,6 +47,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       password,
     });
     const { token, user } = response.data;
+
     // Armazenando dados em localStorage
     localStorage.setItem('@YO:token', token);
     localStorage.setItem('@YO:user', JSON.stringify(user));
@@ -45,8 +55,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@GoBarber:token');
-    localStorage.removeItem('@GoBarber:user');
+    localStorage.removeItem('@YO:token');
+    localStorage.removeItem('@YO:user');
     setData({} as AuthState);
   }, []);
 

@@ -3,6 +3,8 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
 import { FormHandles } from '@unform/core';
+import { toast } from 'react-toastify';
+import { Link, useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 
 import heroBackground from '../../assets/img/hero-bg-1.jpg';
@@ -10,9 +12,12 @@ import WaveMask from '../../components/WaveMask';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
+import CheckBox from '../../components/CheckBox';
 
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const history = useHistory();
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   const handleSubmit = useCallback(async (data: object) => {
@@ -28,12 +33,27 @@ const SignUp: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false,
       });
+
+      await api.post('users', data);
+      toast.success(
+        'Olá, acabamos de criar sua conta! para efetivar seu cadastro, por favor preencha os documentos',
+      );
+      history.push('/signIn');
     } catch (error) {
-      console.log(error);
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(error);
+        console.log(errors);
 
-      const errors = getValidationErrors(error);
+        formRef.current?.setErrors(errors);
+        return;
+      }
 
-      formRef.current?.setErrors(errors);
+      if (!!error.isAxiosError && !error.response) {
+        toast.error('Houve um problema ao tentar se conectar com a API.');
+        return;
+      }
+      const { message } = error.response.data;
+      toast.error(message);
     }
   }, []);
 
@@ -46,11 +66,11 @@ const SignUp: React.FC = () => {
         <section
           className="hero-section ptb-100 background-img full-screen"
           style={{
-            background: heroBackground,
+            background: `url(${heroBackground})`,
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             backgroundOrigin: 'center',
-            backgroundSize: 'center/cover',
+            backgroundSize: 'cover',
           }}
         >
           <div className="container">
@@ -106,22 +126,15 @@ const SignUp: React.FC = () => {
                         id="password"
                       />
 
-                      <div className="my-4">
-                        <div className="custom-control custom-checkbox mb-3">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="check-terms"
-                          />
-                          <label
-                            htmlFor="check-terms"
-                            className="custom-control-label"
-                          >
-                            I agree to the
-                            <a href="terms"> terms and conditions</a>
-                          </label>
-                        </div>
-                      </div>
+                      <CheckBox name="checkTerms" id="checkTerms">
+                        <label
+                          htmlFor="checkTerms"
+                          className="custom-control-label"
+                        >
+                          I agree to the
+                          <a href="terms"> terms and conditions</a>
+                        </label>
+                      </CheckBox>
                       {/* Submit */}
                       <Button
                         type="submit"
@@ -130,6 +143,12 @@ const SignUp: React.FC = () => {
                         Sign Up
                       </Button>
                     </Form>
+                  </div>
+                  <div className="card-footer bg-transparent border-box px-md-5">
+                    <small>Do you already have an account? </small>
+                    <Link to="/signIn" className="small">
+                      Sign In your account!
+                    </Link>
                   </div>
                 </div>
               </div>
