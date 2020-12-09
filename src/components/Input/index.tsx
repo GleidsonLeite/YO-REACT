@@ -1,33 +1,36 @@
 import React, {
   InputHTMLAttributes,
+  useCallback,
   useEffect,
   useRef,
   useState,
-  useCallback,
 } from 'react';
 
 import { useField } from '@unform/core';
 
-import ReactTooltip from 'react-tooltip';
+import { IconBaseProps } from 'react-icons';
+
+import { MdReportProblem } from 'react-icons/md';
+import { Container, Error } from './styles';
+import Tooltip from '../Tooltip';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  label: string;
-  icon: string;
+  icon?: React.ComponentType<IconBaseProps>;
 }
 
-const Input: React.FC<InputProps> = ({ name, label, icon, ...rest }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
-  const handleInputFocus = useCallback(() => {
+  const handleOnFocus = useCallback(() => {
     setIsFocused(true);
   }, []);
 
-  const handleInputBlur = useCallback(() => {
+  const handleOnBlur = useCallback(() => {
     setIsFocused(false);
     setIsFilled(!!inputRef.current?.value);
   }, []);
@@ -41,68 +44,24 @@ const Input: React.FC<InputProps> = ({ name, label, icon, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <div className="form-group">
-      <label htmlFor={name} className="pb1">
-        {label}
-      </label>
-
-      <div className="input-group input-group-merge">
-        <div className="input-icon">
-          <span
-            data-tip="error"
-            data-for={name}
-            style={{
-              color: error ? 'red' : '',
-            }}
-            className={`${icon} ${isFocused ? 'color-primary' : ''} ${
-              isFilled && 'color-primary'
-            }`}
-          />
-          {error && (
-            <ReactTooltip
-              backgroundColor="#6730e3"
-              id={name}
-              place="top"
-              effect="solid"
-              delay-hide={1}
-            >
-              {error}
-            </ReactTooltip>
-          )}
-        </div>
-        <input
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          defaultValue={defaultValue}
-          ref={inputRef}
-          type="text"
-          className="form-control"
-          {...rest}
-        />
-        <div className="input-icon">
-          <span
-            data-tip="error"
-            data-for={name}
-            style={{
-              color: isFilled || isFocused ? '#6730e3' : error && 'red',
-            }}
-            className={`${icon} ${isFocused || isFilled ? 'color-primary' : ''}
-            }`}
-          />
-          {error && !isFilled && (
-            <ReactTooltip
-              backgroundColor="#6730e3"
-              id={name}
-              place="top"
-              effect="solid"
-              delay-hide={1}
-            >
-              {error}
-            </ReactTooltip>
-          )}
-        </div>
-      </div>
-    </div>
+    <Container isFocused={isFocused} isFilled={isFilled} isErrored={!!error}>
+      {!!Icon && <Icon size={25} />}
+      <input
+        ref={inputRef}
+        value={defaultValue}
+        name={name}
+        onFocus={handleOnFocus}
+        onBlur={handleOnBlur}
+        {...rest}
+      />
+      {error && (
+        <Tooltip Message={error}>
+          <Error>
+            <MdReportProblem size={20} />
+          </Error>
+        </Tooltip>
+      )}
+    </Container>
   );
 };
 

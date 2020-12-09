@@ -1,48 +1,33 @@
 import React from 'react';
 import Header from '../../components/Header';
-import heroBackground from '../../assets/img/app-hero-bg.jpg';
-import WaveMask from '../../components/WaveMask';
-import AppProductImage from '../../assets/img/app-product.png';
+import { Container, Content, ImagePresentation, Presentation } from './styles';
+
+import testImage from '../../assets/img/app-product.png';
+import Popup from '../../components/Popup';
 
 const Main: React.FC = () => {
   return (
     <>
+      <Popup />
       <Header />
-      <div className="main">
-        <section
-          className="hero-section pt-100 background-img"
-          style={{
-            background: `url(${heroBackground})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundOrigin: 'center',
-            backgroundSize: 'cover',
-          }}
-        >
-          <div className="container">
-            <div className="row align-items-center justify-content-between py-5">
-              <div className="col-md-6 col-lg-6">
-                <div className="hero-content-left text-white">
-                  <h1 className="text-white">
-                    <span>Brainstorm </span>
-                    for desired perfect Usability
-                  </h1>
-                  <p className="lead">
-                    Our design projects are fresh and simple and will benefit
-                    your business greatly. Learn more about our work!
-                  </p>
-                </div>
-              </div>
-              <div className="col-md-5 col-lg-5">
-                <div className="hero-animation-img">
-                  <img src={AppProductImage} alt="app" className="img-fluid" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <WaveMask />
-        </section>
-      </div>
+      <Container>
+        <Content>
+          <Presentation>
+            <h1>
+              <strong>Investindo </strong>
+              com alta performance
+            </h1>
+            <p>
+              Somos uma Fintech especializada na bolsa de valores. Nossa equipe
+              possui experiência em negociações de cfds, forex, stocks e
+              índices.
+            </p>
+          </Presentation>
+          <ImagePresentation>
+            <img src={testImage} alt="" />
+          </ImagePresentation>
+        </Content>
+      </Container>
     </>
   );
 };

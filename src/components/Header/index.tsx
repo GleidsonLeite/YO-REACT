@@ -1,100 +1,85 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import logoImg from '../../assets/img/logo-white-1x.png';
+import { Logo, Nav, NavLinks } from './styles';
+
+import NavItem from './NavItem';
+import Burguer from './Burguer';
 import { useAuth } from '../../hooks/Auth';
 import { useRole } from '../../hooks/Role';
-import NavItem from './NavItem';
 
 const Header: React.FC = () => {
+  const [isClicked, setIsClicked] = useState(false);
+  const [isPageOnTop, setIsPageOnTop] = useState(true);
   const { user, signOut } = useAuth();
-  const { role } = useRole();
-  const [isAdmin, setIsAdmin] = useState(false);
+
   const [isUserLogged, setIsUserLogged] = useState(typeof user !== 'undefined');
+  const { role } = useRole();
+  const handleBurguerOnClick = useCallback(() => {
+    setIsClicked(!isClicked);
+  }, [isClicked]);
+
+  const getPageHeight = useCallback(() => {
+    const { scrollY } = window;
+    setIsPageOnTop(scrollY === 0);
+  }, []);
+
   useEffect(() => {
-    if (typeof user !== 'undefined') {
-      setIsUserLogged(true);
-      setIsAdmin(role.permission_value === 32);
-    }
-  }, [role.permission_value, user, isAdmin]);
+    window.addEventListener('scroll', getPageHeight);
+    return () => {
+      window.removeEventListener('scroll', getPageHeight);
+    };
+  });
+
+  const handleLogout = useCallback(() => {
+    signOut();
+    setIsUserLogged(false);
+  }, [signOut]);
+
   return (
-    <header className="header">
-      <nav className="navbar navbar-expand-lg fixed-top bg-transparent">
-        <div className="container">
-          <a className="navbar-brand" href="test">
-            <img src={logoImg} width="120" alt="logo" className="img-fluid" />
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="ti-menu" />
-          </button>
+    <header>
+      <Nav isOnTop={isPageOnTop}>
+        <Logo>
+          <h4>The nav</h4>
+        </Logo>
 
-          <div
-            className="collapse navbar-collapse main-menu"
-            id="navbarSupportedContent"
-          >
-            <ul className="navbar-nav ml-auto">
-              <NavItem className="nav-link page-scroll" to="/">
-                Inicio
-              </NavItem>
-              <NavItem className="nav-link page-scroll" to="testafeatures">
-                Features
-              </NavItem>
-              <NavItem className="nav-link page-scroll" to="testafeatures">
-                Pricing
-              </NavItem>
-              <NavItem className="nav-link page-scroll" to="testafeatures">
-                Screenshots
-              </NavItem>
+        <NavLinks isClicked={isClicked}>
+          <NavItem to="/" isHidden={isClicked}>
+            Home
+          </NavItem>
+          <NavItem to="/testes" isHidden={isClicked}>
+            About
+          </NavItem>
+          <NavItem to="/testes" isHidden={isClicked}>
+            Work
+          </NavItem>
 
-              {isUserLogged && isAdmin && (
-                <NavItem to="/admin" className="nav-ling">
-                  Administração
-                </NavItem>
-              )}
-              {isUserLogged && (
-                <NavItem to="/dashboard" className="nav-ling">
-                  Dashboard
+          {!isUserLogged && (
+            <NavItem to="/signIn" isHidden={isClicked}>
+              Entrar
+            </NavItem>
+          )}
+
+          {isUserLogged && (
+            <>
+              {role.permission_value === 32 && (
+                <NavItem to="/admin" isHidden={isClicked}>
+                  Admin
                 </NavItem>
               )}
 
-              {isUserLogged && (
-                <NavItem to="/investment" className="nav-ling">
-                  Investir
-                </NavItem>
-              )}
+              <NavItem to="/dashboard" isHidden={isClicked}>
+                Dashboard
+              </NavItem>
 
-              {isUserLogged ? (
-                <NavItem
-                  className="nav-link page-scroll"
-                  to="/signIn"
-                  onClick={() => {
-                    signOut();
-                  }}
-                >
-                  Logout
-                </NavItem>
-              ) : (
-                <NavItem
-                  className="nav-link page-scroll"
-                  to="/signIn"
-                  onClick={() => {
-                    signOut();
-                  }}
-                >
-                  Sign In
-                </NavItem>
-              )}
-            </ul>
-          </div>
-        </div>
-      </nav>
+              <NavItem to="/" isHidden={isClicked} onClick={handleLogout}>
+                Sair
+              </NavItem>
+            </>
+          )}
+        </NavLinks>
+
+        <Burguer isClicked={isClicked} onClick={handleBurguerOnClick} />
+      </Nav>
     </header>
   );
 };

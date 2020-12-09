@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
 import { UserData } from './Auth';
 
-interface RoleData {
+export interface RoleData {
   id: string;
   name: string;
   permission_value: number;
@@ -11,7 +11,7 @@ interface RoleData {
 interface RoleContextData {
   role: RoleData;
   setRole(role: RoleData): void;
-  getRoleFromApi(user: UserData): void;
+  getRoleFromApi(user: UserData): Promise<void>;
 }
 
 const RoleContext = createContext<RoleContextData>({} as RoleContextData);
@@ -25,8 +25,10 @@ export const RoleProvider: React.FC = ({ children }) => {
         Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
       },
     };
-    const response = (await api.get(`/roles/${user.id}`, config)) as RoleData;
-    setRole(response);
+    const response = await api.get(`roles/${user.role_id}`, config);
+    console.log(response);
+    const { id, name, permission_value } = response.data;
+    setRole({ id, name, permission_value });
   }, []);
 
   return (

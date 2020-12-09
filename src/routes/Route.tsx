@@ -2,113 +2,65 @@ import React, { useEffect, useState } from 'react';
 import {
   Redirect,
   Route as ReactDOMRoute,
-  RouteProps as ReactRouteProps,
+  RouteProps as ReactDOMRouteProps,
 } from 'react-router-dom';
-
 import { useAuth } from '../hooks/Auth';
-import { useRole } from '../hooks/Role';
-import api from '../services/api';
+import { useRole, RoleData } from '../hooks/Role';
 import { verifyExpiredToken } from '../utils/verifyExpiredToken';
 
-interface RouteProps extends ReactRouteProps {
+interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
-  isAdmin?: boolean;
-  forActivated?: boolean;
+  isForAdmin?: boolean;
   component: React.ComponentType;
 }
 
-/**
- * Regras aqui
- *
- * Pagina Privada | Usuário autenticado | usuario autenticado
- * true/true/true = OK
- * true/true/false = Redirecionar para unactivated
- * true/false/true = Não existe
- * true/false/false = Redirecionar para login
- * false/true/true = OK
- * false/true/false = OK
- * false/false/true = Não existe
- * false/false/false = OK
- */
-
 const Route: React.FC<RouteProps> = ({
   isPrivate = false,
-  isAdmin = false,
+  isForAdmin = false,
   component: Component,
   ...rest
 }) => {
   const { user } = useAuth();
-  const { getRoleFromApi, role, setRole } = useRole();
+  const { role, getRoleFromApi, setRole } = useRole();
+  const [isUserLogged, setIsUserLogged] = useState(typeof user !== 'undefined');
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isRoleLoading, setIsRoleLoading] = useState(true);
 
-  const [permissionValue, setPermissionValue] = useState(role.permission_value);
-  const [isLoading, setIsLoading] = useState(true);
-  const userIsLogged = typeof user !== 'undefined';
-  const activated = userIsLogged ? user.activated : false;
-
-  const isTokenExpired = verifyExpiredToken(
-    localStorage.getItem('@YO:token') as string,
-  );
-
-  if (isTokenExpired) {
-    localStorage.clear();
-  }
+  const [isTokenExpired, setIsTokenExpired] = useState(false);
 
   useEffect(() => {
-    if (userIsLogged && activated && isLoading) {
-      const getData = async () => {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
-          },
-        };
-        try {
-          const response = await api.get(`/roles/${user.role_id}`, config);
-          const { permission_value } = response.data;
-          setRole(response.data);
-          setPermissionValue(permission_value);
-          // getRoleFromApi(user);
-          // setPermissionValue(role.permission_value);
-          console.log(role.permission_value);
-          setIsLoading(false);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      getData();
+    setIsUserLogged(typeof user !== 'undefined');
+    if (typeof user !== 'undefined') {
+      (async function setRoleFromApi() {
+        await getRoleFromApi(user);
+      })();
+      setIsAdmin(role.permission_value === 32);
+    } else {
+      setRole({} as RoleData);
+      setIsAdmin(false);
     }
-  }, [
-    activated,
-    isLoading,
-    role.permission_value,
-    user,
-    userIsLogged,
-    isAdmin,
-  ]);
+
+    const token = localStorage.getItem('@YO:token');
+    !!token && setIsTokenExpired(verifyExpiredToken(token));
+  }, [getRoleFromApi, isUserLogged, role.permission_value, setRole, user]);
+
   return (
     <ReactDOMRoute
       {...rest}
       render={() => {
         if (isPrivate) {
-          if (userIsLogged) {
-            if (isAdmin) {
-              if (isLoading) {
-                return <div className="App">Loading...</div>;
-              }
-              return permissionValue === 32 ? (
+          if (isUserLogged) {
+            if (isForAdmin) {
+              return isAdmin ? (
                 <Component />
               ) : (
                 <Redirect to={{ pathname: '/' }} />
               );
             }
-            return activated ? (
-              <Component />
-            ) : (
-              <Redirect to={{ pathname: '/unactivated' }} />
-            );
+            return <Component />;
           }
           return <Redirect to={{ pathname: '/signIn' }} />;
         }
-
         return <Component />;
       }}
     />

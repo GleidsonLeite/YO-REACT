@@ -1,12 +1,15 @@
-import React, { LinkHTMLAttributes } from 'react';
-import { Link, LinkProps } from 'react-router-dom';
+import React from 'react';
+import { LinkProps } from 'react-router-dom';
+import { NavList, StyledLink } from './styles';
 
-type AnchorProps = LinkHTMLAttributes<HTMLAnchorElement>;
+interface NavItemProps extends LinkProps {
+  isHidden: boolean;
+}
 
-const NavItem: React.FC<LinkProps> = ({ children, ...rest }) => (
-  <li className="nav-item">
-    <Link {...rest}>{children}</Link>
-  </li>
+const NavItem: React.FC<NavItemProps> = ({ children, isHidden, ...rest }) => (
+  <NavList isHidden={isHidden}>
+    <StyledLink {...rest}>{children}</StyledLink>
+  </NavList>
 );
 
 export default NavItem;

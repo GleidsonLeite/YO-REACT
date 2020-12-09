@@ -5,13 +5,14 @@ import { ToastContainer } from 'react-toastify';
 import AppProvider from './hooks';
 import 'react-toastify/dist/ReactToastify.css';
 import Routes from './routes';
+import GlobalStyle from './styles/global';
 
 const App: React.FC = () => (
   <Router>
     <AppProvider>
-      <ToastContainer />
       <Routes />
     </AppProvider>
+    <GlobalStyle />
   </Router>
 );
 

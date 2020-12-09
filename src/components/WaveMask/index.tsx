@@ -1,11 +1,13 @@
 import React from 'react';
 
+import { AbsoluteBottomImage } from './styles';
+
 import waveImg from '../../assets/img/hero-bg-shape-1.svg';
 
 const WaveMask: React.FC = () => (
-  <div className="bottom-img-absolute">
-    <img src={waveImg} alt="wave shape" className="img-fluid" />
-  </div>
+  <AbsoluteBottomImage>
+    <img src={waveImg} alt="wave shape" />
+  </AbsoluteBottomImage>
 );
 
 export default WaveMask;

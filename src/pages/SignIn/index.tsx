@@ -1,19 +1,18 @@
 import React, { useCallback, useRef } from 'react';
 
-import { Form } from '@unform/web';
+import { MdMailOutline, MdLockOutline } from 'react-icons/md';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-
-import { Link, useHistory } from 'react-router-dom';
-import heroBackground from '../../assets/img/hero-bg-1.jpg';
-
+import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
-import WaveMask from '../../components/WaveMask';
-import Button from '../../components/Button';
+import { Container, Content, FormSignIn, PresentationText } from './styles';
+
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/Auth';
+import { useToast } from '../../hooks/Toast';
 
 interface SignInFormData {
   email: string;
@@ -27,130 +26,87 @@ const SignIn: React.FC = () => {
 
   const history = useHistory();
 
+  const { addToast } = useToast();
+
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
       try {
         formRef.current?.setErrors({});
+
         const schema = Yup.object().shape({
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
           password: Yup.string().min(8, 'No mínimo 8 dígitos'),
         });
+
         await schema.validate(data, {
           abortEarly: false,
         });
+
         await signIn({
           email: data.email,
           password: data.password,
         });
+
         history.push('/dashboard');
+        addToast({
+          type: 'info',
+          title: 'Seja bem vindo(a)!',
+        });
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
           formRef.current?.setErrors(errors);
+
+          // toast.warn('Por favor, preencha os seus dados corretamente');
+          addToast({
+            type: 'error',
+            title: 'Erro',
+            description: 'Por favor, preencha os seus dados corretamente',
+          });
           return;
         }
-
         if (!!error.isAxiosError && !error.response) {
-          toast.error('Houve um problema ao tentar se conectar com a API.');
+          toast.error('Houve um problema ao tentar conectar com a API.');
+          return;
         }
-        // const { message } = error.response.data;
-        // toast.error(message);
-        // if (error.response.status === 401) {
-        //   history.push('/unactivated');
-        // }
+        const { message } = error.response.data;
+        toast.error(message);
       }
     },
-    [signIn, history],
+    [history, signIn],
   );
+
   return (
     <>
-      <Header />
-      {/* Body content wrap start */}
-      <div className="main">
-        {/* Hero Section start */}
-        <section
-          className="hero-section ptb-100 background-img full-screen"
-          style={{
-            background: `url(${heroBackground})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundOrigin: 'center',
-            backgroundSize: 'cover',
-          }}
-        >
-          <div className="container">
-            <div className="row align-items-center justify-content-between pt-5 pt-sm-5 pt-md-5 pt-lg-0">
-              <div className="col-md-7 col-lg-6">
-                <div className="hero-content-left text-white">
-                  <h1 className="text-white">Wellcome Back!</h1>
-                  <p className="lead">
-                    Keep your face always toward the sunshine - and shadows will
-                    fall behind you.
-                  </p>
-                </div>
-              </div>
-              <div className="col-md-5 col-lg-5">
-                <div className="card login-signup-card shadow-lg mb-0">
-                  <div className="card-body px-md-5 py-5">
-                    <div className="mb-5">
-                      <h5 className="h3">Login</h5>
-                      <p className="text-muted mb-0">
-                        Sign in to your account to continue.
-                      </p>
-                    </div>
-                    {/* Login Form */}
-                    <Form
-                      onSubmit={handleSubmit}
-                      ref={formRef}
-                      className="login-signup-form"
-                    >
-                      <Input
-                        name="email"
-                        label="Email Address"
-                        icon="ti-email"
-                        type="text"
-                        placeholder="name@yourdomain.com"
-                        id="email"
-                      />
-                      {/* Password */}
-                      <Input
-                        name="password"
-                        label="Password"
-                        icon="ti-lock"
-                        type="password"
-                        placeholder="Enter your password"
-                        id="password"
-                      />
-                      {/* Submit */}
-                      <Button
-                        type="submit"
-                        className="btn btn-lg btn-block solid-btn border-radius mt-4 mb-3"
-                      >
-                        Sign In
-                      </Button>
-                    </Form>
-                  </div>
-                  <div className="card-footer bg-transparent border-box px-md-5">
-                    <small>Not registered? </small>
-                    <Link to="/signUp" className="small">
-                      Create Account
-                    </Link>
-                  </div>
-                  <div className="card-footer bg-transparent border-box px-md-5">
-                    <small>Do you forgeted your password? </small>
-                    <a href="SignUp" className="small">
-                      Recover Account
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <WaveMask />
-        </section>
-      </div>
+      <Container>
+        <Header />
+        <Content>
+          <FormSignIn ref={formRef} onSubmit={handleSubmit}>
+            <h1>Entrar</h1>
+            <p>Tenha livre acesso à nossa Dashboard</p>
+            <Input
+              name="email"
+              icon={MdMailOutline}
+              placeholder="email@exemple.com"
+            />
+
+            <Input
+              name="password"
+              icon={MdLockOutline}
+              placeholder="Sua senha"
+              type="password"
+            />
+
+            <Button type="submit">LogIn</Button>
+          </FormSignIn>
+          <PresentationText>
+            <h1>Olá Novamente!</h1>
+            <p>Acompanhe os seus rendimentos através da Dashboard</p>
+          </PresentationText>
+        </Content>
+      </Container>
     </>
   );
 };

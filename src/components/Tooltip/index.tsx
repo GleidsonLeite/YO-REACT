@@ -1,49 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import './styles.css';
+import { Container } from './styles';
 
 interface TooltipProps {
-  delay?: number;
-  direction?: string;
-  content: string;
+  Message: string;
 }
 
-const Tooltip: React.FC<TooltipProps> = ({
-  delay,
-  direction,
-  content,
-  children,
-}) => {
-  let timeout: number;
-  const [active, setActive] = useState(false);
-
-  const showTip = () => {
-    timeout = setTimeout(() => {
-      setActive(true);
-    }, delay || 400);
-  };
-
-  const hideTip = () => {
-    clearInterval(timeout);
-    setActive(false);
-  };
-
+const Tooltip: React.FC<TooltipProps> = ({ children, Message }) => {
   return (
-    <div
-      className="Tooltip-Wrapper"
-      // When to show the tooltip
-      onMouseEnter={showTip}
-      onMouseLeave={hideTip}
-    >
-      {/* Wrapping */}
+    <Container>
       {children}
-      {active && (
-        <div className={`Tooltip-Tip ${direction || 'top'}`}>
-          {/* Content */}
-          {content}
-        </div>
-      )}
-    </div>
+      <span>{Message}</span>
+    </Container>
   );
 };
 

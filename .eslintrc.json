@@ -35,6 +35,7 @@
           "some": [ "nesting", "id"  ]
         }
       }],
+      "no-useless-return": "off",
       "camelcase": "off",
       "no-use-before-define": "off",
       "no-unused-expressions": "off",
