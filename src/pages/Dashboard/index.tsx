@@ -9,11 +9,13 @@ import Panel from '../../components/Accordion/Panel';
 
 import { Container, Content } from './styles';
 
-import profileImage from '../../assets/img/team-1.jpg';
-import api from '../../services/api';
 import InvestmentPanel from './InvestmentPanel';
+import InvestmentForm from './InvestmentForm';
+import api from '../../services/api';
 
-interface InvestmentData {
+import profileImage from '../../assets/img/team-1.jpg';
+
+export interface InvestmentData {
   id: string;
   value: string;
   confirmed: boolean;
@@ -57,7 +59,7 @@ const Dashboard: React.FC = () => {
           <Accordion>
             {investments.map((investment) => {
               return (
-                <Panel title={investment.value}>
+                <Panel title={investment.value} key={investment.id}>
                   <InvestmentPanel
                     value={investment.value}
                     created_at={investment.created_at}
@@ -67,7 +69,12 @@ const Dashboard: React.FC = () => {
                 </Panel>
               );
             })}
-            <Panel title="Invista" />
+            <Panel title="Invista">
+              <InvestmentForm
+                investments={investments}
+                setInvestments={setInvestments}
+              />
+            </Panel>
           </Accordion>
         </Content>
       </Container>

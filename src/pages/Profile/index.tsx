@@ -14,6 +14,7 @@ import profileImage from '../../assets/img/team-1.jpg';
 import api from '../../services/api';
 import InvestmentPanel from '../Dashboard/InvestmentPanel';
 import SwitchButton from '../../components/Switch';
+import { usePopup } from '../../hooks/Popup';
 
 interface InvestmentData {
   id: string;
@@ -31,8 +32,9 @@ const Profile: React.FC = () => {
   const { id } = useParams<RouteParams>();
   const [user, setUser] = useState<UserData>({} as UserData);
   const [isUserActivated, setIsUserActivated] = useState(false);
-
   const [investments, setInvestments] = useState<InvestmentData[]>([]);
+
+  const { showPopup } = usePopup();
 
   useEffect(() => {
     const config = {
@@ -57,19 +59,31 @@ const Profile: React.FC = () => {
   }, [user.id]);
 
   const handleActivateUserSwitch = useCallback(() => {
-    const config = {
-      headers: { Authorization: `Bearer ${localStorage.getItem('@YO:token')}` },
-    };
-    (async function switchUserActivatedStatus() {
-      const response = await api.patch(
-        `/users/changeActivate/${user.id}`,
-        {},
-        config,
-      );
-      setUser(response.data);
-      setIsUserActivated(user.activated);
-    })();
-  }, [user.activated, user.id]);
+    showPopup({
+      type: 'info',
+      title: 'Aviso',
+      description: `Você está prestes a ${
+        user.activated ? 'desativar' : 'ativar'
+      } o usuário(a) ${user.name}! Clique no botão abaixo para confirmar!`,
+      hasConfirmButton: true,
+      onClickConfirmButton: () => {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+          },
+        };
+        (async function switchUserActivatedStatus() {
+          const response = await api.patch(
+            `/users/changeActivate/${user.id}`,
+            {},
+            config,
+          );
+          setUser(response.data);
+          setIsUserActivated(user.activated);
+        })();
+      },
+    });
+  }, [showPopup, user.activated, user.id]);
 
   return (
     <>

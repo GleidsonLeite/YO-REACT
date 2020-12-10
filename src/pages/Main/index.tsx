@@ -3,12 +3,10 @@ import Header from '../../components/Header';
 import { Container, Content, ImagePresentation, Presentation } from './styles';
 
 import testImage from '../../assets/img/app-product.png';
-import Popup from '../../components/Popup';
 
 const Main: React.FC = () => {
   return (
     <>
-      <Popup />
       <Header />
       <Container>
         <Content>

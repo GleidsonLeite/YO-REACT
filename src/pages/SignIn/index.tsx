@@ -68,14 +68,23 @@ const SignIn: React.FC = () => {
           return;
         }
         if (!!error.isAxiosError && !error.response) {
-          toast.error('Houve um problema ao tentar conectar com a API.');
+          addToast({
+            type: 'error',
+            title: 'Erro no cadastro',
+            description:
+              'Houve um problema ao tentar conectar com a API, por favor preencha os seus dados novamente',
+          });
           return;
         }
         const { message } = error.response.data;
-        toast.error(message);
+        addToast({
+          type: 'error',
+          title: 'Erro no cadastro',
+          description: message,
+        });
       }
     },
-    [history, signIn],
+    [addToast, history, signIn],
   );
 
   return (
