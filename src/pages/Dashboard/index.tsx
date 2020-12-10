@@ -21,6 +21,7 @@ export interface InvestmentData {
   confirmed: boolean;
   created_at: string;
   updated_at: string;
+  deposit_slip: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -61,6 +62,8 @@ const Dashboard: React.FC = () => {
               return (
                 <Panel title={investment.value} key={investment.id}>
                   <InvestmentPanel
+                    deposit_slip={investment.deposit_slip}
+                    id={investment.id}
                     value={investment.value}
                     created_at={investment.created_at}
                     updated_at={investment.updated_at}

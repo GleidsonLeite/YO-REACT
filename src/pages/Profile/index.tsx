@@ -18,6 +18,7 @@ import { usePopup } from '../../hooks/Popup';
 
 interface InvestmentData {
   id: string;
+  deposit_slip: string;
   value: string;
   confirmed: boolean;
   created_at: string;
@@ -83,7 +84,7 @@ const Profile: React.FC = () => {
         })();
       },
     });
-  }, [showPopup, user.activated, user.id]);
+  }, [showPopup, user.activated, user.id, user.name]);
 
   return (
     <>
@@ -114,6 +115,8 @@ const Profile: React.FC = () => {
               return (
                 <Panel title={investment.value}>
                   <InvestmentPanel
+                    id={investment.id}
+                    deposit_slip={investment.deposit_slip}
                     value={investment.value}
                     created_at={investment.created_at}
                     updated_at={investment.updated_at}
