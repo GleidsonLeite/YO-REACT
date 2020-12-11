@@ -1,15 +1,33 @@
 import React, { useCallback, useRef, useState } from 'react';
-
 import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
 import * as Yup from 'yup';
-
-import Button from '../../components/Button';
-import Input from '../../components/Unactivated/Input';
+import {
+  MdAccountBox,
+  MdDashboard,
+  MdDialpad,
+  MdEmail,
+  MdLocationOn,
+} from 'react-icons/md';
+import { useToast } from '../../hooks/Toast';
+import Header from '../../components/Header';
+import Input from '../../components/Input';
+import TextArea from '../../components/TextArea';
 import { phoneMask } from '../../components/Mask';
 import { useAuth } from '../../hooks/Auth';
-import api from '../../services/api';
+
+import {
+  Container,
+  Content,
+  Icon,
+  FormContainer,
+  FormPresentation,
+  ValidateForm,
+} from './styles';
 import InputFile from '../../components/InputFile';
+import Button from '../../components/Button';
+import api from '../../services/api';
+import getValidationErrors from '../../utils/getValidationErrors';
+import { Description } from '../../components/Popup/styles';
 
 interface DataForm {
   name: string;
@@ -22,16 +40,17 @@ interface DataForm {
 
 const Unactivated: React.FC = () => {
   const { user } = useAuth();
-
   const formRef = useRef<FormHandles>(null);
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [phone, setPhone] = useState('');
-  const [identityFile, setIdentityFile] = useState('');
-  const [resume, setResume] = useState('');
-  // const [address, setAddress] = useState('');
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  const [phone, setPhone] = useState('');
+
+  const handleOnChangePhoneInput = useCallback((event) => {
+    const { value } = event.target;
+    setPhone(phoneMask(value));
+  }, []);
+
+  const { addToast } = useToast();
+
   const handleSubmit = useCallback(
     // eslint-disable-next-line @typescript-eslint/ban-types
     async (data: DataForm) => {
@@ -66,154 +85,95 @@ const Unactivated: React.FC = () => {
           },
         };
 
-        const resposta = await api.patch('/users/validation', formData, config);
-        console.log(resposta);
-        // const file = new FormData();
-        // file.append();
+        await api.patch('/users/validation', formData, config);
+        addToast({
+          type: 'success',
+          title: 'Validação',
+          description:
+            'Obrigado por enviar suas informações! A nossa equipe irá analisar os seus dados para ativar a sua conta.',
+        });
       } catch (error) {
-        console.log(error);
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+          formRef.current?.setErrors(errors);
+
+          // toast.warn('Por favor, preencha os seus dados corretamente');
+          addToast({
+            type: 'error',
+            title: 'Erro',
+            description: 'Preencha o formulário corretamente',
+          });
+          return;
+        }
+        if (!!error.isAxiosError && !error.response) {
+          addToast({
+            type: 'error',
+            title: 'Erro no cadastro',
+            description:
+              'Houve um problema ao tentar conectar com a API, por favor preencha os seus dados novamente',
+          });
+          return;
+        }
+        const { message } = error.response.data;
+        addToast({
+          type: 'error',
+          title: 'Erro no cadastro',
+          description: message,
+        });
       }
     },
-    [identityFile, resume],
+    [],
   );
 
-  const handleOnChangePhoneInput = useCallback((event) => {
-    const { value } = event.target;
-    setPhone(phoneMask(value));
-  }, []);
-
-  // const handleFileChange = useCallback((event) => {
-  //   setIdentityFile(event.target.files[0]);
-  // }, []);
-
-  const handleResumeChange = useCallback((event) => {
-    const { value } = event.target;
-    setResume(value);
-  }, []);
-
   return (
-    <section id="contact" className="contact-us ptb-100 gray-light-bg">
-      <div className="container">
-        <div className="row">
-          <div className="col-12 pb-3 message-box d-none">
-            <div className="alert alert-danger" />
-          </div>
-          <div className="col-md-5">
-            <div className="section-heading">
-              <h3>Só mais um passo...</h3>
-            </div>
-            <p>
-              Antes de começar a investir e ver o seu dinheiro render,
-              precisamos obter um comprovante dos seus documentos para garantir
-              sua segurança.
-            </p>
-            <div className="footer-address">
-              <h6>
-                <strong>Está com dúvidas?</strong>
-              </h6>
+    <>
+      <Header />
+      <Container>
+        <Content>
+          <Icon>
+            <MdDashboard />
+          </Icon>
+          <FormContainer>
+            <FormPresentation>
+              <h1>{`Olá ${user.name},`}</h1>
               <p>
-                Se estiver com dificuldades para utilizar nossa plataforma, não
-                se preocupe! Nossa equipe de suporte está totalmente disponível
-                para te atender.
+                Estamos felizes em saber que você se cadastrou em nossa
+                plataforma!
               </p>
-              <ul>
-                <li>Phone: +61 2 8376 6284</li>
-                <li>
-                  <span>Email: </span>
-                  hello@yourdomain.com
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="col-md-7">
-            <Form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              action=""
-              className="contact-us-form"
-              id="contactForm"
-            >
-              <h5>Deixe nos conhecer mais sobre você</h5>
-              <div className="row">
-                <div className="col-sm-6 col-12">
-                  <Input
-                    type="text"
-                    name="name"
-                    className="form-control"
-                    placeholder="Insira o seu nome"
-                    value={name}
-                  />
-                </div>
-                <div className="col-sm-6 col-12">
-                  <Input
-                    type="email"
-                    name="email"
-                    className="form-control"
-                    placeholder="Insira o seu email"
-                    value={email}
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-sm-6 col-12">
-                  <Input
-                    type="tel"
-                    name="phone"
-                    className="form-control"
-                    placeholder="Insira o seu telefone"
-                    onChange={handleOnChangePhoneInput}
-                    value={phone}
-                    maxLength={17}
-                  />
-                </div>
-                <div className="col-sm-6 col-12">
-                  <Input
-                    type="text"
-                    name="address"
-                    className="form-control"
-                    placeholder="Insira seu endereço"
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-12">
-                  <div className="form-group">
-                    <textarea
-                      className="form-control"
-                      name="resume"
-                      id="resume"
-                      cols={25}
-                      rows={7}
-                      placeholder="Fale sobre você"
-                      onChange={handleResumeChange}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-12">
-                  <label htmlFor="identity" className="pb1">
-                    Por favor, insira um documento com foto que comprove a sua
-                    identificação
-                  </label>
-                  <div className="form-group">
-                    <InputFile id="identity" name="identity" />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-12 mt-3">
-                  <Button className="btn solid-btn disabled" type="submit">
-                    Enviar
-                  </Button>
-                </div>
-              </div>
-            </Form>
-          </div>
-        </div>
-      </div>
-    </section>
+              <p>
+                Agora, falta apenas um passo para que você possa acessar o nosso
+                dashboard. Por favor, responda o questionário para que possamos
+                completar o seu cadastro.
+              </p>
+            </FormPresentation>
+            <ValidateForm ref={formRef} onSubmit={handleSubmit}>
+              <Input name="name" icon={MdAccountBox} defaultValue={user.name} />
+              <Input name="email" icon={MdEmail} defaultValue={user.email} />
+              <Input
+                name="phone"
+                icon={MdDialpad}
+                type="tel"
+                value={phone}
+                onChange={handleOnChangePhoneInput}
+                maxLength={17}
+                placeholder="Telefone"
+              />
+              <Input
+                name="address"
+                icon={MdLocationOn}
+                placeholder="Endereço"
+              />
+              <TextArea
+                name="resume"
+                placeholder="Fale um pouco sobre você :)"
+              />
+              <InputFile name="identity" />
+              <Button type="submit">Enviar</Button>
+            </ValidateForm>
+          </FormContainer>
+        </Content>
+      </Container>
+    </>
   );
 };
 

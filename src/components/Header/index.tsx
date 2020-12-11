@@ -7,6 +7,8 @@ import Burguer from './Burguer';
 import { useAuth } from '../../hooks/Auth';
 import { useRole } from '../../hooks/Role';
 
+import LogoImage from '../../assets/img/YO_LOGO.svg';
+
 const Header: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [isPageOnTop, setIsPageOnTop] = useState(true);
@@ -39,7 +41,7 @@ const Header: React.FC = () => {
     <header>
       <Nav isOnTop={isPageOnTop}>
         <Logo>
-          <h4>The nav</h4>
+          <img src={LogoImage} alt="YO-LOGO" />
         </Logo>
 
         <NavLinks isClicked={isClicked}>

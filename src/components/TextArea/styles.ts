@@ -40,40 +40,27 @@ export const Container = styled.div<InputProps>`
       border: 2px #6730e3 solid;
     `}
 
-  input {
+  > textarea {
+    width: 100%;
     flex: 1;
     background: transparent;
     border: 0;
     color: #6730e3;
-    height: calc(2.65em + 0.75rem + 2px);
     font-size: 16px;
+
+    min-height: 100px;
+    padding: 10px;
 
     &:focus {
       outline: none;
     }
   }
 
-  svg {
-    margin-right: 16px;
-    margin-left: 16px;
-    ${(props) =>
-      props.isErrored &&
-      css`
-        color: #ff7700;
-      `}
-
-    ${(props) =>
-      props.isFocused &&
-      css`
-        color: #6730e3;
-      `}
-
   ${(props) =>
-      props.isFilled &&
-      css`
+    props.isFilled &&
+    css`
         color #6730e3;
       `}
-  }
 `;
 
 export const Error = styled.div`

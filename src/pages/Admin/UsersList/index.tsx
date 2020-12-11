@@ -6,10 +6,9 @@ import {
   MdError,
   MdFilterList,
 } from 'react-icons/md';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Card from '../../../components/Card';
 import { UserData } from '../../../hooks/Auth';
-import api from '../../../services/api';
 
 import {
   Container,
@@ -22,11 +21,12 @@ import {
   UsersContent,
 } from './styles';
 
-const UsersList: React.FC = ({ children }) => {
-  const [users, setUsers] = useState<UserData[]>([]);
-  const [usersFiltered, setUsersFiltered] = useState<UserData[]>([]);
+interface UsersListProps {
+  users: Array<UserData>;
+}
 
-  const [isFilterHidden, setIsFilterHidden] = useState(true);
+const UsersList: React.FC<UsersListProps> = ({ users }) => {
+  const [usersFiltered, setUsersFiltered] = useState<UserData[]>([]);
 
   const [isUserActivatedChecked, setIsUserActivatedChecked] = useState(false);
   const [isUserDeactivatedChecked, setIsUserDeactivatedChecked] = useState(
@@ -35,16 +35,6 @@ const UsersList: React.FC = ({ children }) => {
   const [searchNameValue, setSearchNameValue] = useState('');
 
   const history = useHistory();
-
-  useEffect(() => {
-    const config = {
-      headers: { Authorization: `Bearer ${localStorage.getItem('@YO:token')}` },
-    };
-    (async function getUsersFromApi() {
-      const response = await api.get('/users/', config);
-      setUsers(response.data);
-    })();
-  }, []);
 
   const handleOnClickActivatedCheckbox = useCallback(() => {
     !isUserActivatedChecked && setIsUserDeactivatedChecked(false);

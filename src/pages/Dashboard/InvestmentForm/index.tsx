@@ -64,6 +64,13 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({
         const investment = response.data as InvestmentData;
 
         setInvestments([...investments, investment]);
+
+        addToast({
+          type: 'success',
+          title: 'Investimento',
+          description:
+            'Parabéns por realizar um investimento! A nossa equipe irá conferir os dados do investimento validá-lo.',
+        });
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);

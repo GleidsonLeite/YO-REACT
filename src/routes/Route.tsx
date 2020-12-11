@@ -11,12 +11,14 @@ import { verifyExpiredToken } from '../utils/verifyExpiredToken';
 interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
   isForAdmin?: boolean;
+  isForUnactivated?: boolean;
   component: React.ComponentType;
 }
 
 const Route: React.FC<RouteProps> = ({
   isPrivate = false,
   isForAdmin = false,
+  isForUnactivated = false,
   component: Component,
   ...rest
 }) => {
@@ -50,6 +52,15 @@ const Route: React.FC<RouteProps> = ({
       render={() => {
         if (isPrivate) {
           if (isUserLogged) {
+            if (!user.activated && isForUnactivated) {
+              return <Component />;
+            }
+            if (user.activated && isForUnactivated) {
+              return <Redirect to={{ pathname: '/dashboard' }} />;
+            }
+            if (!user.activated) {
+              return <Redirect to={{ pathname: '/unactivated' }} />;
+            }
             if (isForAdmin) {
               return isAdmin ? (
                 <Component />

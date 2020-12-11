@@ -49,7 +49,7 @@ const SignIn: React.FC = () => {
           password: data.password,
         });
 
-        history.push('/dashboard');
+        history.push('/unactivated');
         addToast({
           type: 'info',
           title: 'Seja bem vindo(a)!',

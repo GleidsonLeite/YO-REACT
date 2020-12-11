@@ -8,6 +8,7 @@ import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
 import Admin from '../pages/Admin';
 import Profile from '../pages/Profile';
+import Unactivated from '../pages/Unactivated';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -17,6 +18,12 @@ const Routes: React.FC = () => (
     <Route path="/dashboard" component={Dashboard} isPrivate />
     <Route path="/admin" component={Admin} isPrivate isForAdmin />
     <Route path="/user/:id" component={Profile} isPrivate isForAdmin />
+    <Route
+      path="/unactivated"
+      component={Unactivated}
+      isPrivate
+      isForUnactivated
+    />
     <Route component={Main} />
   </Switch>
 );

@@ -47,6 +47,9 @@ export const Logo = styled.div`
   text-transform: uppercase;
   letter-spacing: 5px;
   font-size: 20px;
+  > img {
+    width: 100px;
+  }
 `;
 
 export const NavLinks = styled.ul<BurguerProps>`

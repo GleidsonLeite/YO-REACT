@@ -1,5 +1,6 @@
 import React, {
   ChangeEvent,
+  InputHTMLAttributes,
   useCallback,
   useEffect,
   useRef,
@@ -8,20 +9,31 @@ import React, {
 
 import { useField } from '@unform/core';
 
-interface Props {
+import { IconBaseProps } from 'react-icons';
+
+import { Container, Content } from './styles';
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-type InputProps = JSX.IntrinsicElements['input'] & Props;
-
 const InputFile: React.FC<InputProps> = ({ name, ...rest }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
-
   const { fieldName, defaultValue, error, registerField } = useField(name);
-
   const [file, setFile] = useState(defaultValue);
+  const handleOnFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleOnBlur = useCallback(() => {
+    setIsFocused(false);
+    setIsFilled(!!inputRef.current?.value);
+  }, []);
+
+  const handleOnChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const fileUploaded = e.target.files?.[0];
 
     setFile(!fileUploaded ? null : fileUploaded);
@@ -37,7 +49,6 @@ const InputFile: React.FC<InputProps> = ({ name, ...rest }) => {
         ref.value = '';
         setFile(null);
       },
-
       setValue(_: HTMLInputElement, value: string) {
         setFile(value);
       },
@@ -45,9 +56,20 @@ const InputFile: React.FC<InputProps> = ({ name, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <>
-      <input type="file" ref={inputRef} onChange={handleChange} {...rest} />
-    </>
+    <Container>
+      <Content>
+        <input
+          ref={inputRef}
+          value={defaultValue}
+          name={name}
+          onChange={handleOnChange}
+          onFocus={handleOnFocus}
+          onBlur={handleOnBlur}
+          type="file"
+          {...rest}
+        />
+      </Content>
+    </Container>
   );
 };
 

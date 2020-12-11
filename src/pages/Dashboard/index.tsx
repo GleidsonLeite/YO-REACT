@@ -17,6 +17,7 @@ import profileImage from '../../assets/img/team-1.jpg';
 
 export interface InvestmentData {
   id: string;
+  investor_id: string;
   value: string;
   confirmed: boolean;
   created_at: string;

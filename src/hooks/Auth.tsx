@@ -9,6 +9,7 @@ export interface UserData {
   amount: string;
   role_id: string;
   id: string;
+  identity_slip: string;
 }
 
 interface AuthState {

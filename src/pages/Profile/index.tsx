@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { MdCheckCircle, MdError } from 'react-icons/md';
+import { MdCheckCircle, MdError, MdFileDownload } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import Accordion from '../../components/Accordion';
-import { useAuth, UserData } from '../../hooks/Auth';
+import { UserData } from '../../hooks/Auth';
 import Panel from '../../components/Accordion/Panel';
 
 import { Container, Content, UserStatusControlDiv } from './styles';
@@ -86,6 +86,23 @@ const Profile: React.FC = () => {
     });
   }, [showPopup, user.activated, user.id, user.name]);
 
+  const handleOnCLickDownloadUserIdentity = useCallback(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+        responseType: 'blob',
+      },
+    };
+    api.get(`/users/download/${user.id}`, config).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${user.identity_slip}`);
+      document.body.appendChild(link);
+      link.click();
+    });
+  }, [user.id, user.identity_slip]);
+
   return (
     <>
       <Container>
@@ -108,6 +125,13 @@ const Profile: React.FC = () => {
                 isOn={isUserActivated}
                 onClick={handleActivateUserSwitch}
               />
+              {user.identity_slip && (
+                <MdFileDownload
+                  onClick={handleOnCLickDownloadUserIdentity}
+                  size={25}
+                  style={{ color: '#16bac5' }}
+                />
+              )}
             </UserStatusControlDiv>
           </Card>
           <Accordion>

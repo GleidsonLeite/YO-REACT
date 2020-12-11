@@ -24,7 +24,7 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       removeToast(message.id);
-    }, 3000);
+    }, 10000);
 
     // Caso o usuario feche o toast antes do timeout
     // No react, toda vez que um componente para de existir, o use effect retorna uma função
