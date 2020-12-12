@@ -3,7 +3,9 @@ import React, { useCallback, useRef } from 'react';
 import { MdPersonOutline, MdMailOutline, MdLockOutline } from 'react-icons/md';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
+import { useToast } from '../../hooks/Toast';
+
 import Header from '../../components/Header';
 import { Container, Content, FormSignUp, PresentationText } from './styles';
 
@@ -21,41 +23,67 @@ interface SignUpFormData {
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: SignUpFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const history = useHistory();
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Nome Obrigatório'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().min(8, 'No mínimo 8 dígitos'),
-      });
+  const { addToast } = useToast();
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+  const handleSubmit = useCallback(
+    async (data: SignUpFormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-      await api.post('users', data);
-      toast.success(
-        `Olá ${data.name}, acabamos de criar sua conta no nosso sistema. Realize o login para ter acesso ao nosso dashboard`,
-      );
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(error);
-        formRef.current?.setErrors(errors);
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome Obrigatório'),
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().min(8, 'No mínimo 8 dígitos'),
+        });
 
-        return;
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await api.post('/users/', data);
+        addToast({
+          type: 'success',
+          title: `Seja bem vindo(a), ${data.name}`,
+          description:
+            'Acabamos de criar sua conta! Por favor, realize seu login',
+        });
+        history.push('/signIn');
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+          formRef.current?.setErrors(errors);
+
+          // toast.warn('Por favor, preencha os seus dados corretamente');
+          addToast({
+            type: 'error',
+            title: 'Erro',
+            description: 'Por favor, preencha os seus dados corretamente',
+          });
+          return;
+        }
+        if (!!error.isAxiosError && !error.response) {
+          addToast({
+            type: 'error',
+            title: 'Erro no cadastro',
+            description:
+              'Houve um problema ao tentar conectar com a API, por favor preencha os seus dados novamente',
+          });
+          return;
+        }
+        const { message } = error.response.data;
+        addToast({
+          type: 'error',
+          title: 'Erro no cadastro',
+          description: message,
+        });
       }
-      if (!!error.isAxiosError && !error.response) {
-        toast.error('Houve um problema ao tentar conectar com a API.');
-        return;
-      }
-      const { message } = error.response.data;
-      toast.error(message);
-    }
-  }, []);
+    },
+    [addToast, history],
+  );
 
   return (
     <>

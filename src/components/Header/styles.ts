@@ -43,12 +43,12 @@ export const Nav = styled.nav<NavProps>`
 `;
 
 export const Logo = styled.div`
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 5px;
-  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   > img {
-    width: 100px;
+    width: 120px;
   }
 `;
 

@@ -33,7 +33,7 @@ export const Content = styled.div`
 
 export const Presentation = styled.div`
   color: #ffffff;
-  max-width: 700px;
+  max-width: 500px;
 
   display: flex;
   justify-content: center;
@@ -51,9 +51,11 @@ export const Presentation = styled.div`
   }
 
   p {
+    text-align: justify;
     margin-top: 20px;
     font-size: 18.75px;
     font-weight: 300;
+    line-height: 1.5;
   }
 
   @media screen and (max-width: 768px) {

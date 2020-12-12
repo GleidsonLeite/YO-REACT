@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
@@ -38,6 +38,10 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
 }) => {
   const [searchNameValue, setSearchNameValue] = useState('');
 
+  const [investmentsFiltered, setInvestmentsFiltered] = useState<
+    InvestmentData[]
+  >([]);
+
   const [
     isInvestmentActivatedChecked,
     setIsInvestmentActivatedChecked,
@@ -51,6 +55,59 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
   const handleOnChangeSearchName = useCallback((event) => {
     setSearchNameValue(event.target.value);
   }, []);
+
+  const handleOnClickActivatedCheckbox = useCallback(() => {
+    !isInvestmentActivatedChecked && setIsInvestmentDeactivatedChecked(false);
+    setIsInvestmentActivatedChecked(!isInvestmentActivatedChecked);
+    if (!isInvestmentActivatedChecked) {
+      setInvestmentsFiltered(
+        investments.filter((investment) => {
+          return investment.confirmed;
+        }),
+      );
+    }
+  }, [investments, isInvestmentActivatedChecked]);
+
+  const handleOnClickDeactivatedCheckbox = useCallback(() => {
+    !isInvestmentDeactivatedChecked && setIsInvestmentActivatedChecked(false);
+    setIsInvestmentDeactivatedChecked(!isInvestmentDeactivatedChecked);
+    if (!isInvestmentDeactivatedChecked) {
+      setInvestmentsFiltered(
+        investments.filter((investment) => {
+          return !investment.confirmed;
+        }),
+      );
+    }
+  }, [investments, isInvestmentDeactivatedChecked]);
+
+  useEffect(() => {
+    setInvestmentsFiltered(() => {
+      const investmentsConfirmed = investments.filter((investment) => {
+        if (isInvestmentActivatedChecked) {
+          return investment.confirmed;
+        }
+        if (isInvestmentDeactivatedChecked) {
+          return !investment.confirmed;
+        }
+        return investment;
+      });
+      const usersByName = users.filter((user) => {
+        return user.name.includes(searchNameValue);
+      });
+
+      const investmentsByUser = investmentsConfirmed.filter((investment) => {
+        return usersByName.some((user) => user.id === investment.investor_id);
+      });
+
+      return investmentsByUser;
+    });
+  }, [
+    investments,
+    isInvestmentActivatedChecked,
+    isInvestmentDeactivatedChecked,
+    searchNameValue,
+    users,
+  ]);
 
   const getUsernameById = useCallback(
     (userId: string) => {
@@ -98,6 +155,7 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
         ...investments.filter((investment) => investment.id !== id),
         investmentFromResponse,
       ]);
+      setInvestmentsFiltered(investments);
     },
     [investments, setInvestments],
   );
@@ -121,19 +179,19 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
                 id="ativado"
                 size={25}
                 style={{ color: '#16bac5' }}
-                // onClick={handleOnClickActivatedCheckbox}
+                onClick={handleOnClickActivatedCheckbox}
               />
             ) : (
               <MdCheckBoxOutlineBlank
                 id="ativado"
                 size={25}
                 style={{ color: '#16bac5' }}
-                // onClick={handleOnClickActivatedCheckbox}
+                onClick={handleOnClickActivatedCheckbox}
               />
             )}
             <IsActivatedCheckBoxLabel
               htmlFor="ativado"
-              // onClick={handleOnClickActivatedCheckbox}
+              onClick={handleOnClickActivatedCheckbox}
             >
               Ativado
             </IsActivatedCheckBoxLabel>
@@ -143,26 +201,26 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
                 id="desativado"
                 size={25}
                 style={{ color: '#FF7700' }}
-                // onClick={handleOnClickDeactivatedCheckbox}
+                onClick={handleOnClickDeactivatedCheckbox}
               />
             ) : (
               <MdCheckBoxOutlineBlank
                 id="desativado"
                 size={25}
                 style={{ color: '#FF7700' }}
-                // onClick={handleOnClickDeactivatedCheckbox}
+                onClick={handleOnClickDeactivatedCheckbox}
               />
             )}
             <IsActivatedCheckBoxLabel
               htmlFor="desativado"
-              // onClick={handleOnClickDeactivatedCheckbox}
+              onClick={handleOnClickDeactivatedCheckbox}
             >
               Desativado
             </IsActivatedCheckBoxLabel>
           </IsActivatedCheckBox>
         </Filter>
         <InvestmentsContent>
-          {investments
+          {investmentsFiltered
             .sort((firstInvestment, secondInvestment) => {
               if (firstInvestment.created_at < secondInvestment.created_at) {
                 return -1;

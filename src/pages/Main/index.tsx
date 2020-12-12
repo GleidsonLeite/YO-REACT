@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../../components/Header';
 import { Container, Content, ImagePresentation, Presentation } from './styles';
 
-import testImage from '../../assets/img/app-product.png';
+import entrepreneur from '../../assets/img/entrepreneur.jpg';
 
 const Main: React.FC = () => {
   return (
@@ -11,10 +11,7 @@ const Main: React.FC = () => {
       <Container>
         <Content>
           <Presentation>
-            <h1>
-              <strong>Investindo </strong>
-              com alta performance
-            </h1>
+            <h1>Alta performance com risco calculado</h1>
             <p>
               Somos uma Fintech especializada na bolsa de valores. Nossa equipe
               possui experiência em negociações de cfds, forex, stocks e
@@ -22,7 +19,7 @@ const Main: React.FC = () => {
             </p>
           </Presentation>
           <ImagePresentation>
-            <img src={testImage} alt="" />
+            <img src={entrepreneur} alt="" />
           </ImagePresentation>
         </Content>
       </Container>

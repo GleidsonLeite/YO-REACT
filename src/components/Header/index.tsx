@@ -56,9 +56,14 @@ const Header: React.FC = () => {
           </NavItem>
 
           {!isUserLogged && (
-            <NavItem to="/signIn" isHidden={isClicked}>
-              Entrar
-            </NavItem>
+            <>
+              <NavItem to="/signIn" isHidden={isClicked}>
+                Entrar
+              </NavItem>
+              <NavItem to="/signUp" isHidden={isClicked}>
+                Cadastre-se
+              </NavItem>
+            </>
           )}
 
           {isUserLogged && (

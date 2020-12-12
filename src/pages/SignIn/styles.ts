@@ -63,6 +63,8 @@ export const FormSignIn = styled(Form)`
   height: 500px;
   background-color: #fff;
 
+  border-radius: 10px;
+
   > h1 {
     font-family: Montserrat;
     font-size: 40px;
