@@ -7,7 +7,6 @@ import { MdAttachMoney } from 'react-icons/md';
 import { useToast } from '../../../hooks/Toast';
 import { Container, Content, FormInvest } from './styles';
 import InputNumber from './InputNumber';
-import InputFile from './InputFile';
 import Button from '../../../components/Button';
 import api from '../../../services/api';
 import getValidationErrors from '../../../utils/getValidationErrors';
@@ -39,19 +38,11 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({
           value: Yup.number()
             .min(100, 'Insira um valor acima de $100.00')
             .required('O valor do investimento é obrigatório'),
-          depositSlip: Yup.mixed().required('Insira o comprovante de depósito'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
-
-        console.log(data.depositSlip);
-
-        const formData = new FormData();
-
-        formData.append('value', String(data.value));
-        formData.append('investment', data.depositSlip);
 
         const config = {
           headers: {
@@ -59,7 +50,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({
           },
         };
 
-        const response = await api.post('/investments/', formData, config);
+        const response = await api.post('/investments/', data, config);
 
         const investment = response.data as InvestmentData;
 
@@ -81,7 +72,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({
             type: 'error',
             title: 'Erro',
             description:
-              'Para realizar o investmento, é necessário um valor mínimo de $100,00 e um comprovante de depósito',
+              'Para realizar o investmento, é necessário um valor mínimo de $100,00',
           });
           return;
         }
@@ -97,7 +88,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({
         const { message } = error.response.data;
         addToast({
           type: 'error',
-          title: 'Erro no cadastro',
+          title: 'Houve um erro ao realizar um investimento.',
           description: message,
         });
       }
@@ -115,7 +106,6 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({
             icon={MdAttachMoney}
             placeholder="100.00"
           />
-          <InputFile name="depositSlip" type="file" />
 
           <Button type="submit">Investir</Button>
         </FormInvest>

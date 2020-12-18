@@ -9,6 +9,7 @@ import Dashboard from '../pages/Dashboard';
 import Admin from '../pages/Admin';
 import Profile from '../pages/Profile';
 import Unactivated from '../pages/Unactivated';
+import RecoverPassword from '../pages/RecoverPassword';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -24,6 +25,7 @@ const Routes: React.FC = () => (
       isPrivate
       isForUnactivated
     />
+    <Route path="/recoverPassword/:token" component={RecoverPassword} />
     <Route component={Main} />
   </Switch>
 );
