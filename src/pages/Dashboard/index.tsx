@@ -23,6 +23,7 @@ export interface InvestmentData {
   created_at: string;
   updated_at: string;
   deposit_slip: string;
+  bank_slip: string;
 }
 
 const Dashboard: React.FC = () => {

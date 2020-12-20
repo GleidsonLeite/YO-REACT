@@ -5,10 +5,13 @@ import {
   MdCheckCircle,
   MdError,
   MdFileDownload,
+  MdFileUpload,
   MdList,
   MdPowerSettingsNew,
+  MdReceipt,
 } from 'react-icons/md';
 import Card from '../../../components/Card';
+import UploadButton from '../../../components/UploadButton';
 import { UserData } from '../../../hooks/Auth';
 import api from '../../../services/api';
 import { InvestmentData } from '../../Dashboard';
@@ -117,22 +120,78 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
     [users],
   );
 
-  const handleOnDownloadClick = useCallback(
-    ({ id, deposit_slip }: InvestmentData) => {
+  const handleOnUploadBankSlipClick = useCallback(
+    async (event) => {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
           responseType: 'blob',
         },
       };
-      api.get(`/investments/download/${id}`, config).then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `${deposit_slip}`);
-        document.body.appendChild(link);
-        link.click();
-      });
+
+      const formData = new FormData();
+      formData.append('file', event.target.files[0]);
+      formData.append('investment_id', event.target.id);
+
+      const investmentResponse = (await api.patch(
+        'investments/setBankSlip',
+        formData,
+        config,
+      )) as InvestmentData;
+
+      setInvestments([
+        ...investments.filter(
+          (investment) => investment.id !== investmentResponse.id,
+        ),
+        investmentResponse,
+      ]);
+    },
+    [investments, setInvestments],
+  );
+
+  const handleOnDownloadDepositSlipClick = useCallback(
+    ({ id, deposit_slip }: InvestmentData) => {
+      api
+        .get(`/investments/download/DepositSlip/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+            responseType: 'blob',
+          },
+          responseType: 'arraybuffer',
+        })
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', `${deposit_slip}`);
+          document.body.appendChild(link);
+          link.click();
+        });
+    },
+    [],
+  );
+
+  const handleOnDownloadBankSlipClick = useCallback(
+    ({ id, bank_slip }: InvestmentData) => {
+      api
+        .get(`/investments/download/BankSlip/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+          },
+          responseType: 'arraybuffer',
+        })
+        .then((response) => {
+          console.log(response);
+          const url = window.URL.createObjectURL(
+            new Blob([response.data], { type: response.data.type }),
+          );
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', `${bank_slip}`);
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        });
     },
     [],
   );
@@ -258,12 +317,29 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
                         style={{ color: '#FF7700' }}
                         onClick={() => handleOnClickDepositState(investment)}
                       />
+                      <UploadButton
+                        id={investment.id}
+                        icon={MdFileUpload}
+                        handleOnFileChange={handleOnUploadBankSlipClick}
+                      />
+                      {!!investment.bank_slip && (
+                        <MdReceipt
+                          style={{ color: '#16bac5' }}
+                          onClick={
+                            () => handleOnDownloadBankSlipClick(investment)
+                            // eslint-disable-next-line react/jsx-curly-newline
+                          }
+                        />
+                      )}
                     </>
                   )}
-                  <MdFileDownload
-                    style={{ color: '#16bac5' }}
-                    onClick={() => handleOnDownloadClick(investment)}
-                  />
+                  {!!investment.deposit_slip && (
+                    <MdFileDownload
+                      style={{ color: '#16bac5' }}
+                      // eslint-disable-next-line prettier/prettier
+                      onClick={() => handleOnDownloadDepositSlipClick(investment)}
+                    />
+                  )}
                 </InvestmentsIcons>
               </Card>
             ))}

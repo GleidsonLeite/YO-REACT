@@ -65,6 +65,11 @@ export const FormSignIn = styled(Form)`
 
   border-radius: 10px;
 
+  a {
+    text-decoration: none;
+    color: #6730e3;
+  }
+
   > h1 {
     font-family: Montserrat;
     font-size: 40px;
@@ -74,6 +79,11 @@ export const FormSignIn = styled(Form)`
     color: #707070;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
+  }
+
+  span {
+    color: #6730e3;
+    cursor: pointer;
   }
 
   @media screen and (max-width: 768px) {

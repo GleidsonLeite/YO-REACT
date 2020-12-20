@@ -4,7 +4,7 @@ import { MdMailOutline, MdLockOutline } from 'react-icons/md';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import { Container, Content, FormSignIn, PresentationText } from './styles';
 
@@ -13,6 +13,7 @@ import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/Auth';
 import { useToast } from '../../hooks/Toast';
+import api from '../../services/api';
 
 interface SignInFormData {
   email: string;
@@ -87,6 +88,59 @@ const SignIn: React.FC = () => {
     [addToast, history, signIn],
   );
 
+  const handlePasswordResetTextClick = useCallback(async () => {
+    const data = formRef.current?.getData() as SignInFormData;
+    try {
+      formRef.current?.setErrors({});
+
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .required('E-mail obrigatório')
+          .email('Digite um e-mail válido'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      await api.post('/emails/passwordRecover', {
+        email: data.email,
+      });
+
+      addToast({
+        type: 'info',
+        title: `Nós acabamos de enviar um emai para: \n${data.email}\n Por favor, verifique sua caixa de entrada`,
+      });
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(error);
+        formRef.current?.setErrors(errors);
+
+        addToast({
+          type: 'error',
+          title: 'Erro',
+          description: 'Por favor, preencha os seus dados corretamente',
+        });
+        return;
+      }
+      if (!!error.isAxiosError && !error.response) {
+        addToast({
+          type: 'error',
+          title: 'Erro de comunicação',
+          description:
+            'Houve um problema ao tentar conectar com a API, por favor preencha os seus dados novamente',
+        });
+        return;
+      }
+      const { message } = error.response.data;
+      addToast({
+        type: 'error',
+        title: 'Erro',
+        description: message,
+      });
+    }
+  }, [addToast]);
+
   return (
     <>
       <Container>
@@ -109,6 +163,25 @@ const SignIn: React.FC = () => {
             />
 
             <Button type="submit">LogIn</Button>
+            <br />
+            <p>
+              Ainda não é cadastrado?
+              <Link to="/signUp"> Cadastre-se</Link>
+            </p>
+            <p>
+              {'Clique '}
+              <span
+                role="button"
+                onClick={() => handlePasswordResetTextClick()}
+                tabIndex={0}
+                onKeyDown={() => {
+                  console.log('');
+                }}
+              >
+                aqui
+              </span>
+              {' para redefinir sua senha'}
+            </p>
           </FormSignIn>
           <PresentationText>
             <h1>Olá Novamente!</h1>

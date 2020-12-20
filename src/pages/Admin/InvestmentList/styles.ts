@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   align-items: stretch;
-  margin-top: 100px;
+  margin-top: 10px;
 `;
 
 export const Content = styled.div`
@@ -11,9 +11,6 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  width: 100%;
-  min-width: 100vh;
 
   border: 10px solid #6730e3;
   border-radius: 0.4rem;
@@ -81,8 +78,7 @@ export const InvestmentsContent = styled.div`
 
   > div {
     margin: 10px;
-    width: 20rem;
-    max-width: 20rem;
+    min-width: 20rem;
   }
 `;
 
@@ -94,5 +90,6 @@ export const InvestmentsIcons = styled.div`
   > svg {
     width: 25px;
     height: 25px;
+    margin: 0 8px 0 8px;
   }
 `;

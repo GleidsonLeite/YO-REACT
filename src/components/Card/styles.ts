@@ -28,7 +28,12 @@ export const ImageLabel = styled.img`
 `;
 
 export const Content = styled.div`
-  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 2px;
 `;
 
 export const Header = styled.h1`
