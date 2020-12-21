@@ -70,6 +70,7 @@ const Dashboard: React.FC = () => {
                     created_at={investment.created_at}
                     updated_at={investment.updated_at}
                     confirmed={investment.confirmed}
+                    bank_slip={investment.bank_slip}
                   />
                 </Panel>
               );

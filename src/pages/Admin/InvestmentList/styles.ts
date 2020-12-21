@@ -92,4 +92,10 @@ export const InvestmentsIcons = styled.div`
     height: 25px;
     margin: 0 8px 0 8px;
   }
+
+  > div {
+    width: 25px;
+    height: 25px;
+    margin: 0 8px 0 8px;
+  }
 `;

@@ -59,7 +59,14 @@ export const ButtonsControl = styled.div`
   > svg {
     width: 25px;
     height: 25px;
+    margin: 0 8px 0 8px;
 
     cursor: pointer;
+  }
+
+  > div {
+    width: 25px;
+    height: 25px;
+    margin: 0 8px 0 8px;
   }
 `;

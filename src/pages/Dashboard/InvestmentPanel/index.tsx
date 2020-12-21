@@ -1,12 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import {
   MdAttachMoney,
-  MdCheckCircle,
+  MdCloudUpload,
   MdDelete,
   MdError,
   MdFileDownload,
+  MdFileUpload,
+  MdPowerSettingsNew,
+  MdReceipt,
+  MdVerifiedUser,
 } from 'react-icons/md';
 import { useSpring, animated } from 'react-spring';
+import UploadButton from '../../../components/UploadButton';
 import { useRole } from '../../../hooks/Role';
 import api from '../../../services/api';
 
@@ -20,6 +25,7 @@ interface InvestmentPanelProps {
   updated_at: string;
   confirmed: boolean;
   isContentHidden?: boolean;
+  bank_slip: string;
 }
 
 const InvestmentPanel: React.FC<InvestmentPanelProps> = ({
@@ -29,27 +35,32 @@ const InvestmentPanel: React.FC<InvestmentPanelProps> = ({
   created_at,
   updated_at,
   confirmed,
+  bank_slip,
   isContentHidden = true,
 }) => {
   const { role } = useRole();
 
   const [approved, setApproved] = useState(confirmed);
 
-  const handleOnDownloadClick = useCallback(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
-        responseType: 'blob',
-      },
-    };
-    api.get(`/investments/download/${id}`, config).then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${deposit_slip}`);
-      document.body.appendChild(link);
-      link.click();
-    });
+  const handleOnDownloadDepositSlipClick = useCallback(() => {
+    api
+      .get(`/investments/download/DepositSlip/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+        },
+        responseType: 'arraybuffer',
+      })
+      .then((response) => {
+        const url = window.URL.createObjectURL(
+          new Blob([response.data], { type: response.data.type }),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${deposit_slip}`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
   }, [deposit_slip, id]);
 
   const handleOnClickDepositState = useCallback(async () => {
@@ -66,6 +77,63 @@ const InvestmentPanel: React.FC<InvestmentPanelProps> = ({
 
     setApproved(response.data.confirmed);
   }, [approved, id]);
+
+  const handleOnDownloadBankSlipClick = useCallback(() => {
+    api
+      .get(`/investments/download/BankSlip/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+        },
+        responseType: 'arraybuffer',
+      })
+      .then((response) => {
+        const url = window.URL.createObjectURL(
+          new Blob([response.data], { type: response.data.type }),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${bank_slip}`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
+  }, [bank_slip, id]);
+
+  const handleOnUploadDepositSlipClick = useCallback(
+    async (event) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+          responseType: 'blob',
+        },
+      };
+
+      const formData = new FormData();
+      formData.append('file', event.target.files[0]);
+      formData.append('investment_id', id);
+
+      await api.patch('investments/setDepositSlip', formData, config);
+    },
+    [id],
+  );
+
+  const handleOnUploadBankSlipClick = useCallback(
+    async (event) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+          responseType: 'blob',
+        },
+      };
+
+      const formData = new FormData();
+      formData.append('file', event.target.files[0]);
+      formData.append('investment_id', id);
+
+      await api.patch('investments/setBankSlip', formData, config);
+    },
+    [id],
+  );
 
   const { number } = useSpring({
     number: Number(
@@ -104,21 +172,46 @@ const InvestmentPanel: React.FC<InvestmentPanelProps> = ({
 
           <ButtonsControl>
             {approved ? (
-              <MdCheckCircle style={{ color: '#16bac5' }} />
+              <MdVerifiedUser style={{ color: '#16bac5' }} />
             ) : (
               <MdError style={{ color: '#FF7700' }} />
             )}
-            <MdFileDownload
-              style={{ color: '#16bac5' }}
-              onClick={handleOnDownloadClick}
-            />
+
+            {role.permission_value === 32 && !approved && (
+              <UploadButton
+                id={id}
+                icon={MdCloudUpload}
+                handleOnFileChange={handleOnUploadBankSlipClick}
+              />
+            )}
+            {!!bank_slip && (
+              <MdReceipt
+                style={{ color: '#16bac5' }}
+                onClick={handleOnDownloadBankSlipClick}
+              />
+            )}
+
+            {!approved && !!bank_slip && (
+              <UploadButton
+                id={id}
+                icon={MdFileUpload}
+                handleOnFileChange={handleOnUploadDepositSlipClick}
+              />
+            )}
+            {!!deposit_slip && (
+              <MdFileDownload
+                style={{ color: '#16bac5' }}
+                onClick={handleOnDownloadDepositSlipClick}
+              />
+            )}
+            {!approved && <MdDelete style={{ color: '#FF7700' }} />}
+
             {role.permission_value === 32 && (
-              <MdCheckCircle
+              <MdPowerSettingsNew
                 onClick={handleOnClickDepositState}
                 style={{ color: `${approved ? '#0C8346' : '#FF7700'}` }}
               />
             )}
-            <MdDelete style={{ color: '#FF7700' }} />
           </ButtonsControl>
         </Info>
       </Content>

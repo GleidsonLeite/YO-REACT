@@ -15,15 +15,8 @@ import api from '../../services/api';
 import InvestmentPanel from '../Dashboard/InvestmentPanel';
 import SwitchButton from '../../components/Switch';
 import { usePopup } from '../../hooks/Popup';
-
-interface InvestmentData {
-  id: string;
-  deposit_slip: string;
-  value: string;
-  confirmed: boolean;
-  created_at: string;
-  updated_at: string;
-}
+import { InvestmentData } from '../Dashboard';
+import { RoleData, useRole } from '../../hooks/Role';
 
 interface RouteParams {
   id: string;
@@ -32,10 +25,13 @@ interface RouteParams {
 const Profile: React.FC = () => {
   const { id } = useParams<RouteParams>();
   const [user, setUser] = useState<UserData>({} as UserData);
+  const [userRole, setUserRole] = useState<RoleData>({} as RoleData);
   const [isUserActivated, setIsUserActivated] = useState(false);
   const [investments, setInvestments] = useState<InvestmentData[]>([]);
 
   const { showPopup } = usePopup();
+
+  const { role } = useRole();
 
   useEffect(() => {
     const config = {
@@ -58,6 +54,16 @@ const Profile: React.FC = () => {
       setInvestments(response.data);
     })();
   }, [user.id]);
+
+  useEffect(() => {
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem('@YO:token')}` },
+    };
+    (async function getUserRoleFromAPI() {
+      const response = await api.get(`/roles/${user.role_id}`, config);
+      setUserRole(response.data);
+    })();
+  }, [user.role_id]);
 
   const handleActivateUserSwitch = useCallback(() => {
     showPopup({
@@ -121,10 +127,12 @@ const Profile: React.FC = () => {
               ) : (
                 <MdError size={25} style={{ color: '#FF7700' }} />
               )}
-              <SwitchButton
-                isOn={isUserActivated}
-                onClick={handleActivateUserSwitch}
-              />
+              {userRole.permission_value !== 32 && (
+                <SwitchButton
+                  isOn={isUserActivated}
+                  onClick={handleActivateUserSwitch}
+                />
+              )}
               {user.identity_slip && (
                 <MdFileDownload
                   onClick={handleOnCLickDownloadUserIdentity}
@@ -145,6 +153,7 @@ const Profile: React.FC = () => {
                     created_at={investment.created_at}
                     updated_at={investment.updated_at}
                     confirmed={investment.confirmed}
+                    bank_slip={investment.bank_slip}
                   />
                 </Panel>
               );

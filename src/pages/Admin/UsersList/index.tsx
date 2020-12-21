@@ -5,6 +5,7 @@ import {
   MdCheckCircle,
   MdError,
   MdFilterList,
+  MdVerifiedUser,
 } from 'react-icons/md';
 import { useHistory } from 'react-router-dom';
 import Card from '../../../components/Card';
@@ -167,7 +168,7 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
                 key={user.id}
               >
                 {user.activated ? (
-                  <MdCheckCircle
+                  <MdVerifiedUser
                     size={25}
                     style={{ color: '#16bac5' }}
                     key={user.id}

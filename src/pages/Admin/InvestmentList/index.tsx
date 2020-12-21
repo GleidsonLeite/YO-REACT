@@ -3,6 +3,7 @@ import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
   MdCheckCircle,
+  MdCloudUpload,
   MdError,
   MdFileDownload,
   MdFileUpload,
@@ -104,6 +105,8 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
 
       return investmentsByUser;
     });
+    console.log('disparei');
+    console.log(investments);
   }, [
     investments,
     isInvestmentActivatedChecked,
@@ -133,17 +136,15 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
       formData.append('file', event.target.files[0]);
       formData.append('investment_id', event.target.id);
 
-      const investmentResponse = (await api.patch(
+      const { data } = await api.patch(
         'investments/setBankSlip',
         formData,
         config,
-      )) as InvestmentData;
+      );
 
       setInvestments([
-        ...investments.filter(
-          (investment) => investment.id !== investmentResponse.id,
-        ),
-        investmentResponse,
+        data,
+        ...investments.filter((investment) => investment.id !== data.id),
       ]);
     },
     [investments, setInvestments],
@@ -181,7 +182,6 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
           responseType: 'arraybuffer',
         })
         .then((response) => {
-          console.log(response);
           const url = window.URL.createObjectURL(
             new Blob([response.data], { type: response.data.type }),
           );
@@ -214,7 +214,6 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
         ...investments.filter((investment) => investment.id !== id),
         investmentFromResponse,
       ]);
-      setInvestmentsFiltered(investments);
     },
     [investments, setInvestments],
   );
@@ -319,7 +318,7 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
                       />
                       <UploadButton
                         id={investment.id}
-                        icon={MdFileUpload}
+                        icon={MdCloudUpload}
                         handleOnFileChange={handleOnUploadBankSlipClick}
                       />
                       {!!investment.bank_slip && (
