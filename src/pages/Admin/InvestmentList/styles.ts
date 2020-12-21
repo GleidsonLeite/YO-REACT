@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   align-items: stretch;
   margin-top: 10px;
+  width: 100vw;
 `;
 
 export const Content = styled.div`
@@ -11,6 +12,8 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  width: 100%;
 
   border: 10px solid #6730e3;
   border-radius: 0.4rem;

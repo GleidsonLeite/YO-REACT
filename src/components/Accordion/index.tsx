@@ -2,10 +2,14 @@ import React from 'react';
 
 import { Container, Title, Content } from './styles';
 
-const Accordion: React.FC = ({ children }) => {
+interface AccordionProps {
+  title: string;
+}
+
+const Accordion: React.FC<AccordionProps> = ({ title, children }) => {
   return (
     <Container>
-      <Title>Investimentos</Title>
+      <Title>{title}</Title>
       {/* <Panel />
       <Panel />
       <Panel />

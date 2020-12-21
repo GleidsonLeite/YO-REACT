@@ -7,10 +7,14 @@ import Accordion from '../../components/Accordion';
 import { useAuth } from '../../hooks/Auth';
 import Panel from '../../components/Accordion/Panel';
 
-import { Container, Content } from './styles';
+import { Container, Content, Accordions } from './styles';
 
 import InvestmentPanel from './InvestmentPanel';
 import InvestmentForm from './InvestmentForm';
+
+import WithdrawPanel from './WithdrawPanel';
+import WithdrawForm from './WithdrawForm';
+
 import api from '../../services/api';
 
 import profileImage from '../../assets/img/team-1.jpg';
@@ -26,18 +30,37 @@ export interface InvestmentData {
   bank_slip: string;
 }
 
+export interface WithdrawData {
+  id: string;
+  investor_id: string;
+  value: string;
+  confirmed: boolean;
+  confirming_user_id: string;
+  data_confirmed: string;
+  created_at: string;
+  updated_at: string;
+}
+
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
   const [investments, setInvestments] = useState<InvestmentData[]>([]);
 
+  const [withdraws, setWithdraws] = useState<WithdrawData[]>([]);
+
   useEffect(() => {
     const config = {
       headers: { Authorization: `Bearer ${localStorage.getItem('@YO:token')}` },
     };
-    (async function getUsersFromApi() {
+
+    (async function getUserInvestmentsFromApi() {
       const response = await api.get(`/investments/${user.id}`, config);
       setInvestments(response.data);
+    })();
+
+    (async function getUserWithDrawsFromApi() {
+      const response = await api.get(`/withdraws`, config);
+      setWithdraws(response.data);
     })();
   }, [user.id]);
 
@@ -59,29 +82,47 @@ const Dashboard: React.FC = () => {
               <MdError size={25} style={{ color: '#FF7700' }} />
             )}
           </Card>
-          <Accordion>
-            {investments.map((investment) => {
-              return (
-                <Panel title={investment.value} key={investment.id}>
-                  <InvestmentPanel
-                    deposit_slip={investment.deposit_slip}
-                    id={investment.id}
-                    value={investment.value}
-                    created_at={investment.created_at}
-                    updated_at={investment.updated_at}
-                    confirmed={investment.confirmed}
-                    bank_slip={investment.bank_slip}
-                  />
-                </Panel>
-              );
-            })}
-            <Panel title="Invista">
-              <InvestmentForm
-                investments={investments}
-                setInvestments={setInvestments}
-              />
-            </Panel>
-          </Accordion>
+          <Accordions>
+            <Accordion title="Investmentos">
+              {investments.map((investment) => {
+                return (
+                  <Panel title={investment.value} key={investment.id}>
+                    <InvestmentPanel
+                      deposit_slip={investment.deposit_slip}
+                      id={investment.id}
+                      value={investment.value}
+                      created_at={investment.created_at}
+                      updated_at={investment.updated_at}
+                      confirmed={investment.confirmed}
+                      bank_slip={investment.bank_slip}
+                    />
+                  </Panel>
+                );
+              })}
+              <Panel title="Invista">
+                <InvestmentForm
+                  investments={investments}
+                  setInvestments={setInvestments}
+                />
+              </Panel>
+            </Accordion>
+
+            <Accordion title="Saques">
+              {withdraws.map((withdraw) => {
+                return (
+                  <Panel title={withdraw.value} key={withdraw.id}>
+                    <WithdrawPanel {...withdraw} />
+                  </Panel>
+                );
+              })}
+              <Panel title="Sacar">
+                <WithdrawForm
+                  withdraws={withdraws}
+                  setWithdraws={setWithdraws}
+                />
+              </Panel>
+            </Accordion>
+          </Accordions>
         </Content>
       </Container>
     </>

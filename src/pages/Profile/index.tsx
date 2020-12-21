@@ -142,7 +142,7 @@ const Profile: React.FC = () => {
               )}
             </UserStatusControlDiv>
           </Card>
-          <Accordion>
+          <Accordion title="Investmentos">
             {investments.map((investment) => {
               return (
                 <Panel title={investment.value}>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   align-items: stretch;
+  width: 100vw;
 `;
 
 export const Content = styled.div`
@@ -12,8 +13,8 @@ export const Content = styled.div`
   flex-direction: column;
 
   width: 100%;
-  min-width: 100vh;
-
+  margin: 0;
+  padding: 0;
   border: 10px solid #6730e3;
   border-radius: 0.4rem;
   overflow: hidden;
