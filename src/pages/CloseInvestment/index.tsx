@@ -6,13 +6,9 @@ import { Container, Content } from './styles';
 import CloseInvestmentForm from './CloseInvestmentForm';
 
 const CloseInvestment: React.FC = () => {
-  const handleCloseInvestmentButtonOnClick = useCallback(() => {
-    console.log('Hello World');
-  }, []);
   return (
     <>
       <Header />
-
       <Container>
         <Content>
           <Overview />

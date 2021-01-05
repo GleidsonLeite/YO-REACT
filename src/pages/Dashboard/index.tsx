@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
-import { MdCheckCircle, MdError } from 'react-icons/md';
+import { MdAttachMoney, MdCheckCircle, MdError, MdPoll } from 'react-icons/md';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import Accordion from '../../components/Accordion';
 import { useAuth } from '../../hooks/Auth';
 import Panel from '../../components/Accordion/Panel';
 
-import { Container, Content, Accordions, UserInformationDiv } from './styles';
+import {
+  Container,
+  Content,
+  Accordions,
+  UserInformationDiv,
+  Cards,
+} from './styles';
 
 import InvestmentPanel from './InvestmentPanel';
 import InvestmentForm from './InvestmentForm';
@@ -18,6 +24,7 @@ import WithdrawForm from './WithdrawForm';
 import api from '../../services/api';
 
 import profileImage from '../../assets/img/team-1.jpg';
+import MiniCard from '../../components/MiniCard';
 
 export interface InvestmentData {
   id: string;
@@ -44,6 +51,8 @@ export interface WithdrawData {
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
+  const [investedMoney, setInvestedMoney] = useState(0);
+
   const [investments, setInvestments] = useState<InvestmentData[]>([]);
 
   const [withdraws, setWithdraws] = useState<WithdrawData[]>([]);
@@ -64,10 +73,25 @@ const Dashboard: React.FC = () => {
     })();
   }, [user.id]);
 
+  useEffect(() => {
+    // eslint-disable-next-line prefer-const
+    const confirmedInvestments = investments.filter(
+      (investment) => investment.confirmed,
+    );
+
+    let totalConfirmedInvestedMoney = 0;
+
+    confirmedInvestments.forEach((investment) => {
+      totalConfirmedInvestedMoney += Number(
+        String(investment.value).substring(1),
+      );
+    });
+    setInvestedMoney(totalConfirmedInvestedMoney);
+  }, [investments]);
+
   return (
     <>
       <Header />
-
       <Container>
         <Content>
           <Card
@@ -89,6 +113,20 @@ const Dashboard: React.FC = () => {
               <MdError size={25} style={{ color: '#FF7700' }} />
             )}
           </Card>
+
+          <Cards>
+            <MiniCard
+              Title="Wallet"
+              Value={`${user.amount}`}
+              Icon={<MdAttachMoney />}
+            />
+            <MiniCard
+              Title="Investido"
+              Value={`$ ${investedMoney.toFixed(2)}`}
+              Icon={<MdPoll />}
+            />
+          </Cards>
+
           <Accordions>
             <Accordion title="Investimentos">
               {investments.map((investment) => {
