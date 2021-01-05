@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
-  MdCheckCircle,
   MdError,
   MdFilterList,
   MdVerifiedUser,

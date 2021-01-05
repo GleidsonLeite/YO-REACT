@@ -7,7 +7,7 @@ import Accordion from '../../components/Accordion';
 import { useAuth } from '../../hooks/Auth';
 import Panel from '../../components/Accordion/Panel';
 
-import { Container, Content, Accordions } from './styles';
+import { Container, Content, Accordions, UserInformationDiv } from './styles';
 
 import InvestmentPanel from './InvestmentPanel';
 import InvestmentForm from './InvestmentForm';
@@ -66,9 +66,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Container>
-        <Header />
+      <Header />
 
+      <Container>
         <Content>
           <Card
             imageURI={profileImage}
@@ -76,6 +76,13 @@ const Dashboard: React.FC = () => {
             description={user.email}
             amount={user.amount}
           >
+            {user.resume && (
+              <UserInformationDiv>
+                <p>{user.resume}</p>
+                <p>{user.phone}</p>
+                <p>{user.address}</p>
+              </UserInformationDiv>
+            )}
             {user.activated ? (
               <MdCheckCircle size={25} style={{ color: '#16bac5' }} />
             ) : (
@@ -83,7 +90,7 @@ const Dashboard: React.FC = () => {
             )}
           </Card>
           <Accordions>
-            <Accordion title="Investmentos">
+            <Accordion title="Investimentos">
               {investments.map((investment) => {
                 return (
                   <Panel title={investment.value} key={investment.id}>
@@ -115,7 +122,7 @@ const Dashboard: React.FC = () => {
                   </Panel>
                 );
               })}
-              <Panel title="Sacar">
+              <Panel title="Saque">
                 <WithdrawForm
                   withdraws={withdraws}
                   setWithdraws={setWithdraws}

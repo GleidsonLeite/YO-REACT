@@ -6,7 +6,6 @@ import {
   MdCloudUpload,
   MdError,
   MdFileDownload,
-  MdFileUpload,
   MdList,
   MdPowerSettingsNew,
   MdReceipt,
@@ -105,8 +104,6 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
 
       return investmentsByUser;
     });
-    console.log('disparei');
-    console.log(investments);
   }, [
     investments,
     isInvestmentActivatedChecked,
@@ -222,7 +219,7 @@ const InvestmentList: React.FC<InvestmentListProps> = ({
     <Container>
       <Content>
         <Header>
-          <h1>Lista de Investimentos</h1>
+          <h2>Lista de Investimentos</h2>
           <MdList size={25} />
         </Header>
         <Filter>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Logo, Nav, NavLinks } from './styles';
+import { Logo, Nav, NavLinks, Container } from './styles';
 
 import NavItem from './NavItem';
 import Burguer from './Burguer';
@@ -38,7 +38,7 @@ const Header: React.FC = () => {
   }, [signOut]);
 
   return (
-    <header>
+    <Container>
       <Nav isOnTop={isPageOnTop}>
         <Logo>
           <img src={LogoImage} alt="YO-LOGO" />
@@ -47,12 +47,6 @@ const Header: React.FC = () => {
         <NavLinks isClicked={isClicked}>
           <NavItem to="/" isHidden={isClicked}>
             Home
-          </NavItem>
-          <NavItem to="/testes" isHidden={isClicked}>
-            About
-          </NavItem>
-          <NavItem to="/testes" isHidden={isClicked}>
-            Work
           </NavItem>
 
           {!isUserLogged && (
@@ -69,9 +63,14 @@ const Header: React.FC = () => {
           {isUserLogged && (
             <>
               {role.permission_value === 32 && (
-                <NavItem to="/admin" isHidden={isClicked}>
-                  Admin
-                </NavItem>
+                <>
+                  <NavItem to="/admin" isHidden={isClicked}>
+                    Admin
+                  </NavItem>
+                  <NavItem to="/closeInvestment" isHidden={isClicked}>
+                    Ciclo
+                  </NavItem>
+                </>
               )}
 
               <NavItem to="/dashboard" isHidden={isClicked}>
@@ -87,7 +86,7 @@ const Header: React.FC = () => {
 
         <Burguer isClicked={isClicked} onClick={handleBurguerOnClick} />
       </Nav>
-    </header>
+    </Container>
   );
 };
 export default Header;

@@ -5,6 +5,9 @@ import api from '../services/api';
 export interface UserData {
   name: string;
   email: string;
+  phone: string;
+  address: string;
+  resume: string;
   activated: boolean;
   amount: string;
   role_id: string;

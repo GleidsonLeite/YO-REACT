@@ -19,7 +19,7 @@ export const Container = styled.div`
 
   margin: 2px;
 
-  transition: height 200ms ease-in;
+  transition: all 200ms ease-in;
 `;
 
 export const Title = styled.div`
@@ -47,6 +47,8 @@ export const Content = styled.div<ContentProps>`
   align-items: center;
   justify-content: center;
   width: 100%;
+
+  transition: all 0.2s ease-in;
 
   ${(props) =>
     props.isHidden &&

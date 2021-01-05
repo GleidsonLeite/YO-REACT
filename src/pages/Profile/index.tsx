@@ -8,7 +8,12 @@ import Accordion from '../../components/Accordion';
 import { UserData } from '../../hooks/Auth';
 import Panel from '../../components/Accordion/Panel';
 
-import { Container, Content, UserStatusControlDiv } from './styles';
+import {
+  Container,
+  Content,
+  UserStatusControlDiv,
+  UserInformationDiv,
+} from './styles';
 
 import profileImage from '../../assets/img/team-1.jpg';
 import api from '../../services/api';
@@ -30,8 +35,6 @@ const Profile: React.FC = () => {
   const [investments, setInvestments] = useState<InvestmentData[]>([]);
 
   const { showPopup } = usePopup();
-
-  const { role } = useRole();
 
   useEffect(() => {
     const config = {
@@ -111,16 +114,23 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <Container>
-        <Header />
+      <Header />
 
+      <Container>
         <Content>
           <Card
             imageURI={profileImage}
             title={user.name}
-            description={user.email}
+            description={`${user.email}`}
             amount={user.amount}
           >
+            {user.resume && (
+              <UserInformationDiv>
+                <p>{user.resume}</p>
+                <p>{user.phone}</p>
+                <p>{user.address}</p>
+              </UserInformationDiv>
+            )}
             <UserStatusControlDiv>
               {user.activated ? (
                 <MdCheckCircle size={25} style={{ color: '#16bac5' }} />

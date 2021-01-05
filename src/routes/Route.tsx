@@ -22,14 +22,10 @@ const Route: React.FC<RouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { role, getRoleFromApi, setRole } = useRole();
   const [isUserLogged, setIsUserLogged] = useState(typeof user !== 'undefined');
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isRoleLoading, setIsRoleLoading] = useState(true);
-
-  const [isTokenExpired, setIsTokenExpired] = useState(false);
-
   useEffect(() => {
     setIsUserLogged(typeof user !== 'undefined');
     if (typeof user !== 'undefined') {
@@ -41,10 +37,23 @@ const Route: React.FC<RouteProps> = ({
       setRole({} as RoleData);
       setIsAdmin(false);
     }
+  }, [
+    getRoleFromApi,
+    isUserLogged,
+    role.permission_value,
+    setRole,
+    signOut,
+    user,
+  ]);
 
+  useEffect(() => {
     const token = localStorage.getItem('@YO:token');
-    !!token && setIsTokenExpired(verifyExpiredToken(token));
-  }, [getRoleFromApi, isUserLogged, role.permission_value, setRole, user]);
+    if (token) {
+      const isTokenExpired = verifyExpiredToken(token);
+      isTokenExpired && signOut();
+      setIsUserLogged(false);
+    }
+  }, [signOut]);
 
   return (
     <ReactDOMRoute

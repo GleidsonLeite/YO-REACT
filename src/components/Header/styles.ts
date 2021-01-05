@@ -8,12 +8,14 @@ interface NavProps {
   isOnTop: boolean;
 }
 
-export const Nav = styled.nav<NavProps>`
-  position: fixed;
-  top: 0px;
-  z-index: 1;
+export const Container = styled.div`
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
   width: 100%;
+`;
 
+export const Nav = styled.nav<NavProps>`
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -55,17 +57,18 @@ export const Logo = styled.div`
 export const NavLinks = styled.ul<BurguerProps>`
   display: flex;
   justify-content: space-around;
-  width: 40%;
-
-  @media screen and (max-width: 1024px) {
-    width: 60%;
-  }
+  width: 50%;
 
   @media screen and (max-width: 768px) {
-    position: absolute;
+    position: fixed;
     right: 0px;
     height: 92vh;
     top: 8vh;
+
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
     background-image: linear-gradient(
       to right,
       rgba(32, 40, 119, 0.95),
@@ -75,14 +78,9 @@ export const NavLinks = styled.ul<BurguerProps>`
       rgba(150, 41, 230, 0.95)
     ) !important;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-
     transform: translateX(100%);
 
-    transition: transform 0.5s ease-in;
+    transition: transform 0.4s ease;
 
     ${(props) =>
       props.isClicked &&

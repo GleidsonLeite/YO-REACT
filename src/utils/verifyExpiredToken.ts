@@ -6,6 +6,6 @@ export const verifyExpiredToken = (token: string): boolean => {
     const expirationDateTimeInSeconds = exp * 1000;
     return Date.now() >= expirationDateTimeInSeconds;
   } catch {
-    return true;
+    return false;
   }
 };

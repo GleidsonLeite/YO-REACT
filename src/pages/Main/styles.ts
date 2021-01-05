@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import heroBackground from '../../assets/img/HeroBackground.jpg';
 
 export const Container = styled.div`
-  height: 100vh;
   display: flex;
   align-items: stretch;
 
@@ -19,6 +18,10 @@ export const Container = styled.div`
   background-repeat: no-repeat;
   background-position: 'center';
   background-size: cover;
+
+  @media screen and (min-width: 768px) {
+    height: 100vh;
+  }
 `;
 
 export const Content = styled.div`
@@ -28,7 +31,7 @@ export const Content = styled.div`
   align-items: center;
 
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `;
 
 export const Presentation = styled.div`

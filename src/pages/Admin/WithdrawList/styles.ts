@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   align-items: stretch;
+  margin-top: 10px;
   width: 100vw;
 `;
 
@@ -13,8 +14,7 @@ export const Content = styled.div`
   flex-direction: column;
 
   width: 100%;
-  margin: 0;
-  padding: 0;
+
   border: 10px solid #6730e3;
   border-radius: 0.4rem;
   overflow: hidden;
@@ -71,17 +71,34 @@ export const IsActivatedCheckBoxLabel = styled.label`
   margin-right: 5px;
 `;
 
-export const UsersContent = styled.div`
+export const WithdrawContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
+  flex-direction: colum;
   flex-wrap: wrap;
   padding: 10px;
 
   > div {
     margin: 10px;
-    width: 20rem;
-    max-width: 20rem;
+    min-width: 20rem;
+  }
+`;
+
+export const WithdrawIcons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > svg {
+    width: 25px;
+    height: 25px;
+    margin: 0 8px 0 8px;
+  }
+
+  > div {
+    width: 25px;
+    height: 25px;
+    margin: 0 8px 0 8px;
   }
 `;

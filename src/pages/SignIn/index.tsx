@@ -143,8 +143,9 @@ const SignIn: React.FC = () => {
 
   return (
     <>
+      <Header />
+
       <Container>
-        <Header />
         <Content>
           <FormSignIn ref={formRef} onSubmit={handleSubmit}>
             <h1>Entrar</h1>
