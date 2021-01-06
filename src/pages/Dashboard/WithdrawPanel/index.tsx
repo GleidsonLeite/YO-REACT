@@ -6,7 +6,6 @@ import {
   MdVerifiedUser,
 } from 'react-icons/md';
 import { useSpring, animated } from 'react-spring';
-import { useRole } from '../../../hooks/Role';
 
 import {
   Container,
@@ -29,16 +28,17 @@ interface WithdrawPanelProps {
 }
 
 const WithdrawPanel: React.FC<WithdrawPanelProps> = ({
-  id,
   confirmed,
   value,
   isContentHidden,
   created_at,
   updated_at,
 }) => {
-  const { role } = useRole();
-
   const [approved, setApproved] = useState(confirmed);
+
+  useEffect(() => {
+    setApproved(confirmed);
+  }, [confirmed]);
 
   const { number } = useSpring({
     number: Number(

@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useCallback, useState } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import { Container, Content, FeeInput } from './styles';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement>;

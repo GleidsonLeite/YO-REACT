@@ -27,7 +27,6 @@ import InputFile from '../../components/InputFile';
 import Button from '../../components/Button';
 import api from '../../services/api';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { Description } from '../../components/Popup/styles';
 
 interface DataForm {
   name: string;
@@ -122,7 +121,7 @@ const Unactivated: React.FC = () => {
         });
       }
     },
-    [],
+    [addToast],
   );
 
   return (

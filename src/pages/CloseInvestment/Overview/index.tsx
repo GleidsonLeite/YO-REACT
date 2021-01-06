@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { MdPoll, MdSentimentSatisfied } from 'react-icons/md';
-import { number } from 'yup';
 import api from '../../../services/api';
-import { Icon } from '../../Unactivated/styles';
 import MiniCard from '../../../components/MiniCard';
 
 import { Container, Content, Cards } from './styles';

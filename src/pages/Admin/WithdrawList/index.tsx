@@ -31,11 +31,7 @@ interface WithdrawListProps {
   setWithdraws(withdraws: WithdrawData[]): void;
 }
 
-const WithdrawList: React.FC<WithdrawListProps> = ({
-  users,
-  withdraws,
-  setWithdraws,
-}) => {
+const WithdrawList: React.FC<WithdrawListProps> = ({ users, withdraws }) => {
   const [searchNameValue, setSearchNameValue] = useState('');
 
   const [withdrawsFiltered, setWithdrawsFiltered] = useState<WithdrawData[]>(
@@ -208,6 +204,7 @@ const WithdrawList: React.FC<WithdrawListProps> = ({
                       <UploadButton
                         id={withdraw.id}
                         icon={MdCloudUpload}
+                        // eslint-disable-next-line no-console
                         handleOnFileChange={() => console.log('')}
                       />
                     </>

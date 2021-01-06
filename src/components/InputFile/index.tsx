@@ -9,8 +9,6 @@ import React, {
 
 import { useField } from '@unform/core';
 
-import { IconBaseProps } from 'react-icons';
-
 import { Container, Content } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -18,12 +16,12 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputFile: React.FC<InputProps> = ({ name, ...rest }) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
+  const [, setIsFocused] = useState(false);
+  const [, setIsFilled] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const { fieldName, defaultValue, error, registerField } = useField(name);
-  const [file, setFile] = useState(defaultValue);
+  const { fieldName, defaultValue, registerField } = useField(name);
+  const [, setFile] = useState(defaultValue);
   const handleOnFocus = useCallback(() => {
     setIsFocused(true);
   }, []);

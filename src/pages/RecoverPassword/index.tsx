@@ -55,14 +55,13 @@ const RecoverPassword: React.FC = () => {
           abortEarly: false,
         });
 
-        const response = await api.patch(
+        await api.patch(
           `users/recoverPassword/${token}`,
           {
             newPassword: data.password,
           },
           {},
         );
-        console.log(response);
         history.push('/signIn');
         addToast({
           type: 'info',

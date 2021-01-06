@@ -21,7 +21,7 @@ import InvestmentPanel from '../Dashboard/InvestmentPanel';
 import SwitchButton from '../../components/Switch';
 import { usePopup } from '../../hooks/Popup';
 import { InvestmentData } from '../Dashboard';
-import { RoleData, useRole } from '../../hooks/Role';
+import { RoleData } from '../../hooks/Role';
 
 interface RouteParams {
   id: string;

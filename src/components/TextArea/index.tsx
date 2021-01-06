@@ -1,5 +1,4 @@
 import React, {
-  InputHTMLAttributes,
   TextareaHTMLAttributes,
   useCallback,
   useEffect,

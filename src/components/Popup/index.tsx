@@ -1,11 +1,5 @@
 import React, { useCallback } from 'react';
-import {
-  MdCheck,
-  MdCheckCircle,
-  MdClose,
-  MdError,
-  MdInfo,
-} from 'react-icons/md';
+import { MdCheckCircle, MdClose, MdError, MdInfo } from 'react-icons/md';
 
 import { PopupMessage, usePopup } from '../../hooks/Popup';
 

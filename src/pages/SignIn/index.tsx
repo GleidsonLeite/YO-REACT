@@ -3,7 +3,6 @@ import React, { useCallback, useRef } from 'react';
 import { MdMailOutline, MdLockOutline } from 'react-icons/md';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
 import { Link, useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import { Container, Content, FormSignIn, PresentationText } from './styles';
@@ -176,6 +175,7 @@ const SignIn: React.FC = () => {
                 onClick={() => handlePasswordResetTextClick()}
                 tabIndex={0}
                 onKeyDown={() => {
+                  // eslint-disable-next-line no-console
                   console.log('');
                 }}
               >

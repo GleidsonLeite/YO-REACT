@@ -1,7 +1,6 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Header from '../../components/Header';
 import Overview from './Overview';
-import Button from './CloseInvestmentButton';
 import { Container, Content } from './styles';
 import CloseInvestmentForm from './CloseInvestmentForm';
 

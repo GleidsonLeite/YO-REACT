@@ -53,6 +53,7 @@ const CheckBox: React.FC<InputProps> = ({ children, name, ...rest }) => {
           id="checkTerms"
           checked={isChecked}
           onChange={handleOnChangeInput}
+          {...rest}
         />
         {children}
       </div>

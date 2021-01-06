@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { lighten } from 'polished';
-
 export const Container = styled.div`
   display: flex;
   justify-content: stretch;

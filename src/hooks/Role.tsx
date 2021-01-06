@@ -26,7 +26,6 @@ export const RoleProvider: React.FC = ({ children }) => {
       },
     };
     const response = await api.get(`roles/${user.role_id}`, config);
-    console.log(response);
     const { id, name, permission_value } = response.data;
     setRole({ id, name, permission_value });
   }, []);
