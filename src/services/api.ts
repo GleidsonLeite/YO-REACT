@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://159.89.159.20:3333',
+  baseURL: 'https://yo.setatornearia.com.br:443',
 });
 
 export default api;
