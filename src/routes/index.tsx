@@ -11,6 +11,7 @@ import Profile from '../pages/Profile';
 import Unactivated from '../pages/Unactivated';
 import RecoverPassword from '../pages/RecoverPassword';
 import CloseInvestment from '../pages/CloseInvestment';
+import Dashboard2 from '../pages/Dashboard2';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -18,6 +19,7 @@ const Routes: React.FC = () => (
     <Route path="/signUp" component={SignUp} />
     <Route path="/signIn" component={SignIn} />
     <Route path="/dashboard" component={Dashboard} isPrivate />
+    <Route path="/dashboard2" component={Dashboard2} />
     <Route path="/admin" component={Admin} isPrivate isForAdmin />
     <Route
       path="/closeInvestment"

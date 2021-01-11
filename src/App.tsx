@@ -6,13 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import Routes from './routes';
 import GlobalStyle from './styles/global';
 
-const App: React.FC = () => (
-  <Router>
-    <AppProvider>
-      <Routes />
-    </AppProvider>
-    <GlobalStyle />
-  </Router>
-);
+const App: React.FC = () => {
+  return (
+    <Router>
+      <AppProvider>
+        <Routes />
+      </AppProvider>
+      <GlobalStyle />
+    </Router>
+  );
+};
 
 export default App;
