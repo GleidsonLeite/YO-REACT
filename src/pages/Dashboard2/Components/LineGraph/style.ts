@@ -1,29 +1,42 @@
 import styled from 'styled-components';
-import { Line } from 'react-chartjs-2';
 
 export const Container = styled.div`
-  display: flex;
-  justify-content: stretch;
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  justify-items: center;
 `;
 
 export const Content = styled.div`
-  position: relative;
-  display: flex;
-  width: 30rem;
-  height: 20rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  display: flex;
-  justify-items: center;
+  width: 100%;
+
+  display: grid;
+  align-content: center;
+
   align-items: center;
-  margin-bottom: 30px;
+
+  overflow: hidden;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+
+  background-color: var(--purple);
+`;
+
+export const ChartContainer = styled.div`
+  width: 70%;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+
+  justify-content: stretch;
+  justify-self: center;
+
+  overflow: hidden;
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 8rem;
   }
-`;
-
-export const LineCanvas = styled(Line)`
-  flex: 1;
 `;

@@ -1,14 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { MdPerson, MdExitToApp } from 'react-icons/md';
+import { MdExitToApp, MdHome, MdDashboard, MdPerson } from 'react-icons/md';
+import { GiPayMoney, GiReceiveMoney } from 'react-icons/gi';
+import { BiSupport } from 'react-icons/bi';
 import { uuid } from 'uuidv4';
-import Burguer from './Burguer';
 import NavList from './NavList';
 import NavItem, { NavItemProps } from './NavList/NavItem';
 
 import { Container, Content, ProfilePhoto, Nav, ReturnToHome } from './style';
 
 const SideBar: React.FC = () => {
-  const [isContentHidden, setIsContentHidden] = useState(false);
+  const [isContentHidden, setIsContentHidden] = useState(true);
 
   const handleBurguerOnClick = useCallback(() => {
     setIsContentHidden(!isContentHidden);
@@ -16,34 +17,34 @@ const SideBar: React.FC = () => {
 
   const [navItems, setNavItems] = useState<NavItemProps[]>([
     {
-      Title: 'Investimentos',
       isActive: true,
       id: uuid(),
       path: '/dashboard2/main',
+      Icon: <MdHome />,
     },
     {
-      Title: 'Saques',
       isActive: false,
       id: uuid(),
       path: '/dashboard2/main',
+      Icon: <GiReceiveMoney />,
     },
     {
-      Title: 'Depósitos',
       isActive: false,
       id: uuid(),
       path: '/dashboard2/main',
+      Icon: <GiPayMoney />,
     },
     {
-      Title: 'Perfil',
       isActive: false,
       id: uuid(),
       path: '/dashboard2/main',
+      Icon: <MdPerson />,
     },
     {
-      Title: 'Suporte',
       isActive: false,
       id: uuid(),
       path: '/dashboard2/main',
+      Icon: <BiSupport />,
     },
   ]);
 
@@ -59,11 +60,10 @@ const SideBar: React.FC = () => {
   );
 
   return (
-    <Container isHidden={isContentHidden}>
-      <Burguer onClick={handleBurguerOnClick} isActive={!isContentHidden} />
+    <Container>
       <Content>
         <ProfilePhoto>
-          <MdPerson />
+          <MdDashboard />
         </ProfilePhoto>
         <Nav>
           <NavList>

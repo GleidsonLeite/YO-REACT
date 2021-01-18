@@ -6,21 +6,22 @@ export const Container = styled.button`
   border-radius: 4px;
   border: 0;
   padding: 0 16px;
-  width: 80%;
+  width: 100%;
   margin-top: 20px;
   color: #fff;
   font-weight: 500;
 
   font-size: 18.75px;
 
-  transition: all 0.2s ease-in;
+  transition: all 0.5s ease-out;
 
   cursor: pointer;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
   &:hover {
     background: #fff;
     color: #6730e3;
     border: 2px #6730e3 solid;
-    box-shadow: 0 20px 30px 0 rgba(67, 37, 204, 0.2);
   }
 `;

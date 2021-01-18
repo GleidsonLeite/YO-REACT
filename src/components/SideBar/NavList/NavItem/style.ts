@@ -1,4 +1,3 @@
-import { rgba } from 'polished';
 import styled, { css } from 'styled-components';
 
 interface ItemProps {
@@ -7,31 +6,31 @@ interface ItemProps {
 
 export const Item = styled.li<ItemProps>`
   width: 100%;
-  position: relative;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   cursor: pointer;
 
-  & > a {
-    line-height: 5em;
-    text-transform: uppercase;
-    text-decoration: none;
-    letter-spacing: 0.4rem;
+  & svg {
+    width: 2rem;
+    height: 2rem;
 
-    color: ${(props) => (props.isActive ? '#fff' : rgba('#FFF', 0.2))};
-
-    transition: all ease-out 0.5s;
+    @media screen and (max-width: 768px) {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 
-  &::after {
-    content: '';
-    position: absolute;
+  & > a {
     width: 100%;
-    height: 0.2rem;
-    background: #000;
-    left: 0;
-    bottom: 0;
-    background-image: linear-gradient(to right, #5e42a6, #b74e91);
-    opacity: ${({ isActive }) => (isActive ? 1 : 0.2)};
-    transition: all ease-out 300ms;
+    padding: 0.5rem;
+    color: ${(props) => (props.isActive ? '#FFFFFA' : '#BBBDF6')};
+    background-color: ${(props) => (props.isActive ? '#00A9A5' : '#6848cf')};
+    transition: all ease-out 0.5s;
+    border-radius: 0.5rem;
   }
 
   &:hover {
@@ -43,7 +42,7 @@ export const Item = styled.li<ItemProps>`
         }
 
         & > a {
-          color: ${rgba('#fff', 0.75)};
+          color: #d9d9d9;
         }
       `}
   }

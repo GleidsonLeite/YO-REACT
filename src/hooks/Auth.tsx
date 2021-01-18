@@ -13,6 +13,7 @@ export interface UserData {
   role_id: string;
   id: string;
   identity_slip: string;
+  cpf: string;
 }
 
 interface AuthState {

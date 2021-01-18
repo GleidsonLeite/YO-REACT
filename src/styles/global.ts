@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   :root{
-    --purple: #6730e3;
+    --purple: #533f92;
   }
 
   * {

@@ -90,13 +90,6 @@ const SignUp: React.FC = () => {
       <Header />
       <Container>
         <Content>
-          <PresentationText>
-            <h1>Seja Bem Vindo(a)!</h1>
-            <p>
-              Faça o seu cadastro e comece a fazer o seu dinheiro trabalhar para
-              você.
-            </p>
-          </PresentationText>
           <FormSignUp ref={formRef} onSubmit={handleSubmit}>
             <h1>Criar Conta</h1>
             <p>Tenha livre acesso à nossa Dashboard</p>
@@ -117,6 +110,13 @@ const SignUp: React.FC = () => {
 
             <Button type="submit">Cadastrar</Button>
           </FormSignUp>
+          <PresentationText>
+            <h1>Seja Bem Vindo(a)!</h1>
+            <p>
+              Faça o seu cadastro e comece a fazer o seu dinheiro trabalhar para
+              você.
+            </p>
+          </PresentationText>
         </Content>
       </Container>
     </>
