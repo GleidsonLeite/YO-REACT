@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: grid;
 
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
 
   padding: 1rem 1rem 1rem 0;
@@ -27,6 +27,8 @@ export const Content = styled.div`
 
   background-color: #533f92;
 
+  overflow: hidden;
+
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto min-content;
@@ -43,6 +45,25 @@ export const PageContainer = styled.div`
   grid-area: page;
   display: grid;
   border-radius: 2rem;
-  overflow: hidden;
   overflow-y: auto;
+  overflow-x: hidden;
+
+  background: transparent;
+
+  &::-webkit-scrollbar {
+    display: block;
+    width: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px; */
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    height: 4rem;
+  }
 `;

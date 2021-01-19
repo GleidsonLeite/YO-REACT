@@ -53,81 +53,84 @@ const ProfileForm: React.FC = () => {
 
   const { addToast } = useToast();
 
-  const handleOnSubmit = useCallback(async (data: DataForm) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        firstName: Yup.string(),
-        lastName: Yup.string(),
-        cpf: Yup.string(),
-        email: Yup.string().email('Digite um e-mail válido'),
-        phone: Yup.string(),
-        cep: Yup.string(),
-        street: Yup.string(),
-        nighborhood: Yup.string(),
-        number: Yup.string(),
-        complement: Yup.string(),
+  const handleOnSubmit = useCallback(
+    async (data: DataForm) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          firstName: Yup.string(),
+          lastName: Yup.string(),
+          cpf: Yup.string(),
+          email: Yup.string().email('Digite um e-mail válido'),
+          phone: Yup.string(),
+          cep: Yup.string(),
+          street: Yup.string(),
+          nighborhood: Yup.string(),
+          number: Yup.string(),
+          complement: Yup.string(),
 
-        frontSelfie: Yup.mixed(),
-        backSelfie: Yup.mixed(),
-      });
-
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-
-      const formData = new FormData();
-
-      formData.append('cpf', data.cpf);
-      formData.append('email', data.email);
-      formData.append('phone', data.phone);
-      // formData.append('identity', data.identity);
-      // formData.append('address', ${});
-      formData.append('name', `${data.firstName} ${data.lastName}`);
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
-        },
-      };
-
-      await api.patch('/users/validation', formData, config);
-      addToast({
-        type: 'success',
-        title: 'Validação',
-        description:
-          'Obrigado por enviar suas informações! A nossa equipe irá analisar os seus dados para ativar a sua conta.',
-      });
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(error);
-        formRef.current?.setErrors(errors);
-
-        // toast.warn('Por favor, preencha os seus dados corretamente');
-        addToast({
-          type: 'error',
-          title: 'Erro',
-          description: 'Preencha o formulário corretamente',
+          frontSelfie: Yup.mixed(),
+          backSelfie: Yup.mixed(),
         });
-        return;
-      }
-      if (!!error.isAxiosError && !error.response) {
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        const formData = new FormData();
+
+        formData.append('cpf', data.cpf);
+        formData.append('email', data.email);
+        formData.append('phone', data.phone);
+        // formData.append('identity', data.identity);
+        // formData.append('address', ${});
+        formData.append('name', `${data.firstName} ${data.lastName}`);
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
+          },
+        };
+
+        await api.patch('/users/validation', formData, config);
+        addToast({
+          type: 'success',
+          title: 'Validação',
+          description:
+            'Obrigado por enviar suas informações! A nossa equipe irá analisar os seus dados para ativar a sua conta.',
+        });
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+          formRef.current?.setErrors(errors);
+
+          // toast.warn('Por favor, preencha os seus dados corretamente');
+          addToast({
+            type: 'error',
+            title: 'Erro',
+            description: 'Preencha o formulário corretamente',
+          });
+          return;
+        }
+        if (!!error.isAxiosError && !error.response) {
+          addToast({
+            type: 'error',
+            title: 'Erro no cadastro',
+            description:
+              'Houve um problema ao tentar conectar com a API, por favor preencha os seus dados novamente',
+          });
+          return;
+        }
+        const { message } = error.response.data;
         addToast({
           type: 'error',
           title: 'Erro no cadastro',
-          description:
-            'Houve um problema ao tentar conectar com a API, por favor preencha os seus dados novamente',
+          description: message,
         });
-        return;
       }
-      const { message } = error.response.data;
-      addToast({
-        type: 'error',
-        title: 'Erro no cadastro',
-        description: message,
-      });
-    }
-  }, []);
+    },
+    [addToast],
+  );
 
   return (
     <Container>
@@ -146,7 +149,7 @@ const ProfileForm: React.FC = () => {
               placeholder="Insira o seu segundo nome"
               value={lastName}
             />
-            <Input name="cpf" label="CPF" placeholder="Insira o seu CPF" />
+            {/* <Input name="cpf" label="CPF" placeholder="Insira o seu CPF" />
             <Input
               name="email"
               label="Email"
@@ -159,9 +162,9 @@ const ProfileForm: React.FC = () => {
               label="Telefone"
               placeholder="Insira o número do seu telefone"
               value={phone}
-            />
+            /> */}
           </InputsContainer>
-          <AddressContainer>
+          {/* <AddressContainer>
             <Input
               name="cep"
               label="CEP"
@@ -187,8 +190,8 @@ const ProfileForm: React.FC = () => {
               label="Complemento"
               placeholder="Insira um complemento"
             />
-          </AddressContainer>
-          <PhotosContainer>
+          </AddressContainer> */}
+          {/* <PhotosContainer>
             <FileInput
               name="frontSelfie"
               label="Selfie com frente da identidade"
@@ -198,7 +201,7 @@ const ProfileForm: React.FC = () => {
               label="Selfie com verso da identidade"
             />
             <Button type="submit">Enviar</Button>
-          </PhotosContainer>
+          </PhotosContainer> */}
         </Form>
       </Content>
     </Container>

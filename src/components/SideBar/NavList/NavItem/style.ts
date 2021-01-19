@@ -24,7 +24,7 @@ export const Item = styled.li<ItemProps>`
     }
   }
 
-  & > a {
+  & > div {
     width: 100%;
     padding: 0.5rem;
     color: ${(props) => (props.isActive ? '#FFFFFA' : '#BBBDF6')};

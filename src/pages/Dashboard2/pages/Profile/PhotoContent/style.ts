@@ -8,13 +8,13 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  background-color: ${darken(0.2, '#6730e3')};
+  background-color: #533f92;
 
   width: 100%;
   height: 100%;
   display: grid;
 
-  grid-template-rows: 4fr 1fr;
+  grid-template-rows: 1fr 1fr;
   grid-template-areas: 'photo' 'name';
 
   justify-content: center;
@@ -22,11 +22,14 @@ export const Content = styled.div`
 
   align-items: center;
   justify-items: center;
+
+  border-radius: 2rem;
 `;
 
 export const Photo = styled.div`
   grid-area: photo;
   display: grid;
+  align-self: center;
   width: 10rem;
   height: 10rem;
   border-radius: 50%;
@@ -42,6 +45,8 @@ export const Photo = styled.div`
 
 export const NameDiv = styled.div`
   grid-area: name;
+  display: grid;
+  justify-content: center;
   width: 100%;
   color: #fff;
 `;

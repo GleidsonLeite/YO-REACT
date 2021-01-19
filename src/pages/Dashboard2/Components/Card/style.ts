@@ -18,7 +18,7 @@ export const Content = styled.div`
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: min-content 1fr;
   grid-template-areas: 'header' 'footer';
   justify-content: space-evenly;
   align-content: space-evenly;
@@ -37,7 +37,7 @@ export const Header = styled.header`
 
   grid-area: header;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: min-content 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: 'icon title';
   grid-gap: 2px;
@@ -68,13 +68,21 @@ export const IconContainer = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    & > svg {
+      color: #fff;
+      width: 1rem;
+      height: 1rem;
+    }
   }
 `;
 
 export const TitleContent = styled.div`
   grid-area: title;
+  display: grid;
+  justify-self: center;
   font-size: 0.6rem;
   color: #fff;
 
@@ -85,6 +93,9 @@ export const TitleContent = styled.div`
 
 export const ValueSection = styled.section`
   grid-area: footer;
+  display: grid;
+  align-self: center;
+  justify-self: center;
 
   color: #fff;
   font-size: 1rem;

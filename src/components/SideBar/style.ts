@@ -18,12 +18,12 @@ export const Content = styled.div`
   justify-content: center;
   align-content: center;
 
-  grid-template-rows: min-content 1fr min-content;
-  grid-template-areas: 'photo' 'navlist' 'exit';
+  grid-template-rows: min-content 1fr;
+  grid-template-areas: 'photo' 'navlist';
 
   @media screen and (max-width: 768px) {
     grid-template-columns: min-content 1fr min-content;
-    grid-template-areas: 'photo navlist exit';
+    grid-template-areas: 'photo navlist';
     align-items: center;
     justify-items: center;
   }
@@ -60,19 +60,4 @@ export const Nav = styled.nav`
   display: grid;
 
   align-self: center;
-`;
-
-export const ReturnToHome = styled.footer`
-  grid-area: exit;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: right;
-
-  & > svg {
-    color: #fff;
-    width: 2rem;
-    height: 2rem;
-  }
 `;

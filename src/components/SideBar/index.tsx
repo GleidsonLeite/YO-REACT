@@ -3,17 +3,14 @@ import { MdExitToApp, MdHome, MdDashboard, MdPerson } from 'react-icons/md';
 import { GiPayMoney, GiReceiveMoney } from 'react-icons/gi';
 import { BiSupport } from 'react-icons/bi';
 import { uuid } from 'uuidv4';
+import { useHistory } from 'react-router-dom';
 import NavList from './NavList';
 import NavItem, { NavItemProps } from './NavList/NavItem';
 
-import { Container, Content, ProfilePhoto, Nav, ReturnToHome } from './style';
+import { Container, Content, ProfilePhoto, Nav } from './style';
 
 const SideBar: React.FC = () => {
-  const [isContentHidden, setIsContentHidden] = useState(true);
-
-  const handleBurguerOnClick = useCallback(() => {
-    setIsContentHidden(!isContentHidden);
-  }, [isContentHidden]);
+  const history = useHistory();
 
   const [navItems, setNavItems] = useState<NavItemProps[]>([
     {
@@ -37,7 +34,7 @@ const SideBar: React.FC = () => {
     {
       isActive: false,
       id: uuid(),
-      path: '/dashboard2/main',
+      path: '/dashboard2/Profile',
       Icon: <MdPerson />,
     },
     {
@@ -45,6 +42,12 @@ const SideBar: React.FC = () => {
       id: uuid(),
       path: '/dashboard2/main',
       Icon: <BiSupport />,
+    },
+    {
+      isActive: false,
+      id: uuid(),
+      path: '/',
+      Icon: <MdExitToApp />,
     },
   ]);
 
@@ -73,15 +76,13 @@ const SideBar: React.FC = () => {
                   {...navItem}
                   onClick={() => {
                     handleOnAnyItemClick(navItem.id);
+                    history.push(navItem.path);
                   }}
                 />
               );
             })}
           </NavList>
         </Nav>
-        <ReturnToHome>
-          <MdExitToApp />
-        </ReturnToHome>
       </Content>
     </Container>
   );

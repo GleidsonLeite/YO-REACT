@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  min-height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 
   display: grid;
-  background-color: #eaeaf6;
-  padding: 1rem;
+  background-color: #6656a0;
 `;
 
 export const Content = styled.div`
@@ -22,11 +21,10 @@ export const Content = styled.div`
     grid-template-areas: 'profile' 'editform';
   }
 
-  gap: 2rem;
+  gap: 1rem;
+  padding: 1rem;
 
-  background-color: #f4f4fc;
   border-radius: 2rem;
-  overflow: hidden;
 `;
 
 export const ProfileContent = styled.div`
@@ -34,6 +32,7 @@ export const ProfileContent = styled.div`
   height: 100%;
   grid-area: profile;
   display: grid;
+  border-radius: 2rem;
 `;
 
 export const EditForm = styled.div`
@@ -42,5 +41,4 @@ export const EditForm = styled.div`
   grid-area: editform;
   display: grid;
   justify-content: stretch;
-  padding: 1rem;
 `;

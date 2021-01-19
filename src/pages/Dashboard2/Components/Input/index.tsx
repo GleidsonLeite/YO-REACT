@@ -1,18 +1,25 @@
 import { useField } from '@unform/core';
-import React, { useEffect, useRef } from 'react';
+import React, { InputHTMLAttributes, useEffect, useRef } from 'react';
 
 import { Container, Content, Label, InputValue } from './style';
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
   placeholder: string;
   value?: string;
 }
 
-const Input: React.FC<InputProps> = ({ name, label, placeholder, value }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  label,
+  placeholder,
+  value,
+  ...rest
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { fieldName, defaultValue, registerField, error } = useField(name);
+  const { fieldName, defaultValue, error, registerField } = useField(name);
+
   useEffect(() => {
     registerField({
       name: fieldName,
@@ -24,14 +31,16 @@ const Input: React.FC<InputProps> = ({ name, label, placeholder, value }) => {
   return (
     <Container>
       <Content>
-        <Label>
+        <Label htmlFor={fieldName}>
           <p>{label}</p>
         </Label>
         <InputValue
-          name={name}
-          defaultValue={value || defaultValue}
+          id={fieldName}
           ref={inputRef}
+          name={name}
+          defaultValue={defaultValue}
           placeholder={placeholder}
+          {...rest}
         />
       </Content>
     </Container>

@@ -14,11 +14,10 @@ export const Content = styled.div`
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 2fr;
+  grid-template-rows: min-content 1fr;
   grid-template-areas: 'label' 'value';
+  background-color: #533f92;
 
-  background-color: #fff;
-  border: 1px solid #eaeaf6;
   border-radius: 1rem;
 
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -27,18 +26,28 @@ export const Content = styled.div`
   padding: 0.3rem;
 `;
 
-export const Label = styled.div`
+export const Label = styled.label`
   grid-area: label;
+  display: grid;
+  align-self: center;
   & > p {
     font-size: 0.8rem;
-    color: ${darken(0.1, '#6730e3')};
+    color: #fff;
   }
 `;
 
 export const InputValue = styled.input`
+  display: grid;
+  align-self: center;
+
   border: none;
   outline: none;
   height: 2rem;
   font-size: 1rem;
-  color: ${darken(0.1, '#6730e3')};
+  color: #fff;
+  background-color: #533f92;
+
+  &::placeholder {
+    color: #a6a6a6;
+  }
 `;

@@ -1,6 +1,6 @@
 import React, { LiHTMLAttributes } from 'react';
 import { IconBaseProps } from 'react-icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Item } from './style';
 
@@ -20,7 +20,7 @@ const NavItem: React.FC<NavItemProps> = ({
 }) => {
   return (
     <Item id={id} isActive={isActive} {...rest}>
-      <Link to={path}>{Icon}</Link>
+      <div>{Icon}</div>
     </Item>
   );
 };

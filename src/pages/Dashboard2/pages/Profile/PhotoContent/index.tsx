@@ -4,7 +4,7 @@ import { Container, Content, Photo, NameDiv } from './style';
 
 interface PhotoContentProps {
   name: string;
-  photoSource: string;
+  photoSource?: string;
 }
 
 const PhotoContent: React.FC<PhotoContentProps> = ({ name, photoSource }) => {
@@ -12,7 +12,7 @@ const PhotoContent: React.FC<PhotoContentProps> = ({ name, photoSource }) => {
     <Container>
       <Content>
         <Photo>
-          <img src={photoSource} alt="ProfilePhoto" />
+          {!!photoSource && <img src={photoSource} alt="ProfilePhoto" />}
         </Photo>
         <NameDiv>
           <h3>{name}</h3>
