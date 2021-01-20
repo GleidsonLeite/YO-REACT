@@ -23,7 +23,9 @@ export const Content = styled.div`
   align-items: center;
   justify-items: center;
 
-  border-radius: 2rem;
+  border-radius: 1rem;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
 export const Photo = styled.div`

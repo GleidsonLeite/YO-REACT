@@ -21,6 +21,7 @@ export const Container = styled.div`
 
   input {
     height: 100%;
+    width: 100%;
 
     border: none;
     outline: none;

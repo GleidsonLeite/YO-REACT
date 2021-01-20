@@ -10,10 +10,11 @@ import {
   PhotosContainer,
 } from './style';
 import Input from '../../../Components/Input';
+import FileInput from '../../../Components/FileInput';
+import Button from '../../../Components/Button';
 
 interface DataForm {
-  firstName: string;
-  lastName: string;
+  fullName: string;
   cpf: string;
   email: string;
   phone: string;
@@ -36,15 +37,9 @@ const ProfileForm: React.FC = () => {
         <Form ref={formRef} onSubmit={handleOnSubmit}>
           <InputsContainer path="userInfo">
             <Input
-              label="Primeiro Nome"
-              name="firstName"
+              label="Nome Completo"
+              name="fullName"
               placeholder="Insira o seu primeiro nome"
-              type="text"
-            />
-            <Input
-              label="Segundo Nome"
-              name="lastName"
-              placeholder="Insira o seu segundo nome"
               type="text"
             />
             <Input label="CPF" name="cpf" placeholder="Insira o seu CPF" />
@@ -94,9 +89,21 @@ const ProfileForm: React.FC = () => {
               type="text"
             />
           </AddressContainer>
-          {/* <PhotosContainer path="">
-            <button type="submit">Enviar</button>
-          </PhotosContainer> */}
+          <PhotosContainer path="">
+            <FileInput
+              label="Frente do documento de identificação"
+              name="identityFront"
+            />
+            <FileInput
+              label="Verso do documento de identificação"
+              name="identityBack"
+            />
+            <FileInput
+              label="Selfie com documento de identificação"
+              name="identityBack"
+            />
+          </PhotosContainer>
+          <Button type="submit">Alterar</Button>
         </Form>
       </Content>
     </Container>

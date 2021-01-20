@@ -21,7 +21,10 @@ export const Form = styled(Unform)`
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr 1fr;
+
   align-items: center;
+  align-self: center;
+
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
   }

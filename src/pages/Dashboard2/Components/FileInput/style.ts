@@ -2,13 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  height: 100%;
-  display: grid;
-`;
-
-export const Content = styled.div`
-  width: 100%;
-  height: 100%;
+  height: 4rem;
 
   display: grid;
   grid-template-columns: 1fr;
@@ -24,23 +18,19 @@ export const Content = styled.div`
 
   overflow: hidden;
   padding: 0.3rem;
-`;
 
-export const Label = styled.div`
-  grid-area: label;
   & > p {
     font-size: 0.8rem;
     color: #fff;
   }
-`;
 
-export const Icon = styled.label`
-  display: grid;
+  & > label {
+    justify-self: center;
+    align-self: center;
+    color: white;
 
-  justify-self: center;
-  align-self: center;
-
-  justify-items: center;
+    cursor: pointer;
+  }
 
   & > svg {
     width: 4rem;
@@ -49,18 +39,8 @@ export const Icon = styled.label`
 
     cursor: pointer;
   }
-`;
 
-export const Footer = styled.div`
-  grid-area: footer;
-  display: grid;
-  justify-content: center;
-  & > p {
-    font-size: 0.8rem;
-    color: #fff;
+  & > input {
+    display: none;
   }
-`;
-
-export const Input = styled.input`
-  display: none;
 `;
