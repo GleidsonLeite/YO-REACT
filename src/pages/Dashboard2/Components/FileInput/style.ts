@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { darken } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
@@ -13,12 +12,12 @@ export const Content = styled.div`
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.1fr 4.9fr;
-  grid-template-areas: 'label' 'value';
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-areas: 'label' 'value' 'footer';
   align-content: center;
 
-  background-color: #fff;
-  border: 1px solid #eaeaf6;
+  background-color: #533f92;
+
   border-radius: 1rem;
 
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -31,7 +30,7 @@ export const Label = styled.div`
   grid-area: label;
   & > p {
     font-size: 0.8rem;
-    color: ${darken(0.1, '#6730e3')};
+    color: #fff;
   }
 `;
 
@@ -46,9 +45,19 @@ export const Icon = styled.label`
   & > svg {
     width: 4rem;
     height: 4rem;
-    color: var(--purple);
+    color: #fff;
 
     cursor: pointer;
+  }
+`;
+
+export const Footer = styled.div`
+  grid-area: footer;
+  display: grid;
+  justify-content: center;
+  & > p {
+    font-size: 0.8rem;
+    color: #fff;
   }
 `;
 

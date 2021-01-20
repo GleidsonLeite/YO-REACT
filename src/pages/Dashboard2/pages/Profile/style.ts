@@ -15,6 +15,8 @@ export const Content = styled.div`
   grid-template-columns: 4fr 1fr;
   grid-template-areas: 'editform profile';
 
+  align-content: center;
+
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: 0.8fr 3fr;

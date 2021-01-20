@@ -73,6 +73,7 @@ const SideBar: React.FC = () => {
             {navItems.map((navItem) => {
               return (
                 <NavItem
+                  key={navItem.id}
                   {...navItem}
                   onClick={() => {
                     handleOnAnyItemClick(navItem.id);

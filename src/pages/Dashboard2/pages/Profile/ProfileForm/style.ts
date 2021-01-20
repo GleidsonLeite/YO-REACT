@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { Form as UnformForm } from '@unform/web';
+
+import { Form as Unform } from '@unform/web';
+import { Scope } from '@unform/core';
 
 export const Container = styled.div`
   width: 100%;
@@ -13,7 +15,7 @@ export const Content = styled.div`
   display: grid;
 `;
 
-export const Form = styled(UnformForm)`
+export const Form = styled(Unform)`
   width: 100%;
   height: 100%;
   display: grid;
@@ -25,28 +27,8 @@ export const Form = styled(UnformForm)`
   }
 `;
 
-export const InputsContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-`;
+export const InputsContainer = styled(Scope)``;
 
-export const AddressContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-`;
+export const AddressContainer = styled(Scope)``;
 
-export const PhotosContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-rows: 2fr 2fr 1fr;
-  grid-template-columns: 1fr;
-  align-items: stretch;
-  gap: 1rem;
-`;
+export const PhotosContainer = styled(Scope)``;
