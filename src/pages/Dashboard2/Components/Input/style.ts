@@ -3,8 +3,10 @@ import styled from 'styled-components';
 export const Container = styled.div`
   height: 4rem;
   width: 100%;
-  display: grid;
-  grid-template-rows: min-content 1fr;
+  display: flex;
+
+  flex-direction: column;
+
   background-color: #533f92;
 
   border-radius: 1rem;

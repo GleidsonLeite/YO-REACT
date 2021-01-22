@@ -41,4 +41,5 @@ export const EditForm = styled.div`
   grid-area: editform;
   display: grid;
   justify-content: stretch;
+  align-content: center;
 `;

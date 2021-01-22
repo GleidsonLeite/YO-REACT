@@ -14,6 +14,10 @@ export interface UserData {
   id: string;
   identity_slip: string;
   cpf: string;
+  address_id: string;
+  frontIdentityFile: string;
+  selfieIdentityFile: string;
+  backIdentityFile: string;
 }
 
 interface AuthState {
@@ -30,6 +34,7 @@ interface AuthContextData {
   user: UserData;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
+  updateUser(user: UserData): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -65,12 +70,19 @@ export const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthState);
   }, []);
 
+  const updateUser = useCallback((user: UserData) => {
+    const token = localStorage.getItem('@YO:token');
+    localStorage.setItem('@YO:token', token as string);
+    localStorage.setItem('@YO:user', JSON.stringify(user));
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
         user: data.user,
         signIn,
         signOut,
+        updateUser,
       }}
     >
       {children}

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const Container = styled.button`
   height: 4rem;
   width: 100%;
-  display: grid;
-  justify-items: center;
+  display: flex;
+  justify-content: center;
   align-items: center;
 
   border-radius: 1rem;

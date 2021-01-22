@@ -1,5 +1,12 @@
 import { useField } from '@unform/core';
-import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  InputHTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { MdCloudUpload } from 'react-icons/md';
 import { Container } from './style';
 
@@ -11,6 +18,12 @@ interface FileInputProps extends InputHTMLAttributes<HTMLInputElement> {
 const FileInput: React.FC<FileInputProps> = ({ name, label, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, defaultValue, registerField } = useField(name);
+  const [fileName, setFileName] = useState(defaultValue);
+
+  const handlePreview = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setFileName(!file ? '' : file.name);
+  }, []);
 
   useEffect(() => {
     registerField({
@@ -20,15 +33,13 @@ const FileInput: React.FC<FileInputProps> = ({ name, label, ...rest }) => {
       clearValue(ref: HTMLInputElement) {
         // eslint-disable-next-line no-param-reassign
         ref.value = '';
-        setFile(null);
+        setFileName('');
       },
       setValue(_: HTMLInputElement, value: string) {
-        setFile(value);
+        setFileName(value);
       },
     });
   }, [fieldName, registerField]);
-
-  const [, setFile] = useState(defaultValue);
 
   return (
     <Container>
@@ -38,13 +49,14 @@ const FileInput: React.FC<FileInputProps> = ({ name, label, ...rest }) => {
       </label>
 
       <input
-        ref={inputRef}
-        value={defaultValue}
-        name={name}
-        id={fieldName}
         type="file"
+        ref={inputRef}
+        onChange={handlePreview}
+        id={fieldName}
         {...rest}
       />
+
+      {fileName && <p>{fileName}</p>}
     </Container>
   );
 };

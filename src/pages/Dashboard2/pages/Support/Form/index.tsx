@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../../../../components/Button';
+import Button from '../../../Components/Button';
 import FileInput from '../../../Components/FileInput';
 import Input from '../../../Components/Input';
 import TextArea from '../../../Components/TextArea';
@@ -21,6 +21,7 @@ const Form: React.FC = () => {
             placeholder="Qual a sua dúvida?"
           />
           <TextArea
+            name="details"
             label="Detalhes"
             placeholder="Nos fale como podemos te ajudar!"
           />

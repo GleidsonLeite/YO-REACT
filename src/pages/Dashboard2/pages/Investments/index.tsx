@@ -1,8 +1,7 @@
 import React from 'react';
-import Card from '../../Components/Card';
-import { Container, Content, CardsContent } from './style';
+import { Container, Content } from './style';
 
-const Investment: React.FC = () => {
+const Investments: React.FC = () => {
   return (
     <Container>
       <Content />
@@ -10,4 +9,4 @@ const Investment: React.FC = () => {
   );
 };
 
-export default Investment;
+export default Investments;

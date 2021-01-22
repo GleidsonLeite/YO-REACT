@@ -1,14 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 100%;
   height: 4rem;
+  width: 100%;
+  display: flex;
 
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: min-content 1fr min-content;
-  grid-template-areas: 'label' 'value' 'footer';
-  align-content: center;
+  flex-direction: column;
 
   background-color: #533f92;
 
@@ -19,28 +16,27 @@ export const Container = styled.div`
   overflow: hidden;
   padding: 0.3rem;
 
-  & > p {
+  p {
     font-size: 0.8rem;
     color: #fff;
   }
 
-  & > label {
-    justify-self: center;
-    align-self: center;
-    color: white;
-
-    cursor: pointer;
-  }
-
-  & > svg {
-    width: 4rem;
-    height: 4rem;
+  label {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #fff;
 
-    cursor: pointer;
+    svg {
+      cursor: pointer;
+      height: 100%;
+      width: 90%;
+    }
   }
 
-  & > input {
+  input {
     display: none;
   }
 `;

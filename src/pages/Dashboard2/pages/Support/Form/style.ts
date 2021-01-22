@@ -5,14 +5,17 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  justify-items: center;
+  padding: 0 1rem;
+  background-color: #6656a0;
+  @media screen and (max-width: 768px) {
+    padding: 1rem;
+  }
 `;
 
 export const Content = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  padding: 2rem 0;
 `;
 
 export const FormContent = styled(Form)`
@@ -20,7 +23,7 @@ export const FormContent = styled(Form)`
   height: 100%;
 
   display: grid;
-  gap: 0.5rem;
+  gap: 2rem;
   grid-template-columns: 1fr;
 
   justify-content: center;

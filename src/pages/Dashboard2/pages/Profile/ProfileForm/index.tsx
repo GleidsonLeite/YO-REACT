@@ -1,17 +1,9 @@
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
 
-import { FormHandles } from '@unform/core';
-import {
-  Container,
-  Content,
-  Form,
-  InputsContainer,
-  AddressContainer,
-  PhotosContainer,
-} from './style';
-import Input from '../../../Components/Input';
-import FileInput from '../../../Components/FileInput';
-import Button from '../../../Components/Button';
+import { Container } from './style';
+import AddressForm from './AddressForm';
+import UserForm from './UserForm';
+import IdentityForm from './IdentityForm';
 
 interface DataForm {
   fullName: string;
@@ -26,15 +18,12 @@ interface DataForm {
 }
 
 const ProfileForm: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
-
-  const handleOnSubmit = useCallback(() => {
-    console.log('Hello World');
-  }, []);
   return (
     <Container>
-      <Content>
-        <Form ref={formRef} onSubmit={handleOnSubmit}>
+      <UserForm />
+      <AddressForm />
+      <IdentityForm />
+      {/* <Form ref={formRef} onSubmit={handleOnSubmit}>
           <InputsContainer path="userInfo">
             <Input
               label="Nome Completo"
@@ -104,8 +93,7 @@ const ProfileForm: React.FC = () => {
             />
           </PhotosContainer>
           <Button type="submit">Alterar</Button>
-        </Form>
-      </Content>
+        </Form> */}
     </Container>
   );
 };

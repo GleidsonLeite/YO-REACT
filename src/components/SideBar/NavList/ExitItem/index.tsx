@@ -1,7 +1,8 @@
 import React, { LiHTMLAttributes } from 'react';
 import { IconBaseProps } from 'react-icons';
+import { Link } from 'react-router-dom';
 
-import { Item } from './style';
+import { Item } from '../NavItem/style';
 
 export interface NavItemProps extends LiHTMLAttributes<HTMLLIElement> {
   isActive: boolean;
@@ -10,7 +11,7 @@ export interface NavItemProps extends LiHTMLAttributes<HTMLLIElement> {
   path: string;
 }
 
-const NavItem: React.FC<NavItemProps> = ({
+const ExitItem: React.FC<NavItemProps> = ({
   isActive,
   Icon,
   path,
@@ -18,10 +19,12 @@ const NavItem: React.FC<NavItemProps> = ({
   ...rest
 }) => {
   return (
-    <Item id={id} isActive={isActive} {...rest}>
-      <div>{Icon}</div>
-    </Item>
+    <Link to={path}>
+      <Item id={id} isActive={isActive} {...rest}>
+        <div>{Icon}</div>
+      </Item>
+    </Link>
   );
 };
 
-export default NavItem;
+export default ExitItem;

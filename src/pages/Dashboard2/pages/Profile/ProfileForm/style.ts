@@ -1,37 +1,16 @@
 import styled from 'styled-components';
 
-import { Form as Unform } from '@unform/web';
-import { Scope } from '@unform/core';
-
 export const Container = styled.div`
   width: 100%;
   height: 100%;
-  display: grid;
-`;
 
-export const Content = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-`;
-
-export const Form = styled(Unform)`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr 1fr 1fr;
-
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  align-self: center;
+
+  gap: 1rem;
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 `;
-
-export const InputsContainer = styled(Scope)``;
-
-export const AddressContainer = styled(Scope)``;
-
-export const PhotosContainer = styled(Scope)``;

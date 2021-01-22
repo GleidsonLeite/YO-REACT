@@ -1,43 +1,90 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { darken } from 'polished';
+interface InputProps {
+  isFocused: boolean;
+  isFilled: boolean;
+  isErrored: boolean;
+}
 
-export const Container = styled.div`
-  height: 100%;
+export const Container = styled.div<InputProps>`
+  background-color: #533f92;
+  border-radius: 4px;
+  border: 2px solid #533f92;
+  height: 10rem;
   width: 100%;
-  display: grid;
-`;
 
-export const Content = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 2fr;
-  grid-template-areas: 'label' 'value';
-  background-color: #fff;
-  border: 1px solid #eaeaf6;
   border-radius: 1rem;
 
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
-  overflow: hidden;
-  padding: 0.3rem;
-`;
+  display: flex;
+  flex-flow: column;
 
-export const Label = styled.div`
-  grid-area: label;
-  & > p {
+  transition: all 0.3s ease-in;
+
+  /* ${(props) =>
+    props.isErrored &&
+    css`
+      border-left: 2px #ff7700 solid;
+    `}
+
+  ${(props) =>
+    props.isFocused &&
+    css`
+      border: 2px #6730e3 solid;
+    `}
+
+  ${(props) =>
+    props.isFilled &&
+    css`
+      border: 2px #6730e3 solid;
+    `} */
+
+  & > label {
     font-size: 0.8rem;
-    color: ${darken(0.1, '#6730e3')};
+    color: #fff;
   }
+
+  & > textarea {
+    height: 100%;
+    width: 100%;
+
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #533f92;
+
+    &::placeholder {
+      color: #a6a6a6;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  /* ${(props) =>
+    props.isFilled &&
+    css`
+        color #6730e3;
+      `} */
 `;
 
-export const InputValue = styled.textarea`
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  color: ${darken(0.1, '#6730e3')};
+export const Error = styled.div`
+  height: 20px;
+  cursor: pointer;
 
-  min-height: 20rem;
+  svg {
+    margin: 2px;
+  }
+
+  span {
+    background: #ff7700;
+    color: #fff;
+
+    &::before {
+      border-color: #ff7700 transparent;
+    }
+  }
 `;

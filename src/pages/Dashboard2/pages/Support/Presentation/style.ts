@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { darken } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
@@ -8,8 +7,6 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  background-color: ${darken(0.2, '#6730e3')};
-
   width: 100%;
   height: 100%;
   display: grid;
@@ -36,14 +33,15 @@ export const IconDiv = styled.div`
   align-content: center;
 
   border-radius: 50%;
-  border: 2px solid var(--purple);
   overflow: hidden;
-  background-color: #fff;
+  background-color: #533f92;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
   & > svg {
     width: 5rem;
     height: 5rem;
-    color: var(--purple);
+    color: #fff;
   }
 `;
 

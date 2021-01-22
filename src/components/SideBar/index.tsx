@@ -3,11 +3,12 @@ import { MdExitToApp, MdHome, MdDashboard, MdPerson } from 'react-icons/md';
 import { GiPayMoney, GiReceiveMoney } from 'react-icons/gi';
 import { BiSupport } from 'react-icons/bi';
 import { uuid } from 'uuidv4';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import NavList from './NavList';
 import NavItem, { NavItemProps } from './NavList/NavItem';
 
 import { Container, Content, ProfilePhoto, Nav } from './style';
+import ExitItem from './NavList/ExitItem';
 
 const SideBar: React.FC = () => {
   const history = useHistory();
@@ -22,13 +23,13 @@ const SideBar: React.FC = () => {
     {
       isActive: false,
       id: uuid(),
-      path: '/dashboard2/main',
+      path: '/dashboard2/Investments',
       Icon: <GiReceiveMoney />,
     },
     {
       isActive: false,
       id: uuid(),
-      path: '/dashboard2/main',
+      path: '/dashboard2/Investments',
       Icon: <GiPayMoney />,
     },
     {
@@ -40,14 +41,8 @@ const SideBar: React.FC = () => {
     {
       isActive: false,
       id: uuid(),
-      path: '/dashboard2/main',
+      path: '/dashboard2/Support',
       Icon: <BiSupport />,
-    },
-    {
-      isActive: false,
-      id: uuid(),
-      path: '/',
-      Icon: <MdExitToApp />,
     },
   ]);
 
@@ -82,6 +77,18 @@ const SideBar: React.FC = () => {
                 />
               );
             })}
+            {/* {
+      isActive: false,
+      id: uuid(),
+      path: '/',
+      Icon: <MdExitToApp />,
+    }, */}
+            <ExitItem
+              isActive={false}
+              id={uuid()}
+              path="/"
+              Icon={<MdExitToApp />}
+            />
           </NavList>
         </Nav>
       </Content>

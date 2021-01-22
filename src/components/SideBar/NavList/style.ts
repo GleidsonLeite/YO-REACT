@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const List = styled.div`
+export const List = styled.ul`
   width: 100%;
   height: 100%;
 
