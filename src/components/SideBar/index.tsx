@@ -29,7 +29,7 @@ const SideBar: React.FC = () => {
     {
       isActive: false,
       id: uuid(),
-      path: '/dashboard2/Investments',
+      path: '/dashboard2/Deposits',
       Icon: <GiPayMoney />,
     },
     {
