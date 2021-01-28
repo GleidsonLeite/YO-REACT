@@ -1,4 +1,5 @@
 import React from 'react';
+import CreateDepositForm from './CreateDepositForm';
 import DataContent from './DataContent';
 import Filter from './Filter';
 import Header from './Header';
@@ -10,6 +11,7 @@ const Table: React.FC = () => {
     <Container>
       <Content>
         <Filter />
+        <CreateDepositForm />
         <Header />
         <DataContent />
       </Content>
