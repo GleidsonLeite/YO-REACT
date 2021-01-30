@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import Modal from '../../../../Components/Modal';
+import Slide from './Components/Slide';
+import { SlideProvider } from './Components/Slide/hooks/Slide';
 import Form from './Form';
 
-import { Container, CreateInvestmentButton } from './style';
+import { Container, CreateInvestmentButton, ModalContainer } from './style';
 
 const CreateDepositForm: React.FC = () => {
   const [isFormHidden, setIsFormHidden] = useState<boolean>(true);
@@ -16,9 +18,15 @@ const CreateDepositForm: React.FC = () => {
         Criar Investimento
       </CreateInvestmentButton>
       {!isFormHidden && (
-        <Modal onClose={handleOnClick}>
-          <Form />
-        </Modal>
+        <SlideProvider>
+          <Modal onClose={handleOnClick}>
+            <Slide>
+              <ModalContainer>
+                <Form />
+              </ModalContainer>
+            </Slide>
+          </Modal>
+        </SlideProvider>
       )}
     </Container>
   );

@@ -32,3 +32,15 @@ export const CreateInvestmentButton = styled.div`
     color: #fff;
   }
 `;
+
+export const ModalContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-auto-flow: row;
+`;
+
+export const ModalFooter = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+`;

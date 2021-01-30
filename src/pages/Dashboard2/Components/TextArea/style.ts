@@ -41,8 +41,13 @@ export const Container = styled.div<InputProps>`
     `} */
 
   & > label {
+    display: block;
+    position: relative;
+    width: fit-content;
+    left: 10px;
     font-size: 0.8rem;
     color: #fff;
+    background-color: inherit;
   }
 
   & > textarea {

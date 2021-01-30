@@ -24,6 +24,7 @@ export const SelectContainer = styled.select`
   border-radius: 0.5rem;
   outline: none;
   border: none;
+  cursor: pointer;
 
   & > option:nth-of-type(even) {
     background-color: #533f92;

@@ -17,8 +17,13 @@ export const Container = styled.div`
   padding: 0.3rem;
 
   p {
+    display: block;
+    position: relative;
+    width: fit-content;
+    left: 10px;
     font-size: 0.8rem;
     color: #fff;
+    background-color: inherit;
   }
 
   label {
