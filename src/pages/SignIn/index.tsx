@@ -59,7 +59,6 @@ const SignIn: React.FC = () => {
           const errors = getValidationErrors(error);
           formRef.current?.setErrors(errors);
 
-          // toast.warn('Por favor, preencha os seus dados corretamente');
           addToast({
             type: 'error',
             title: 'Erro',

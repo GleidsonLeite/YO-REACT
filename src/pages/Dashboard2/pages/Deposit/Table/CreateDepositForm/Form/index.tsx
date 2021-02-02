@@ -1,17 +1,19 @@
 import React, { useCallback, useState } from 'react';
+import { Investment } from '../../DataContent';
 import { useSlide } from '../Components/Slide/hooks/Slide';
-import AuthConfirmation from './AuthConfirmation';
-import BankForm from './BankForm';
-import BankSlipForm from './BankSlipForm';
-import DepositOption from './DepositOption';
-import NetellerForm from './NetellerForm';
-import Presentation from './Presentation';
+import AttachDocument from './Pages/AttachDocument';
+import AuthConfirmation from './Pages/AuthConfirmation';
+import BankForm from './Pages/BankForm';
+import BankSlipForm from './Pages/BankSlipForm';
+import DepositOption from './Pages/DepositOption';
+import NetellerForm from './Pages/NetellerForm';
+import Presentation from './Pages/Presentation';
 
 import { Container, Content } from './style';
 
 const Form: React.FC = () => {
-  const { setNumberOfPages, currentPageNumber } = useSlide();
-  setNumberOfPages(4);
+  const { currentPageNumber } = useSlide();
+  const [deposit, setDeposit] = useState<Investment>();
   const [depositOption, setDepositOption] = useState<number>(0);
 
   const renderDepositOption = useCallback(() => {
@@ -36,11 +38,13 @@ const Form: React.FC = () => {
       case 2:
         return renderDepositOption();
       case 3:
-        return <AuthConfirmation />;
+        return <AuthConfirmation setDeposit={setDeposit} />;
+      case 4:
+        return <AttachDocument deposit={deposit as Investment} />;
       default:
         return <Presentation />;
     }
-  }, [currentPageNumber, renderDepositOption]);
+  }, [currentPageNumber, deposit, renderDepositOption]);
 
   return (
     <Container>

@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import Modal from '../../../../Components/Modal';
 import Slide from './Components/Slide';
-import { SlideProvider } from './Components/Slide/hooks/Slide';
+import { SlideProvider, useSlide } from './Components/Slide/hooks/Slide';
 import Form from './Form';
+import { DepositFormProvider } from './Form/hooks/DepositForm';
 
 import { Container, CreateInvestmentButton, ModalContainer } from './style';
 
 const CreateDepositForm: React.FC = () => {
   const [isFormHidden, setIsFormHidden] = useState<boolean>(true);
+  const { setNumberOfPages } = useSlide();
 
   const handleOnClick = useCallback(() => {
     setIsFormHidden(!isFormHidden);
@@ -18,15 +20,17 @@ const CreateDepositForm: React.FC = () => {
         Criar Investimento
       </CreateInvestmentButton>
       {!isFormHidden && (
-        <SlideProvider>
-          <Modal onClose={handleOnClick}>
-            <Slide>
-              <ModalContainer>
-                <Form />
-              </ModalContainer>
-            </Slide>
-          </Modal>
-        </SlideProvider>
+        <DepositFormProvider>
+          <SlideProvider>
+            <Modal onClose={handleOnClick}>
+              <Slide>
+                <ModalContainer>
+                  <Form />
+                </ModalContainer>
+              </Slide>
+            </Modal>
+          </SlideProvider>
+        </DepositFormProvider>
       )}
     </Container>
   );
