@@ -1,12 +1,14 @@
 import React from 'react';
-import { Container } from './style';
 
-const Investments: React.FC = () => {
+import { Container } from './style';
+import Table from './Table';
+
+const WithdrawPage: React.FC = () => {
   return (
     <Container>
-      <h1>Hello World</h1>
+      <Table />
     </Container>
   );
 };
 
-export default Investments;
+export default WithdrawPage;
