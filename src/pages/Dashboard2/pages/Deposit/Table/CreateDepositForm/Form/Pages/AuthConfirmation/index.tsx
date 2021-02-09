@@ -27,7 +27,7 @@ const AuthConfirmation: React.FC<AuthConfirmationProps> = ({ setDeposit }) => {
   const { depositForm, depositOption } = useDepositForm();
   const { setCurrentPageNumber } = useSlide();
 
-  const toDeposit = useCallback(
+  const requestDeposit = useCallback(
     async (data: AuthConfirmationData) => {
       const config = {
         headers: {
@@ -57,7 +57,7 @@ const AuthConfirmation: React.FC<AuthConfirmationProps> = ({ setDeposit }) => {
           password: Yup.string().min(8, 'No mínimo 8 dígitos'),
         });
         await schema.validate(data, { abortEarly: false });
-        await toDeposit(data);
+        await requestDeposit(data);
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
@@ -78,7 +78,7 @@ const AuthConfirmation: React.FC<AuthConfirmationProps> = ({ setDeposit }) => {
         });
       }
     },
-    [addToast, toDeposit],
+    [addToast, requestDeposit],
   );
 
   return (
