@@ -58,6 +58,11 @@ const AuthConfirmation: React.FC = () => {
         });
         await schema.validate(data, { abortEarly: false });
         await requestWithdraw(data);
+        addToast({
+          title: 'Saque Realizado',
+          type: 'success',
+          description: 'Parabéns, seu saque foi realizado com sucesso',
+        });
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
@@ -71,7 +76,7 @@ const AuthConfirmation: React.FC = () => {
         }
       }
     },
-    [addToast, setCurrentComponent, setSlideValue, slideValue],
+    [addToast, requestWithdraw],
   );
 
   return (

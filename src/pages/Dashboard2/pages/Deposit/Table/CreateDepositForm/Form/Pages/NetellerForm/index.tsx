@@ -32,6 +32,7 @@ const NetellerForm: React.FC = () => {
       config,
     );
     const { value } = response.data;
+    console.log(value);
     setMinimumInvestmentValue(value);
   }, []);
 
