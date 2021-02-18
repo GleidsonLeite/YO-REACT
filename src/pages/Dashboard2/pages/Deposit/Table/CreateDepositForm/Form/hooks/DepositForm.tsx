@@ -8,6 +8,7 @@ export interface NetellerFormData {
 
 export interface BankSlipFormData {
   value: number;
+  account?: string;
 }
 
 export interface DepositFormData {

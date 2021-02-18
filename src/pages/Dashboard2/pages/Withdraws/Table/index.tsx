@@ -1,4 +1,5 @@
 import React from 'react';
+import DataContent from './DataContent';
 import CreateWithdrawForm from './CreateWithdrawForm';
 import Header from './Header';
 
@@ -10,6 +11,7 @@ const Table: React.FC = () => {
       <Content>
         <CreateWithdrawForm />
         <Header />
+        <DataContent />
       </Content>
     </Container>
   );

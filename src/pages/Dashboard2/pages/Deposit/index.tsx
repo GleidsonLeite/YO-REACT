@@ -2,11 +2,14 @@ import React from 'react';
 
 import { Container } from './style';
 import Table from './Table';
+import { DepositDataProvider } from './Table/Hooks/deposits';
 
 const DepositPage: React.FC = () => {
   return (
     <Container>
-      <Table />
+      <DepositDataProvider>
+        <Table />
+      </DepositDataProvider>
     </Container>
   );
 };

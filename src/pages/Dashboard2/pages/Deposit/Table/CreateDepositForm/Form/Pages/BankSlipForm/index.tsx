@@ -1,15 +1,22 @@
+import { useLoading } from '@agney/react-loading';
 import { FormHandles } from '@unform/core';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { useToast } from '../../../../../../../../../hooks/Toast';
 import api from '../../../../../../../../../services/api';
 import getValidationErrors from '../../../../../../../../../utils/getValidationErrors';
 import Button from '../../../../../../../Components/Button';
+import { useCarousel } from '../../../../../../../Components/Carousel/Hooks';
 import Input from '../../../../../../../Components/Input';
-import { useSlide } from '../../../Components/Slide/hooks/Slide';
 import { useDepositForm } from '../../hooks/DepositForm';
+import AuthConfirmation from '../AuthConfirmation';
 
-import { Container, Content } from './style';
+import {
+  Container,
+  Content,
+  TextContent,
+  FormContainer,
+} from '../NetellerForm/style';
 
 interface BankSlipFormData {
   depositValue: number;
@@ -17,13 +24,25 @@ interface BankSlipFormData {
 
 const BankSlipForm: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const { setCurrentPageNumber } = useSlide();
   const { setDepositForm } = useDepositForm();
   const { addToast } = useToast();
+
+  const { setCurrentComponent, setSlideValue, slideValue } = useCarousel();
 
   const [minimumInvestmentValue, setMinimumInvestmentValue] = useState<number>(
     1000,
   );
+  const [
+    wasMinimumInvestimentValueLoaded,
+    setWasMinimumInvestimentValueLoaded,
+  ] = useState<boolean>(false);
+
+  const { indicatorEl } = useLoading({
+    loading: wasMinimumInvestimentValueLoaded,
+    loaderProps: {
+      valueText: 'Carregando os dados do backend',
+    },
+  });
 
   const getMinimumInvestmentValue = useCallback(async () => {
     const config = {
@@ -37,6 +56,7 @@ const BankSlipForm: React.FC = () => {
     );
     const { value } = response.data;
     setMinimumInvestmentValue(value);
+    setWasMinimumInvestimentValueLoaded(true);
   }, []);
 
   const handleOnSubmit = useCallback(
@@ -51,7 +71,8 @@ const BankSlipForm: React.FC = () => {
         setDepositForm({
           value: data.depositValue,
         });
-        setCurrentPageNumber(3);
+        setCurrentComponent(<AuthConfirmation />);
+        setSlideValue(slideValue + 1);
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
@@ -77,17 +98,34 @@ const BankSlipForm: React.FC = () => {
       addToast,
       getMinimumInvestmentValue,
       minimumInvestmentValue,
-      setCurrentPageNumber,
+      setCurrentComponent,
       setDepositForm,
+      setSlideValue,
+      slideValue,
     ],
   );
 
+  useEffect(() => {
+    getMinimumInvestmentValue();
+  }, [getMinimumInvestmentValue]);
+
   return (
     <Container>
-      <h1>Boleto Bancário</h1>
-      <Content onSubmit={handleOnSubmit}>
-        <Input label="Valor a ser depositado" name="depositValue" />
-        <Button type="submit">Depositar</Button>
+      <Content>
+        <TextContent>
+          <h1>Boleto Bancário</h1>
+        </TextContent>
+
+        <FormContainer onSubmit={handleOnSubmit}>
+          {wasMinimumInvestimentValueLoaded ? (
+            <>
+              <Input label="Valor a ser depositado" name="depositValue" />
+              <Button type="submit">Depositar</Button>
+            </>
+          ) : (
+            indicatorEl
+          )}
+        </FormContainer>
       </Content>
     </Container>
   );

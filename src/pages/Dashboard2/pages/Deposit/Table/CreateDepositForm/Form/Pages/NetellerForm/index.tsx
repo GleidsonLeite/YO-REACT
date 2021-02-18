@@ -1,25 +1,38 @@
+import { useLoading } from '@agney/react-loading';
 import { FormHandles } from '@unform/core';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { useToast } from '../../../../../../../../../hooks/Toast';
 import api from '../../../../../../../../../services/api';
 import getValidationErrors from '../../../../../../../../../utils/getValidationErrors';
 import Button from '../../../../../../../Components/Button';
+import { useCarousel } from '../../../../../../../Components/Carousel/Hooks';
 import Input from '../../../../../../../Components/Input';
-import { useSlide } from '../../../Components/Slide/hooks/Slide';
 import { NetellerFormData, useDepositForm } from '../../hooks/DepositForm';
+import AuthConfirmation from '../AuthConfirmation';
 
-import { Container, Content } from './style';
+import { Container, Content, TextContent, FormContainer } from './style';
 
 const NetellerForm: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const { setCurrentPageNumber } = useSlide();
-  const { setDepositForm } = useDepositForm();
-  const { addToast } = useToast();
 
   const [minimumInvestmentValue, setMinimumInvestmentValue] = useState<number>(
     1000,
   );
+  const [
+    isMinimumInvestimentValueLoaded,
+    setIsMinimumInvestimentValueLoaded,
+  ] = useState<boolean>(false);
+
+  const { indicatorEl } = useLoading({
+    loading: isMinimumInvestimentValueLoaded,
+    loaderProps: {
+      valueText: 'Carregando os dados do backend',
+    },
+  });
+  const { setCurrentComponent, setSlideValue, slideValue } = useCarousel();
+  const { setDepositForm } = useDepositForm();
+  const { addToast } = useToast();
 
   const getMinimumInvestmentValue = useCallback(async () => {
     const config = {
@@ -32,14 +45,13 @@ const NetellerForm: React.FC = () => {
       config,
     );
     const { value } = response.data;
-    console.log(value);
     setMinimumInvestmentValue(value);
+    setIsMinimumInvestimentValueLoaded(true);
   }, []);
 
   const handleOnSubmit = useCallback(
     async (data: NetellerFormData) => {
       try {
-        await getMinimumInvestmentValue();
         const schema = Yup.object().shape({
           account: Yup.string().required(),
           value: Yup.number().required().min(minimumInvestmentValue),
@@ -50,7 +62,8 @@ const NetellerForm: React.FC = () => {
           account: data.account,
           value: data.value,
         });
-        setCurrentPageNumber(3);
+        setCurrentComponent(<AuthConfirmation />);
+        setSlideValue(slideValue + 1);
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
@@ -74,20 +87,34 @@ const NetellerForm: React.FC = () => {
     },
     [
       addToast,
-      getMinimumInvestmentValue,
       minimumInvestmentValue,
-      setCurrentPageNumber,
+      setCurrentComponent,
       setDepositForm,
+      setSlideValue,
+      slideValue,
     ],
   );
 
+  useEffect(() => {
+    getMinimumInvestmentValue();
+  }, [getMinimumInvestmentValue]);
+
   return (
     <Container>
-      <h1>Neteller</h1>
-      <Content onSubmit={handleOnSubmit}>
-        <Input label="Conta Neteller" name="account" />
-        <Input label="Valor a ser Depositado" name="value" />
-        <Button type="submit">Depositar</Button>
+      <Content>
+        <TextContent>
+          <h1>Neteller</h1>
+        </TextContent>
+        <FormContainer onSubmit={handleOnSubmit}>
+          {isMinimumInvestimentValueLoaded && (
+            <>
+              <Input label="Conta Neteller" name="account" />
+              <Input label="Valor a ser Depositado" name="value" />
+              <Button type="submit">Depositar</Button>
+            </>
+          )}
+          {!isMinimumInvestimentValueLoaded && indicatorEl}
+        </FormContainer>
       </Content>
     </Container>
   );

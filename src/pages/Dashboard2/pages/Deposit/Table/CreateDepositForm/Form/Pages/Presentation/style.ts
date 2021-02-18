@@ -1,20 +1,46 @@
 import styled from 'styled-components';
 
-export const PresentationContainer = styled.div`
-  width: 75%;
-  height: 75%;
+export const Container = styled.div`
+  width: 100%;
+  height: 100%;
   display: grid;
-  justify-items: center;
-  align-items: center;
-  align-content: space-around;
-  text-align: center;
-  color: #fff;
+`;
+
+export const Content = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 1fr 1fr;
+  grid-auto-columns: 1fr;
+
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
   gap: 1rem;
+  padding: 0 4rem;
 
   @media screen and (max-width: 768px) {
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+    grid-auto-rows: 1fr;
+    gap: 1rem;
   }
+`;
+
+export const TextContent = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  color: #fff;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+  gap: 1rem;
+`;
+
+export const ControlButton = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
 `;

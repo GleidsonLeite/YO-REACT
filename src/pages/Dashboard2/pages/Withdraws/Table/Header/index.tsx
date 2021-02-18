@@ -10,7 +10,6 @@ const Header: React.FC = () => {
       <h1>Destino</h1>
       <h1>Valor</h1>
       <h1>Status</h1>
-      <h1>Comprovante</h1>
     </Container>
   );
 };

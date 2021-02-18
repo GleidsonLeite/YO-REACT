@@ -19,6 +19,11 @@ export const Content = styled.div`
   justify-content: center;
   gap: 1rem;
   padding: 0 4rem;
+
+  @media screen and (max-width: 768px) {
+    grid-auto-flow: row;
+    grid-auto-rows: 1fr;
+  }
 `;
 
 export const TextContent = styled.div`

@@ -2,32 +2,62 @@ import { Form } from '@unform/web';
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 75%;
-  height: 75%;
+  width: 100%;
+  height: 100%;
   display: grid;
-  justify-items: center;
-  align-items: center;
+`;
+
+export const Content = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 1fr 1fr;
-  & > h1 {
-    color: #fff;
-  }
+  justify-self: center;
+  align-self: center;
+  align-items: center;
+  justify-items: center;
+  grid-auto-columns: 1fr;
 
   @media screen and (max-width: 768px) {
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+    grid-auto-rows: 1fr;
   }
 `;
 
-export const Content = styled(Form)`
+export const TextContent = styled.div`
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  color: #fff;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+`;
 
+export const InvestmentDataContainer = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  flex-direction: column;
+  gap: 0.5rem;
+  flex-flow: column wrap;
+  color: #fff;
+`;
 
+export const FormContainer = styled(Form)`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
+  padding: 0 4rem;
+  flex-flow: column wrap;
+  & > svg {
+    color: #fff;
+    width: 50%;
+    height: 50%;
+  }
 `;

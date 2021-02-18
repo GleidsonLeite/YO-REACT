@@ -1,19 +1,28 @@
 import React, { useCallback } from 'react';
 import Button from '../../../../../../../Components/Button';
-import { useSlide } from '../../../Components/Slide/hooks/Slide';
+import { useCarousel } from '../../../../../../../Components/Carousel/Hooks';
+import DepositOption from '../DepositOption';
 
-import { PresentationContainer } from './style';
+import { Container, Content, TextContent, ControlButton } from './style';
 
 const Presentation: React.FC = () => {
-  const { setCurrentPageNumber } = useSlide();
-  const handleOnNextButtonClick = useCallback(() => {
-    setCurrentPageNumber(1);
-  }, [setCurrentPageNumber]);
+  const { setCurrentComponent, setSlideValue, slideValue } = useCarousel();
+
+  const handleOnNextClick = useCallback(() => {
+    setCurrentComponent(<DepositOption />);
+    setSlideValue(slideValue + 1);
+  }, [setCurrentComponent, setSlideValue, slideValue]);
   return (
-    <PresentationContainer>
-      <h1>Olá, vamos realizar um investmento!?</h1>
-      <Button onClick={handleOnNextButtonClick}>Próximo</Button>
-    </PresentationContainer>
+    <Container>
+      <Content>
+        <TextContent>
+          <h1>Olá, vamos realizar um investmento!?</h1>
+        </TextContent>
+        <ControlButton>
+          <Button onClick={handleOnNextClick}>Próximo</Button>
+        </ControlButton>
+      </Content>
+    </Container>
   );
 };
 

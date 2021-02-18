@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import api from '../../../../../../services/api';
+import { useDepositData } from '../Hooks/deposits';
 import RowContent from './RowContent';
 import { Container } from './style';
 
@@ -32,35 +33,57 @@ export interface Investment {
 }
 
 const DataContent: React.FC = () => {
-  const [investments, setInvestments] = useState<Investment[]>([]);
-
-  const getInvestments = useCallback(async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('@YO:token')}`,
-      },
-    };
-    const response = await api.get('/investments/list', config);
-    setInvestments(response.data);
-  }, []);
-
+  const depositOptions = [
+    'Boleto Bancário',
+    'Neteller',
+    'Transferência Internacional',
+  ];
+  const { deposits } = useDepositData();
+  const [investments, setInvestments] = useState([] as Investment[]);
   useEffect(() => {
-    getInvestments();
-  }, [getInvestments]);
-
+    setInvestments([...deposits]);
+  }, [deposits]);
   return (
     <Container>
       {investments.map((investment) => (
         <RowContent
           key={investment.id}
-          id={investment.id}
-          sentData={investment.created_at}
-          type={investment.deposit_option}
-          value={investment.value}
-          moneyQuotation="5.0"
-          receivedValue={investment.value}
-          status={investment.confirmed}
-          receipt="file"
+          data={[
+            {
+              label: 'ID',
+              value: investment.id,
+            },
+            {
+              label: 'Data de envio',
+              value: new Date(investment.created_at).toLocaleDateString(
+                'pt-BR',
+              ),
+            },
+            {
+              label: 'Tipo',
+              value: depositOptions[investment.deposit_option],
+            },
+            {
+              label: 'Valor',
+              value: investment.value,
+            },
+            {
+              label: 'Cotação',
+              value: 5.0,
+            },
+            {
+              label: 'Valor Recebido',
+              value: investment.value,
+            },
+            {
+              label: 'Status',
+              value: investment.confirmed ? 'Confirmado' : 'Pendente',
+            },
+            {
+              label: 'Comprovante',
+              value: 'File',
+            },
+          ]}
         />
       ))}
     </Container>

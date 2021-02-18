@@ -3,9 +3,18 @@ import styled from 'styled-components';
 export const Content = styled.div`
   width: 100%;
   height: 100%;
-  display: grid;
-  grid-auto-flow: row;
-  grid-template-rows: 1fr min-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > div:first-of-type {
+    width: 100%;
+    position: absolute;
+
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const Footer = styled.div`
@@ -17,6 +26,9 @@ export const Footer = styled.div`
   gap: 1rem;
   justify-self: center;
   align-self: center;
+
+  position: absolute;
+  bottom: 0;
 `;
 
 interface ToggleProps {

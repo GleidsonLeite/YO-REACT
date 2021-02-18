@@ -1,11 +1,13 @@
+import { Bars, LoaderProvider } from '@agney/react-loading';
 import React, { useCallback, useState } from 'react';
+import Carousel from '../../../../Components/Carousel';
+import { CarouselProvider } from '../../../../Components/Carousel/Hooks';
 import Modal from '../../../../Components/Modal';
-import Slide from './Components/Slide';
-import { SlideProvider } from './Components/Slide/hooks/Slide';
-import Form from './Form';
-import { DepositFormProvider } from './Form/hooks/DepositForm';
 
-import { Container, CreateInvestmentButton, ModalContainer } from './style';
+import { DepositFormProvider } from './Form/hooks/DepositForm';
+import Presentation from './Form/Pages/Presentation';
+
+import { Container, CreateInvestmentButton } from './style';
 
 const CreateDepositForm: React.FC = () => {
   const [isFormHidden, setIsFormHidden] = useState<boolean>(true);
@@ -19,17 +21,15 @@ const CreateDepositForm: React.FC = () => {
         Criar Investimento
       </CreateInvestmentButton>
       {!isFormHidden && (
-        <DepositFormProvider>
-          <SlideProvider>
-            <Modal onClose={handleOnClick}>
-              <Slide>
-                <ModalContainer>
-                  <Form />
-                </ModalContainer>
-              </Slide>
-            </Modal>
-          </SlideProvider>
-        </DepositFormProvider>
+        <CarouselProvider firstComponent={<Presentation />} numberOfPages={5}>
+          <DepositFormProvider>
+            <LoaderProvider indicator={<Bars />}>
+              <Modal onClose={handleOnClick}>
+                <Carousel />
+              </Modal>
+            </LoaderProvider>
+          </DepositFormProvider>
+        </CarouselProvider>
       )}
     </Container>
   );

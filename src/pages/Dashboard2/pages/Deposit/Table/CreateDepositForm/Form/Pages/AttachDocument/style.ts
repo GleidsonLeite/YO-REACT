@@ -2,54 +2,50 @@ import { Form } from '@unform/web';
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 75%;
-  height: 75%;
+  width: 100%;
+  height: 100%;
   display: grid;
-  justify-items: center;
-  align-items: center;
-  @media screen and (max-width: 768px) {
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
-  }
 `;
 
 export const Content = styled.div`
   width: 100%;
   height: 100%;
-
   display: grid;
+  grid-auto-flow: column;
+  justify-self: center;
+  align-self: center;
   align-items: center;
   justify-items: center;
-  align-self: center;
-  justify-self: center;
-  grid-auto-flow: column;
-  grid-template-columns: 1fr 1fr;
+  grid-auto-columns: 1fr;
+  gap: 1rem;
+
   @media screen and (max-width: 768px) {
     grid-auto-flow: row;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-auto-rows: min-content;
   }
-  gap: 1rem;
 `;
 
 export const Presentation = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  justify-items: center;
+  grid-auto-flow: row;
+  text-align: center;
   align-items: center;
-  align-self: center;
-  justify-self: center;
+  justify-items: center;
 
+  gap: 1rem;
   color: #fff;
 `;
 
 export const DepositSlipForm = styled(Form)`
   width: 100%;
   height: 100%;
-  display: flex;
+  display: grid;
+  grid-auto-flow: row;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  justify-items: center;
+  align-content: center;
   gap: 1rem;
+  padding: 0 4rem;
 `;
