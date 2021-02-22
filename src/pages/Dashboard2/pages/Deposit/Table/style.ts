@@ -13,6 +13,7 @@ export const Content = styled.div`
   display: grid;
   background-color: #fff;
   border-radius: 2rem;
+  justify-items: center;
 
   overflow: hidden;
 `;

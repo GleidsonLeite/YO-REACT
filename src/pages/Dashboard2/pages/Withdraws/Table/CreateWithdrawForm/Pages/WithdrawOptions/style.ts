@@ -1,11 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-`;
-
 export const Content = styled.div`
   width: 100%;
   height: 100%;
@@ -41,7 +35,6 @@ export const ButtonsContainer = styled.div`
   grid-auto-flow: row;
   align-items: center;
   justify-items: center;
-  align-content: center;
   gap: 1rem;
   padding: 0 4rem;
 `;

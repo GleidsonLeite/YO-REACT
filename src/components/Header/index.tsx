@@ -73,7 +73,7 @@ const Header: React.FC = () => {
                 </>
               )}
 
-              <NavItem to="/dashboard" isHidden={isClicked}>
+              <NavItem to="/dashboard2" isHidden={isClicked}>
                 Dashboard
               </NavItem>
 

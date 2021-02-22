@@ -6,7 +6,9 @@ export const Container = styled.div`
   display: grid;
 
   /* grid-auto-flow: column; */
-  grid-template-columns: repeat(8, 1fr);
+  /* grid-template-columns: repeat(8, 1fr); */
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   justify-items: center;
   align-items: center;
 

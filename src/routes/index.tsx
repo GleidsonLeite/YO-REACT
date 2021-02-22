@@ -2,25 +2,26 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 import Route from './Route';
 
-import Main from '../pages/Main';
+import MainPage from '../pages/Main';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
-import Dashboard from '../pages/Dashboard';
 import Admin from '../pages/Admin';
-import Profile from '../pages/Profile';
 import Unactivated from '../pages/Unactivated';
 import RecoverPassword from '../pages/RecoverPassword';
 import CloseInvestment from '../pages/CloseInvestment';
-import Dashboard2 from '../pages/Dashboard2';
+import Main from '../pages/Dashboard2/pages/main';
+import Profile from '../pages/Dashboard2/pages/Profile';
+import Support from '../pages/Dashboard2/pages/Support';
+import WithdrawPage from '../pages/Dashboard2/pages/Withdraws';
+import DepositPage from '../pages/Dashboard2/pages/Deposit';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route path="/" exact component={Main} />
+    <Route path="/" exact component={MainPage} />
     <Route path="/signUp" component={SignUp} />
     <Route path="/signIn" component={SignIn} />
-    <Route path="/dashboard" component={Dashboard} isPrivate />
-    <Route path="/dashboard2" component={Dashboard2} />
-    <Route path="/admin" component={Admin} isPrivate isForAdmin />
+    {/* <Route path="/dashboard" component={Dashboard} isPrivate /> */}
+    <Route path="/admin" component={Admin} isPrivate />
     <Route
       path="/closeInvestment"
       component={CloseInvestment}
@@ -35,7 +36,11 @@ const Routes: React.FC = () => (
       isForUnactivated
     />
     <Route path="/recoverPassword/:token" component={RecoverPassword} />
-    <Route component={Main} />
+    <Route path="/dashboard2" exact component={Main} />
+    <Route path="/dashboard2/Profile" component={Profile} />
+    <Route path="/dashboard2/Support" component={Support} />
+    <Route path="/dashboard2/Withdraws" component={WithdrawPage} />
+    <Route path="/dashboard2/Deposits" component={DepositPage} />
   </Switch>
 );
 

@@ -32,6 +32,7 @@ export const TextContent = styled.div`
   display: grid;
   color: #fff;
   text-align: center;
+  align-self: center;
 `;
 
 export const ControlButton = styled.div`

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdExitToApp, MdHome, MdDashboard, MdPerson } from 'react-icons/md';
 import { GiPayMoney, GiReceiveMoney } from 'react-icons/gi';
 import { BiSupport } from 'react-icons/bi';
@@ -8,16 +8,15 @@ import NavList from './NavList';
 import NavItem, { NavItemProps } from './NavList/NavItem';
 
 import { Container, Content, ProfilePhoto, Nav } from './style';
-import ExitItem from './NavList/ExitItem';
 
 const SideBar: React.FC = () => {
   const history = useHistory();
 
   const [navItems, setNavItems] = useState<NavItemProps[]>([
     {
-      isActive: true,
+      isActive: false,
       id: uuid(),
-      path: '/dashboard2/main',
+      path: '/dashboard2',
       Icon: <MdHome />,
     },
     {
@@ -44,18 +43,23 @@ const SideBar: React.FC = () => {
       path: '/dashboard2/Support',
       Icon: <BiSupport />,
     },
+    {
+      isActive: false,
+      id: uuid(),
+      path: '/',
+      Icon: <MdExitToApp />,
+    },
   ]);
 
-  const handleOnAnyItemClick = useCallback(
-    (data: string) => {
-      setNavItems([
-        ...navItems.map((navItem) => {
-          return { ...navItem, isActive: navItem.id === data };
-        }),
-      ]);
-    },
-    [navItems],
-  );
+  const { path } = useRouteMatch();
+  useEffect(() => {
+    setNavItems([
+      ...navItems.map((navItem) => {
+        return { ...navItem, isActive: navItem.path === path };
+      }),
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [path]);
 
   return (
     <Container>
@@ -71,24 +75,11 @@ const SideBar: React.FC = () => {
                   key={navItem.id}
                   {...navItem}
                   onClick={() => {
-                    handleOnAnyItemClick(navItem.id);
                     history.push(navItem.path);
                   }}
                 />
               );
             })}
-            {/* {
-      isActive: false,
-      id: uuid(),
-      path: '/',
-      Icon: <MdExitToApp />,
-    }, */}
-            <ExitItem
-              isActive={false}
-              id={uuid()}
-              path="/"
-              Icon={<MdExitToApp />}
-            />
           </NavList>
         </Nav>
       </Content>

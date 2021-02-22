@@ -49,10 +49,10 @@ const DataContent: React.FC = () => {
         <RowContent
           key={investment.id}
           data={[
-            {
-              label: 'ID',
-              value: investment.id,
-            },
+            // {
+            //   label: 'ID',
+            //   value: investment.id,
+            // },
             {
               label: 'Data de envio',
               value: new Date(investment.created_at).toLocaleDateString(

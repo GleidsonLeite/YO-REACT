@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../../../hooks/Auth';
 import api from '../../../../services/api';
+import Dashboard2Template from '../Template';
 import PhotoContent from './PhotoContent';
 import ProfileForm from './ProfileForm';
 
@@ -11,16 +12,18 @@ const Profile: React.FC = () => {
   const { user } = useAuth();
 
   return (
-    <Container>
-      <Content>
-        <ProfileContent>
-          <PhotoContent user={user} />
-        </ProfileContent>
-        <EditForm>
-          <ProfileForm />
-        </EditForm>
-      </Content>
-    </Container>
+    <Dashboard2Template>
+      <Container>
+        <Content>
+          <ProfileContent>
+            <PhotoContent user={user} />
+          </ProfileContent>
+          <EditForm>
+            <ProfileForm />
+          </EditForm>
+        </Content>
+      </Container>
+    </Dashboard2Template>
   );
 };
 

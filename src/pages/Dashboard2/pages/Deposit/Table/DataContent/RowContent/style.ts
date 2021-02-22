@@ -3,15 +3,18 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 100%;
   height: 100%;
+
   display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+
   align-items: center;
   justify-items: center;
   padding: 1rem 0;
-  grid-template-columns: repeat(8, 1fr);
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(8, 1fr);
+    grid-auto-flow: row;
+    grid-auto-rows: 1fr;
     gap: 0.5rem;
 
     & > p {
