@@ -1,5 +1,5 @@
 import React from 'react';
-import SideBar from '../../../../components/SideBar';
+import SideBar from '../../Components/SideBar';
 import { Container, Content, SidebarContainer, PageContainer } from './style';
 
 const Dashboard2Template: React.FC = ({ children }) => {

@@ -1,18 +1,18 @@
 import React from 'react';
+import { uuid } from 'uuidv4';
 
 import { Container } from './style';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  headers: string[];
+}
+
+const Header: React.FC<HeaderProps> = ({ headers }) => {
   return (
     <Container>
-      {/* <h1>ID</h1> */}
-      <h1>Data de Envio</h1>
-      <h1>Tipo</h1>
-      <h1>Valor</h1>
-      <h1>Cotação</h1>
-      <h1>Valor recebido</h1>
-      <h1>Status</h1>
-      <h1>Comprovante</h1>
+      {headers.map((header) => (
+        <h1 key={uuid()}>{header}</h1>
+      ))}
     </Container>
   );
 };

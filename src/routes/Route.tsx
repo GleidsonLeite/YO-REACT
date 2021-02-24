@@ -5,8 +5,8 @@ import {
   RouteProps as ReactDOMRouteProps,
 } from 'react-router-dom';
 import { useAuth } from '../hooks/Auth';
-import { useRole, RoleData } from '../hooks/Role';
-import { verifyExpiredToken } from '../utils/verifyExpiredToken';
+import { useRole } from '../hooks/Role';
+import verifyIfIsUserLogged from '../utils/verifuIfIsUserLogged';
 
 interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
@@ -23,37 +23,19 @@ const Route: React.FC<RouteProps> = ({
   ...rest
 }) => {
   const { user, signOut } = useAuth();
-  const { role, getRoleFromApi, setRole } = useRole();
-  const [isUserLogged, setIsUserLogged] = useState(typeof user !== 'undefined');
-  const [isAdmin, setIsAdmin] = useState(false);
-  useEffect(() => {
-    setIsUserLogged(typeof user !== 'undefined');
-    if (typeof user !== 'undefined') {
-      (async function setRoleFromApi() {
-        await getRoleFromApi(user);
-      })();
-      setIsAdmin(role.permission_value === 32);
-    } else {
-      setRole({} as RoleData);
-      setIsAdmin(false);
-    }
-  }, [
-    getRoleFromApi,
-    isUserLogged,
-    role.permission_value,
-    setRole,
-    signOut,
-    user,
-  ]);
+
+  const [isUserLogged, setIsUserLogged] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('@YO:token');
-    if (token) {
-      const isTokenExpired = verifyExpiredToken(token);
-      isTokenExpired && signOut();
+    const isUserLoggedInApplication = verifyIfIsUserLogged();
+    setIsUserLogged(isUserLoggedInApplication);
+    if (!isUserLoggedInApplication) {
       setIsUserLogged(false);
+      signOut();
     }
   }, [signOut]);
+
+  const { isUserAdmin: isAdmin } = useRole();
 
   return (
     <ReactDOMRoute

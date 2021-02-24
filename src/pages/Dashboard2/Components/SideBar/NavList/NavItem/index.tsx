@@ -10,13 +10,7 @@ export interface NavItemProps extends LiHTMLAttributes<HTMLLIElement> {
   path: string;
 }
 
-const NavItem: React.FC<NavItemProps> = ({
-  isActive,
-  Icon,
-  path,
-  id,
-  ...rest
-}) => {
+const NavItem: React.FC<NavItemProps> = ({ isActive, Icon, id, ...rest }) => {
   return (
     <Item id={id} isActive={isActive} {...rest}>
       <div>{Icon}</div>

@@ -12,7 +12,17 @@ const Table: React.FC = () => {
       <Content>
         <Filter />
         <CreateDepositForm />
-        <Header />
+        <Header
+          headers={[
+            'Data de Envio',
+            'Tipo',
+            'Valor',
+            'Cotação',
+            'Valor recebido',
+            'Status',
+            'Detalhes',
+          ]}
+        />
         <DataContent />
       </Content>
     </Container>

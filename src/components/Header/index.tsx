@@ -8,14 +8,14 @@ import { useAuth } from '../../hooks/Auth';
 import { useRole } from '../../hooks/Role';
 
 import LogoImage from '../../assets/img/YO_LOGO.svg';
+import verifyIfIsUserLogged from '../../utils/verifuIfIsUserLogged';
 
 const Header: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [isPageOnTop, setIsPageOnTop] = useState(true);
-  const { user, signOut } = useAuth();
-
-  const [isUserLogged, setIsUserLogged] = useState(typeof user !== 'undefined');
-  const { role } = useRole();
+  const { signOut } = useAuth();
+  const [isUserLogged, setIsUserLogged] = useState(false);
+  const { isUserAdmin } = useRole();
   const handleBurguerOnClick = useCallback(() => {
     setIsClicked(!isClicked);
   }, [isClicked]);
@@ -30,7 +30,11 @@ const Header: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', getPageHeight);
     };
-  });
+  }, [getPageHeight]);
+
+  useEffect(() => {
+    setIsUserLogged(verifyIfIsUserLogged());
+  }, []);
 
   const handleLogout = useCallback(() => {
     signOut();
@@ -62,7 +66,7 @@ const Header: React.FC = () => {
 
           {isUserLogged && (
             <>
-              {role.permission_value === 32 && (
+              {isUserAdmin && (
                 <>
                   <NavItem to="/admin" isHidden={isClicked}>
                     Admin

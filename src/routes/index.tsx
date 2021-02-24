@@ -14,6 +14,7 @@ import Profile from '../pages/Dashboard2/pages/Profile';
 import Support from '../pages/Dashboard2/pages/Support';
 import WithdrawPage from '../pages/Dashboard2/pages/Withdraws';
 import DepositPage from '../pages/Dashboard2/pages/Deposit';
+import Admin2 from '../pages/Admin2';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -21,7 +22,7 @@ const Routes: React.FC = () => (
     <Route path="/signUp" component={SignUp} />
     <Route path="/signIn" component={SignIn} />
     {/* <Route path="/dashboard" component={Dashboard} isPrivate /> */}
-    <Route path="/admin" component={Admin} isPrivate />
+    <Route path="/admin" component={Admin2} isPrivate />
     <Route
       path="/closeInvestment"
       component={CloseInvestment}

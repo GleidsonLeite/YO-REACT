@@ -5,12 +5,12 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { IInvestment } from '../../../../../../DTOs/IInvestment';
 import api from '../../../../../../services/api';
-import { Investment } from '../DataContent';
 
 export interface DepositData {
-  deposits: Investment[];
-  setDeposits(deposits: Investment[]): void;
+  deposits: IInvestment[];
+  setDeposits(deposits: IInvestment[]): void;
   wasDepositsLoaded: boolean;
   setWasDepositsLoaded(wasDepositsLoaded: boolean): void;
 }
@@ -18,7 +18,7 @@ export interface DepositData {
 const DepositDataContext = createContext<DepositData>({} as DepositData);
 
 const DepositDataProvider: React.FC = ({ children }) => {
-  const [deposits, setDeposits] = useState([] as Investment[]);
+  const [deposits, setDeposits] = useState([] as IInvestment[]);
   const [wasDepositsLoaded, setWasDepositsLoaded] = useState<boolean>(false);
 
   const getDepositsFromApi = useCallback(async () => {

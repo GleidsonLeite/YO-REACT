@@ -4,9 +4,6 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-
-  /* grid-auto-flow: column; */
-  /* grid-template-columns: repeat(8, 1fr); */
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   justify-items: center;
@@ -18,6 +15,7 @@ export const Container = styled.div`
   & > h1 {
     font-size: 1rem;
     color: #fff;
+    text-align: center;
   }
 
   @media screen and (max-width: 768px) {
