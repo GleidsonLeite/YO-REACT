@@ -6,14 +6,23 @@ interface CardProps {
   title: string;
   subtitle?: string;
   children?: React.ReactNode;
+  mainValue?: string;
+  handleOnClick?(): void;
 }
 
-function Card({ title, subtitle, children }: CardProps) {
+function Card({
+  title,
+  subtitle,
+  mainValue,
+  handleOnClick,
+  children,
+}: CardProps) {
   return (
-    <Container>
+    <Container onClick={handleOnClick}>
       <TitleContainer>
-        <h1>{title}</h1>
+        <h2>{title}</h2>
         {!!subtitle && <h4>{subtitle}</h4>}
+        {!!mainValue && <h1>{mainValue}</h1>}
       </TitleContainer>
       <ChildrenContent>{children}</ChildrenContent>
     </Container>

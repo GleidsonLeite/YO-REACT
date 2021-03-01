@@ -5,8 +5,8 @@ export const Container = styled.div`
   height: 100%;
   display: grid;
 
-  grid-template-columns: repeat(3, 0.5fr);
-  grid-template-rows: repeat(3, min-content);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 
   justify-content: center;
   align-content: center;
@@ -16,4 +16,10 @@ export const Container = styled.div`
 
   gap: 2rem;
   padding: 1rem;
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-auto-flow: rows;
+    grid-auto-rows: 1fr;
+  }
 `;

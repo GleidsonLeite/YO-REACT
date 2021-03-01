@@ -2,14 +2,12 @@ import React from 'react';
 import Card from '../../../Components/Card';
 import Data from '../Data';
 
-function WithdrawCard() {
+function PLCard() {
   return (
-    <Card title="Saques" subtitle="Valor da PL neste mês.">
-      <Data label="Saque Compensado" value="$ 500.00" />
-      <Data label="Saque Pendente" value="$ 500.00" />
-      <Data label="Saque Recusado" value="$ 500.00" />
+    <Card title="PL" subtitle="Valor da PL nesse mês." mainValue="$ 500.00">
+      <Data label="PL do mês anterior" value="$ 500.00" />
     </Card>
   );
 }
 
-export default WithdrawCard;
+export default PLCard;

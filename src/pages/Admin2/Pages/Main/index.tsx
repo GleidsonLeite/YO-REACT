@@ -1,12 +1,13 @@
 import React from 'react';
-import Card from '../../Components/Card';
 import DepositCard from './DepositCard';
 import GeneralBalanceCard from './GeneralBalanceCard';
 import InterestRateCard from './InterestRateCard';
 import InvestmentCard from './InvestmentCard';
 import InvestmentReturnCard from './InvestmentReturnCard';
-
+import PLCard from './PLCard';
+import PostCard from './PostCard';
 import { Container } from './style';
+import SupportCard from './SupportCard';
 import WithdrawCard from './WithdrawCard';
 
 function Main() {
@@ -18,9 +19,9 @@ function Main() {
       <WithdrawCard />
       <InterestRateCard />
       <GeneralBalanceCard />
-      <Card title="PL" />
-      <Card title="Suportes" />
-      <Card title="Publicações" />
+      <PLCard />
+      <SupportCard />
+      <PostCard />
     </Container>
   );
 }

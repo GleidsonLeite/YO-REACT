@@ -15,14 +15,15 @@ import Support from '../pages/Dashboard2/pages/Support';
 import WithdrawPage from '../pages/Dashboard2/pages/Withdraws';
 import DepositPage from '../pages/Dashboard2/pages/Deposit';
 import Admin2 from '../pages/Admin2';
+import UsersManagement from '../pages/Admin2/Pages/UsersManagement';
 
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={MainPage} />
     <Route path="/signUp" component={SignUp} />
     <Route path="/signIn" component={SignIn} />
-    {/* <Route path="/dashboard" component={Dashboard} isPrivate /> */}
-    <Route path="/admin" component={Admin2} isPrivate />
+    <Route exact path="/admin" component={Admin2} isPrivate />
+    <Route exact path="/admin/users" component={UsersManagement} isPrivate />
     <Route
       path="/closeInvestment"
       component={CloseInvestment}

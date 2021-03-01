@@ -1,6 +1,6 @@
 import React from 'react';
-import Template from './Components/Template';
 import Main from './Pages/Main';
+import Template from './Template';
 
 function Admin2() {
   return (

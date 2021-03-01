@@ -41,28 +41,34 @@ const Route: React.FC<RouteProps> = ({
     <ReactDOMRoute
       {...rest}
       render={() => {
-        if (isPrivate) {
-          if (isUserLogged) {
-            if (!user.activated && isForUnactivated) {
-              return <Component />;
-            }
-            if (user.activated && isForUnactivated) {
-              return <Redirect to={{ pathname: '/dashboard' }} />;
-            }
-            if (!user.activated) {
-              return <Redirect to={{ pathname: '/unactivated' }} />;
-            }
-            if (isForAdmin) {
-              return isAdmin ? (
-                <Component />
-              ) : (
-                <Redirect to={{ pathname: '/' }} />
-              );
-            }
-            return <Component />;
-          }
-          return <Redirect to={{ pathname: '/signIn' }} />;
-        }
+        // if (isPrivate) {
+        //   if (isUserLogged) {
+        //     if (!user.activated && isForUnactivated) {
+        //       return <Component />;
+        //     }
+        //     if (user.activated && isForUnactivated) {
+        //       return <Redirect to={{ pathname: '/dashboard' }} />;
+        //     }
+        //     if (!user.activated) {
+        //       return <Redirect to={{ pathname: '/unactivated' }} />;
+        //     }
+        //     if (isForAdmin) {
+        //       return isAdmin ? (
+        //         <Component />
+        //       ) : (
+        //         <Redirect to={{ pathname: '/' }} />
+        //       );
+        //     }
+        //     return <Component />;
+        //   }
+        //   return <Redirect to={{ pathname: '/signIn' }} />;
+        // }
+        // const canPass = !isPrivate || isAdmin || (isUserLogged && !isForAdmin);
+        // return canPass ? (
+        //   <Component />
+        // ) : (
+        //   <Redirect to={{ pathname: '/signIn' }} />
+        // );
         return <Component />;
       }}
     />

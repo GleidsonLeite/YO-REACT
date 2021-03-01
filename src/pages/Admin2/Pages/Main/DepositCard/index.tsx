@@ -4,7 +4,11 @@ import Data from '../Data';
 
 function DepositCard() {
   return (
-    <Card title="Depósitos" subtitle="Depósitos Confirmados">
+    <Card
+      title="Depósitos"
+      subtitle="Depósitos Confirmados"
+      mainValue="$ 600.00"
+    >
       <Data label="Depósitos Ativos" value={45} />
       <Data label="Depósitos Pendentes" value={45} />
       <Data label="Depósitos Recusados" value={45} />

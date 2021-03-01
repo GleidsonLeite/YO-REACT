@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  height: 146px;
+  height: 100%;
 
   display: grid;
   justify-items: center;
@@ -14,14 +14,20 @@ export const Container = styled.div`
 
   box-shadow: 7px 6px 5px 0px rgba(89, 102, 122, 0.1);
   padding: 0 1rem;
+
+  cursor: pointer;
 `;
 
 export const TitleContainer = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  & > h1 {
+  & > h2 {
     font-size: 18px;
+  }
+
+  & > h1 {
+    font-size: 24px;
   }
 
   & > h4 {

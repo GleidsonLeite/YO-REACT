@@ -1,15 +1,24 @@
 import React from 'react';
-import { MdHome } from 'react-icons/md';
+import { MdHome, MdMenu } from 'react-icons/md';
 import DropDown from '../DropDown';
 import Section from './Section';
 import { Container, Content, HeaderContainer, BodyContainer } from './style';
 
-function SideBar() {
+interface SidebarProps {
+  isContentHidden: boolean;
+  handleOnHideNavBarButtonClick?(): void;
+}
+
+function SideBar({
+  isContentHidden,
+  handleOnHideNavBarButtonClick,
+}: SidebarProps) {
   return (
-    <Container>
+    <Container isContentHidden={isContentHidden}>
       <Content>
         <HeaderContainer>
           <h1>YO</h1>
+          <MdMenu onClick={handleOnHideNavBarButtonClick} />
         </HeaderContainer>
         <BodyContainer>
           <Section title="Dashboard" />
